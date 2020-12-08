@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="<?=base_url('sources')?>/assets/css/core.css">
 <link rel="stylesheet" href="<?=base_url('sources')?>/assets/css/app.css">
 <link rel="stylesheet" href="<?=base_url('sources')?>/assets/css/toastr.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 <!-- endbuild -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900,300">
 <script src="<?=base_url('sources')?>/libs/bower/breakpoints.js/dist/breakpoints.min.js"></script>

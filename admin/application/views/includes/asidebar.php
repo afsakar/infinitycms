@@ -117,9 +117,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?=base_url()?>">
+                    <a href="<?=base_url('courses')?>">
                         <i class="menu-icon fa fa-calendar zmdi-hc-lg"></i>
-                        <span class="menu-text">Eğitimler</span>
+                        <span class="menu-text">Etkinlikler</span>
                     </a>
                 </li>
                 <li>

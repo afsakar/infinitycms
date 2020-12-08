@@ -2,8 +2,7 @@
 <html lang="tr">
     <head>
         <?php $this->load->view('includes/head'); ?>
-        <?php $this->load->view("{$viewFolder}/{$subViewFolder}/page_style"); ?>
-        <title>Proje Görselleri</title>
+        <title>Referanslar</title>
     </head>
 
     <body class="menubar-left menubar-unfold menubar-light theme-primary">

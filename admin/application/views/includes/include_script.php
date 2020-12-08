@@ -16,6 +16,7 @@
 <script src="<?=base_url('sources')?>/assets/js/toastr.min.js"></script>
 <!-- endbuild -->
 <script src="<?=base_url('sources')?>/libs/bower/moment/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script src="<?=base_url('sources')?>/libs/bower/fullcalendar/dist/fullcalendar.min.js"></script>
 <script src="<?=base_url('sources')?>/assets/js/fullcalendar.js"></script>
 <?php $this->load->view("includes/alert.php"); ?>
