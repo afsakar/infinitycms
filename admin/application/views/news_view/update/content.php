@@ -20,9 +20,9 @@
                     <div class="form-group">
                         <label>Başlık</label>
                         <input class="form-control" placeholder="Başlık" name="title" value="<?php echo $item->title; ?>">
-                        <?php if(isset($formError)): ?>
+                        <?php if(isset($form_error)){ ?>
                             <span id="helpBlock" class="help-block text-danger"><?=form_error('title')?></span>
-                        <?php endif; ?>
+                        <?php } ?>
                     </div>
                     <div class="form-group">
                         <label for="control-demo-6" class="">Haberin Türü</label>
@@ -60,9 +60,9 @@
                         <div class="form-group videoContainer" style="display: <?php echo ($news_type == "video") ? "block" : "none"; ?>">
                             <label>Video URL</label>
                             <input class="form-control" placeholder="Video bağlantısını buraya yapıştırınız" name="video_url">
-                            <?php if(isset($formError)): ?>
-                                <span id="helpBlock" class="help-block text-danger"><?=form_error('title')?></span>
-                            <?php endif; ?>
+                            <?php if(isset($form_error)){ ?>
+                                <span id="helpBlock" class="help-block text-danger"><?=form_error('video_url')?></span>
+                            <?php } ?>
                         </div>
 
 
@@ -92,9 +92,9 @@
                             <div class="form-group">
                                 <label>Açıklama</label>
                                 <textarea name="description" class="m-0" data-plugin="summernote" data-options="{height: 250}"><?php echo $item->description; ?></textarea>
-                                <?php if(isset($formError)): ?>
-                                    <span id="helpBlock" class="help-block text-danger"><?=form_error('title')?></span>
-                                <?php endif; ?>
+                                <?php if(isset($form_error)){ ?>
+                                    <span id="helpBlock" class="help-block text-danger"><?=form_error('description')?></span>
+                                <?php } ?>
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="seo">

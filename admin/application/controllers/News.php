@@ -193,12 +193,11 @@ class News extends CI_Controller
         }
 
         $this->form_validation->set_rules("title", "Başlık", "required|trim");
+        $this->form_validation->set_rules("description", "Açıklama", "required");
 
-        $this->form_validation->set_message(
-            array(
-                "required" => "<b>{field}</b> alanı doldurulmalıdır"
-            )
-        );
+        $this->form_validation->set_message(array(
+            "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
+        ));
 
         // Form Validation Calistirilir..
         $validate = $this->form_validation->run();
@@ -221,7 +220,7 @@ class News extends CI_Controller
 
 
                 if ($_FILES["img_url"]["name"] !== "") {
-
+            //TODO eğer foto boş ise resim seçilmiş isse
                     $file_name = rand(0, 99999) . $this->viewFolder;
 
                     $config["allowed_types"] = "jpg|jpeg|png";
@@ -241,9 +240,10 @@ class News extends CI_Controller
                     } else {
 
                         $alert = array(
-                            "title" => "İşlem Başarısız",
-                            "text" => "Görsel yüklenirken bir problem oluştu",
-                            "type" => "error"
+                            "title" => "İşlem başarısız!",
+                            "text" => "Görsel yüklenirken bir problem oluştu!",
+                            "type" => "error",
+                            "position" => "top-center"
                         );
 
                         $this->session->set_flashdata("alert", $alert);
@@ -255,6 +255,17 @@ class News extends CI_Controller
                     }
 
                 } else {
+
+                    $alert = array(
+                        "title" => "İşlem başarısız!",
+                        "text" => "Lütfen görsel seçiniz!",
+                        "type" => "error",
+                        "position" => "top-center"
+                    );
+
+                    $this->session->set_flashdata("alert", $alert);
+
+                    redirect(base_url("news/updateForm/$id"));
 
                 }
 
@@ -273,7 +284,8 @@ class News extends CI_Controller
                 $alert = array(
                     "title" => "İşlem Başarılı",
                     "text" => "Kayıt başarılı bir şekilde güncellendi",
-                    "type" => "success"
+                    "type" => "success",
+                    "position" => "top-center"
                 );
 
             } else {
@@ -281,7 +293,8 @@ class News extends CI_Controller
                 $alert = array(
                     "title" => "İşlem Başarısız",
                     "text" => "Kayıt Güncelleme sırasında bir problem oluştu",
-                    "type" => "error"
+                    "type" => "error",
+                    "position" => "top-center"
                 );
             }
 
