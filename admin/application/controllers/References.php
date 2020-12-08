@@ -1,27 +1,29 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class News extends CI_Controller
+class References extends CI_Controller
 {
     public $viewFolder = "";
-    public $tableName = "news";
+    public $tableName = "references";
 
     public function __construct()
     {
         parent::__construct();
-        $this->viewFolder = 'news_view';
-        $this->load->model('news_model');
-        $this->load->model('news_image_model');
+        $this->viewFolder = 'references_view';
+        $this->load->model('references_model');
+        $this->load->model('references_image_model');
     }
 
     public function index()
     {
         $this->breadcrumbs->unshift('Anasayfa', '/');
-        $this->breadcrumbs->push('Haberler', '/news');
+        $this->breadcrumbs->push('Referanslar', '/references');
+        //$this->breadcrumbs->push('Refereans Ekle', '/references/addForm');
+
         $viewData = new stdClass();
 
         //Tablodan verilerin çekilmesi.
-        $items = $this->news_model->getAll(
+        $items = $this->references_model->getAll(
             array(),
             "rank ASC"
         );
@@ -39,8 +41,9 @@ class News extends CI_Controller
     public function addForm(){
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Haberler', '/news');
-        $this->breadcrumbs->push('Haber Ekle','/');
+        $this->breadcrumbs->push('Referanslar', '/references');
+        $this->breadcrumbs->push('Refereans Ekle','/');
+
         $viewData = new stdClass();
 
         /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
@@ -54,10 +57,12 @@ class News extends CI_Controller
 
     public function addItem()
     {
-        $this->load->library("form_validation");
-        $news_type = $this->input->post("news_type");
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Referanslar', '/references');
+        $this->breadcrumbs->push('Refereans Ekle','/');
 
-        if ($news_type == "image") {
+        $this->load->library("form_validation");
+
             if ($_FILES["img_url"]["name"] == "") {
                 $alert = array(
                     "title" => "İşlem başarısız!",
@@ -66,11 +71,8 @@ class News extends CI_Controller
                     "position" => "top-center"
                 );
                 $this->session->set_flashdata("alert", $alert);
-                redirect(base_url('news/addForm'));
+                redirect(base_url('references/addForm'));
             }
-        } elseif ($news_type == "video") {
-            $this->form_validation->set_rules("video_url", "Video URL", "required|trim");
-        }
 
         $this->form_validation->set_rules("title", "Başlık", "required|trim");
         $this->form_validation->set_rules("description", "Açıklama", "required");
@@ -87,14 +89,11 @@ class News extends CI_Controller
             $data['title'] = $this->input->post('title');
             $data['description'] = htmlspecialchars($this->input->post('description'));
             $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
-            $data['news_type'] = $news_type;
             $data['url'] = permalink($this->input->post('url'));
 
             if (!$data['url']) {
                 $data['url'] = permalink($this->input->post('title'));
             }
-
-            if ($news_type == "image") {
 
                 $randName = rand(0, 99999) . $this->viewFolder;
 
@@ -117,12 +116,8 @@ class News extends CI_Controller
                     );
                 }
 
-            } elseif ($news_type == "video") {
-                $data['video_url'] = $this->input->post('video_url');
-            }
-
             //Form verilerini kaydet
-            $insert = $this->news_model->add($data);
+            $insert = $this->references_model->add($data);
             if ($insert) {
                 $alert = array(
                     "title" => "İşlem başarılı!",
@@ -140,7 +135,7 @@ class News extends CI_Controller
             }
 
             $this->session->set_flashdata("alert", $alert);
-            redirect(base_url('news'));
+            redirect(base_url('references'));
 
         } else {
             $viewData = new stdClass();
@@ -149,7 +144,7 @@ class News extends CI_Controller
             $viewData->viewFolder = $this->viewFolder;
             $viewData->subViewFolder = "add";
             $this->session->set_flashdata("formError", $viewData->formError = true);
-            $viewData->news_type = $news_type;
+            $viewData->breadcrumbs = $this->breadcrumbs->show();
 
             $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
 
@@ -159,24 +154,22 @@ class News extends CI_Controller
     public function updateForm($id){
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Haberler', '/news');
-        $this->breadcrumbs->push('Haber Düzenle','/');
+        $this->breadcrumbs->push('Referanslar', '/references');
+        $this->breadcrumbs->push('Refereans Düzenle','/');
 
         $viewData = new stdClass();
 
         //Verilerin getirilmesi
-        $item = $this->news_model->get(
+        $item = $this->references_model->get(
             array(
                 "id" => $id
             )
         );
 
-
         //View'e gönderilen verilerin set edilmesi.
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "update";
         $viewData->item = $item;
-        $viewData->news_type = $item->news_type;
         $viewData->seo = json_decode($item->seo, true);
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
@@ -186,7 +179,7 @@ class News extends CI_Controller
 
     public function updateItem($id){
 
-        $item = $this->news_model->get(
+        $item = $this->references_model->get(
             array(
                 "id" => $id
             )
@@ -195,15 +188,6 @@ class News extends CI_Controller
         $this->load->library("form_validation");
 
         // Kurallar yazilir..
-
-        $news_type = $this->input->post("news_type");
-
-        if ($news_type == "video") {
-
-            $this->form_validation->set_rules("video_url", "Video URL", "required|trim");
-
-        }
-
         $this->form_validation->set_rules("title", "Başlık", "required|trim");
         $this->form_validation->set_rules("description", "Açıklama", "required");
 
@@ -219,20 +203,15 @@ class News extends CI_Controller
             $data['title'] = $this->input->post('title');
             $data['description'] = htmlspecialchars($this->input->post('description'));
             $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
-            $data['news_type'] = $news_type;
             $data['url'] = permalink($this->input->post('url'));
 
             if (!$data['url']) {
                 $data['url'] = permalink($this->input->post('title'));
             }
 
-            if ($news_type == "image") {
-
                 // Upload Süreci...
-
-
                 if ($_FILES["img_url"]["name"] !== "") {
-            //TODO eğer foto boş ise resim seçilmiş isse
+
                     $file_name = rand(0, 99999) . $this->viewFolder;
 
                     $config["allowed_types"] = "jpg|jpeg|png";
@@ -246,7 +225,6 @@ class News extends CI_Controller
                     if ($upload) {
 
                         $data['img_url'] = $this->upload->data("file_name");
-                        $data['video_url'] = "";
                         unlink("uploads/{$this->viewFolder}/$item->img_url");
 
                     } else {
@@ -260,7 +238,7 @@ class News extends CI_Controller
 
                         $this->session->set_flashdata("alert", $alert);
 
-                        redirect(base_url("news/updateForm/$id"));
+                        redirect(base_url("references/updateForm/$id"));
 
                         die();
 
@@ -268,14 +246,7 @@ class News extends CI_Controller
 
                 }
 
-            } else if ($news_type == "video") {
-                $data['video_url'] = $this->input->post('video_url');
-                $data['img_url'] = "";
-                unlink("uploads/{$this->viewFolder}/$item->img_url");
-
-            }
-
-            $update = $this->news_model->update(array("id" => $id), $data);
+            $update = $this->references_model->update(array("id" => $id), $data);
 
             // TODO Alert sistemi eklenecek...
             if ($update) {
@@ -300,7 +271,7 @@ class News extends CI_Controller
             // İşlemin Sonucunu Session'a yazma işlemi...
             $this->session->set_flashdata("alert", $alert);
 
-            redirect(base_url("news"));
+            redirect(base_url("references"));
 
         } else {
 
@@ -310,10 +281,9 @@ class News extends CI_Controller
             $viewData->viewFolder = $this->viewFolder;
             $viewData->subViewFolder = "update";
             $viewData->form_error = true;
-            $viewData->news_type = $news_type;
 
             /** Tablodan Verilerin Getirilmesi.. */
-            $viewData->item = $this->news_model->get(
+            $viewData->item = $this->references_model->get(
                 array(
                     "id" => $id,
                 )
@@ -327,9 +297,9 @@ class News extends CI_Controller
 
     public function deleteItem($id)
     {
-        $getItem = $this->news_model->get(array("id" => $id));
+        $getItem = $this->references_model->get(array("id" => $id));
 
-        $delete = $this->news_model->delete(
+        $delete = $this->references_model->delete(
             array(
                 "id" => $id
             )
@@ -338,10 +308,10 @@ class News extends CI_Controller
         if ($delete) {
             unlink("uploads/{$this->viewFolder}/$getItem->img_url");
             /* Item'e ait görsellerin silinmesi start */
-            $getImages = $this->news_image_model->getAll(array("news_id" => $id), array());
+            $getImages = $this->references_image_model->getAll(array("references_id" => $id), array());
 
             foreach ($getImages as $image) {
-                $delete = $this->news_image_model->delete(
+                $delete = $this->references_image_model->delete(
                     array(
                         "id" => $image->id
                     )
@@ -366,16 +336,16 @@ class News extends CI_Controller
         }
 
         $this->session->set_flashdata("alert", $alert);
-        redirect(base_url('news'));
+        redirect(base_url('references'));
     }
 
     public function deleteImage($id, $parent_id)
     {
-        $fileName = $this->news_image_model->get(
+        $fileName = $this->references_image_model->get(
             array("id" => $id)
         );
 
-        $delete = $this->news_image_model->delete(
+        $delete = $this->references_image_model->delete(
             array(
                 "id" => $id
             )
@@ -398,7 +368,7 @@ class News extends CI_Controller
             );
         }
         $this->session->set_flashdata("alert", $alert);
-        redirect(base_url("news/imageForm/$parent_id"));
+        redirect(base_url("references/imageForm/$parent_id"));
     }
 
     public function isActiveSetter($id){
@@ -411,7 +381,7 @@ class News extends CI_Controller
                 $isActive = 1;
             }
 
-            $update = $this->news_model->update(array("id" => $id), array("isActive" => $isActive));
+            $update = $this->references_model->update(array("id" => $id), array("isActive" => $isActive));
 
         }
 
@@ -428,11 +398,11 @@ class News extends CI_Controller
             }
 
             if ($isCover = 0) {
-                $update = $this->news_image_model->update(array("id" => $id, "news_id" => $parent_id), array("isCover" => 0));
-                $update = $this->news_image_model->update(array("id !=" => $id, "news_id" => $parent_id), array("isCover" => 1));
+                $update = $this->references_image_model->update(array("id" => $id, "references_id" => $parent_id), array("isCover" => 0));
+                $update = $this->references_image_model->update(array("id !=" => $id, "references_id" => $parent_id), array("isCover" => 1));
             } else {
-                $update = $this->news_image_model->update(array("id" => $id, "news_id" => $parent_id), array("isCover" => 1));
-                $update = $this->news_image_model->update(array("id !=" => $id, "news_id" => $parent_id), array("isCover" => 0));
+                $update = $this->references_image_model->update(array("id" => $id, "references_id" => $parent_id), array("isCover" => 1));
+                $update = $this->references_image_model->update(array("id !=" => $id, "references_id" => $parent_id), array("isCover" => 0));
             }
 
         }
@@ -443,7 +413,7 @@ class News extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "image";
 
-        $viewData->itemImages = $this->news_image_model->getAll(array("news_id" => $parent_id), "rank ASC");
+        $viewData->itemImages = $this->references_image_model->getAll(array("references_id" => $parent_id), "rank ASC");
 
 
         $renderHtml = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_view", $viewData, true);
@@ -462,7 +432,7 @@ class News extends CI_Controller
                 $isActive = 1;
             }
 
-            $update = $this->news_image_model->update(array("id" => $id), array("isActive" => $isActive));
+            $update = $this->references_image_model->update(array("id" => $id), array("isActive" => $isActive));
 
         }
 
@@ -474,7 +444,7 @@ class News extends CI_Controller
         $items = $order['ord'];
 
         foreach ($items as $rank => $id) {
-            $this->news_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
+            $this->references_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
         }
     }
 
@@ -484,7 +454,7 @@ class News extends CI_Controller
         $items = $order['ord'];
 
         foreach ($items as $rank => $id) {
-            $this->news_image_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
+            $this->references_image_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
         }
     }
 
@@ -492,22 +462,23 @@ class News extends CI_Controller
     {
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Haberler', '/news');
-        $this->breadcrumbs->push('Haber Görselleri','/');
+        $this->breadcrumbs->push('Referanslar', '/references');
+        $this->breadcrumbs->push('Refereans Görselleri','/');
+
         $viewData = new stdClass();
 
         //View'e gönderilen verilerin set edilmesi.
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "image";
 
-        $item = $this->news_model->get(
+        $item = $this->references_model->get(
             array(
                 "id" => $id
             )
         );
 
         $viewData->item = $item;
-        $viewData->itemImages = $this->news_image_model->getAll(array("news_id" => $id), "rank ASC");
+        $viewData->itemImages = $this->references_image_model->getAll(array("references_id" => $id), "rank ASC");
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
 
@@ -529,9 +500,9 @@ class News extends CI_Controller
 
         if ($upload) {
             $data['image_url'] = $this->upload->data("file_name");
-            $data['news_id'] = $id;
+            $data['references_id'] = $id;
 
-            $result = $this->news_image_model->add($data);
+            $result = $this->references_image_model->add($data);
 
         } else {
             echo "başarısız";
@@ -547,7 +518,7 @@ class News extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "image";
 
-        $viewData->itemImages = $this->news_image_model->getAll(array("news_id" => $id), "rank ASC");
+        $viewData->itemImages = $this->references_image_model->getAll(array("references_id" => $id), "rank ASC");
 
 
         $renderHtml = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_view", $viewData, true);

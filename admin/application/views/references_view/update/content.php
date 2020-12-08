@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <h4 class="m-b-lg">
-            Haber Düzenle <small>(<?=$item->title?>)</small>
-            <a href="<?=base_url('news')?>" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-arrow-left"></i> Geri Dön</a>
+            Referans Düzenle <small>(<?=$item->title?>)</small>
+            <a href="<?=base_url('references')?>" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-arrow-left"></i> Geri Dön</a>
         </h4>
         <?=$breadcrumbs?>
     </div><!-- END column -->
@@ -15,7 +15,7 @@
                         <li role="presentation" class="active"><a href="#general" aria-controls="tab-3" role="tab" data-toggle="tab">Genel</a></li>
                         <li role="presentation"><a href="#seo" aria-controls="tab-1" role="tab" data-toggle="tab">Seo</a></li>
                     </ul><!-- .nav-tabs -->
-                <form action="<?php echo base_url("news/updateItem/$item->id"); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?php echo base_url("references/updateItem/$item->id"); ?>" method="post" enctype="multipart/form-data">
                     <div class="tab-content p-md">
                         <div role="tabpanel" class="tab-pane in active fade" id="general">
                     <div class="form-group">
@@ -25,56 +25,11 @@
                             <span id="helpBlock" class="help-block text-danger"><?=form_error('title')?></span>
                         <?php } ?>
                     </div>
-                    <div class="form-group">
-                        <label for="control-demo-6" class="">Haberin Türü</label>
-                        <div id="control-demo-6" class="">
-                            <?php if(isset($form_error)) { ?>
-                                <select class="form-control newsType" name="news_type" data-plugin="select2">
-                                    <option <?php echo ($news_type == "image") ? "selected" : ""; ?> value="image">Resim</option>
-                                    <option <?php echo ($news_type == "video") ? "selected" : ""; ?> value="video">Video</option>
-                                </select>
-                            <?php } else { ?>
-                                <select class="form-control newsType" name="news_type" data-plugin="select2">
-                                    <option <?php echo ($item->news_type == "image") ? "selected" : ""; ?> value="image">Resim</option>
-                                    <option <?php echo ($item->news_type == "video") ? "selected" : ""; ?> value="video">Video</option>
-                                </select>
-                            <?php } ?>
-                        </div>
-                    </div><!-- .form-group -->
-
-                    <?php if(isset($form_error)){ ?>
-
-                        <div class="form-group imageContainer"  style="display: <?php echo ($news_type == "image") ? "block" : "none"; ?>">
+                        <div class="form-group imageContainer">
                             <img width="200" src="<?php echo base_url("uploads/$viewFolder/$item->img_url"); ?>" alt="" class="img-responsive" style="margin-bottom: 24px;">
                             <label>Görsel Seçiniz</label>
                             <input type="file" name="img_url" class="form-control">
                         </div>
-
-                        <div class="form-group videoContainer" style="display: <?php echo ($news_type == "video") ? "block" : "none"; ?>">
-                            <label>Video URL</label>
-                            <input class="form-control" placeholder="Video bağlantısını buraya yapıştırınız" name="video_url">
-                            <?php if(isset($form_error)){ ?>
-                                <span id="helpBlock" class="help-block text-danger"><?=form_error('video_url')?></span>
-                            <?php } ?>
-                        </div>
-
-
-                    <?php } else { ?>
-
-                        <div class="form-group imageContainer"  style="display: <?php echo ($news_type == "image") ? "block" : "none"; ?>">
-                            <img width="200" src="<?php echo base_url("uploads/$viewFolder/$item->img_url"); ?>" alt="" class="img-responsive" style="margin-bottom: 24px;">
-                            <label>Görsel Seçiniz</label>
-                            <input type="file" name="img_url" class="form-control">
-                        </div>
-
-                        <div class="form-group videoContainer" style="display: <?php echo ($item->news_type == "video") ? "block" : "none"; ?>">
-                            <label>Video URL</label>
-                            <input class="form-control" placeholder="Video bağlantısını buraya yapıştırınız" name="video_url" value="<?php echo $item->video_url; ?>">
-                        </div>
-
-
-                    <?php } ?>
-
                             <div class="form-group">
                                 <label>Açıklama</label>
                                 <textarea name="description" class="m-0" data-plugin="summernote" data-options="{height: 250}"><?php echo $item->description; ?></textarea>

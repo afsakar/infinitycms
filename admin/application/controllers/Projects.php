@@ -16,6 +16,8 @@ class Projects extends CI_Controller
 
     public function index()
     {
+        $this->breadcrumbs->unshift('Anasayfa', '/');
+        $this->breadcrumbs->push('Projeler', '/projects');
         $viewData = new stdClass();
 
         //Tablodan verilerin çekilmesi.
@@ -28,17 +30,23 @@ class Projects extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "list";
         $viewData->items = $items;
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
 
 
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
     }
 
     public function addForm(){
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Projeler', '/projects');
+        $this->breadcrumbs->push('Proje Ekle','/');
         $viewData = new stdClass();
 
         /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "add";
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
 
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
 
@@ -46,6 +54,9 @@ class Projects extends CI_Controller
 
     public function addItem()
     {
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Projeler', '/projects');
+        $this->breadcrumbs->push('Proje Ekle','/');
 
         //Form Validation
         $this->load->library("form_validation");
@@ -99,6 +110,7 @@ class Projects extends CI_Controller
             $viewData->viewFolder = $this->viewFolder;
             $viewData->subViewFolder = "add";
             $viewData->form_error = true;
+            $viewData->breadcrumbs = $this->breadcrumbs->show();
 
             $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
 
@@ -107,6 +119,9 @@ class Projects extends CI_Controller
 
     public function updateItem($id)
     {
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Projeler', '/projects');
+        $this->breadcrumbs->push('Proje Düzenle','/');
         //Form Validation
         $this->load->library("form_validation");
         $this->form_validation->set_rules("title", "Başlık", "required|trim");
@@ -168,6 +183,7 @@ class Projects extends CI_Controller
             $viewData->form_error = true;
             $viewData->item = $item;
             $viewData->seo = json_decode($item->seo, true);
+            $viewData->breadcrumbs = $this->breadcrumbs->show();
 
             $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
 

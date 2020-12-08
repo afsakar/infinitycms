@@ -4,6 +4,7 @@
             Proje Listesi
             <a href="<?=base_url('projects/addForm')?>" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Yeni Ekle</a>
         </h4>
+        <?=$breadcrumbs?>
     </div>
     <div class="col-md-10 col-md-offset-1">
         <div class="widget p-lg">

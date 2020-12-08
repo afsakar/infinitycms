@@ -4,6 +4,7 @@
             Yeni Haber Ekle
             <a href="<?=base_url('news')?>" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-arrow-left"></i> Geri Dön</a>
         </h4>
+        <?=$breadcrumbs?>
     </div>
     <div class="col-md-10 col-md-offset-1">
         <div class="widget">
