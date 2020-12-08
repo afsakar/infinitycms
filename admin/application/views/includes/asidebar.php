@@ -135,7 +135,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?=base_url()?>">
+                    <a href="<?=base_url('brands')?>">
                         <i class="menu-icon zmdi zmdi-present-to-all zmdi-hc-lg"></i>
                         <span class="menu-text">Markalar</span>
                     </a>

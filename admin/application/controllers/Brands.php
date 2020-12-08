@@ -1,28 +1,27 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class References extends CI_Controller
+class Brands extends CI_Controller
 {
     public $viewFolder = "";
-    public $tableName = "references";
+    public $tableName = "brands";
 
     public function __construct()
     {
         parent::__construct();
-        $this->viewFolder = 'references_view';
-        $this->load->model('references_model');
-        $this->load->model('references_image_model');
+        $this->viewFolder = 'brands_view';
+        $this->load->model('brands_model');
     }
 
     public function index()
     {
         $this->breadcrumbs->unshift('Anasayfa', '/');
-        $this->breadcrumbs->push('Referanslar', '/references');
+        $this->breadcrumbs->push('Markalar', '/brands');
 
         $viewData = new stdClass();
 
         //Tablodan verilerin çekilmesi.
-        $items = $this->references_model->getAll(
+        $items = $this->brands_model->getAll(
             array(),
             "rank ASC"
         );
@@ -40,8 +39,8 @@ class References extends CI_Controller
     public function addForm(){
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Referanslar', '/references');
-        $this->breadcrumbs->push('Referans Ekle','/');
+        $this->breadcrumbs->push('Markalar', '/brands');
+        $this->breadcrumbs->push('Marka Ekle','/');
 
         $viewData = new stdClass();
 
@@ -57,8 +56,8 @@ class References extends CI_Controller
     public function addItem()
     {
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Referanslar', '/references');
-        $this->breadcrumbs->push('Referans Ekle','/');
+        $this->breadcrumbs->push('Markalar', '/brands');
+        $this->breadcrumbs->push('Marka Ekle','/');
 
         $this->load->library("form_validation");
 
@@ -70,11 +69,10 @@ class References extends CI_Controller
                     "position" => "top-center"
                 );
                 $this->session->set_flashdata("alert", $alert);
-                redirect(base_url('references/addForm'));
+                redirect(base_url('brands/addForm'));
             }
 
         $this->form_validation->set_rules("title", "Başlık", "required|trim");
-        $this->form_validation->set_rules("description", "Açıklama", "required");
 
         $this->form_validation->set_message(array(
             "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
@@ -86,13 +84,6 @@ class References extends CI_Controller
         if ($validate) {
             //Form'dan verileri al.
             $data['title'] = $this->input->post('title');
-            $data['description'] = htmlspecialchars($this->input->post('description'));
-            $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
-            $data['url'] = permalink($this->input->post('url'));
-
-            if (!$data['url']) {
-                $data['url'] = permalink($this->input->post('title'));
-            }
 
                 $randName = rand(0, 99999) . $this->viewFolder;
 
@@ -116,7 +107,7 @@ class References extends CI_Controller
                 }
 
             //Form verilerini kaydet
-            $insert = $this->references_model->add($data);
+            $insert = $this->brands_model->add($data);
             if ($insert) {
                 $alert = array(
                     "title" => "İşlem başarılı!",
@@ -134,7 +125,7 @@ class References extends CI_Controller
             }
 
             $this->session->set_flashdata("alert", $alert);
-            redirect(base_url('references'));
+            redirect(base_url('brands'));
 
         } else {
             $viewData = new stdClass();
@@ -153,13 +144,13 @@ class References extends CI_Controller
     public function updateForm($id){
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Referanslar', '/references');
-        $this->breadcrumbs->push('Referans Düzenle','/');
+        $this->breadcrumbs->push('Markalar', '/brands');
+        $this->breadcrumbs->push('Marka Düzenle','/');
 
         $viewData = new stdClass();
 
         //Verilerin getirilmesi
-        $item = $this->references_model->get(
+        $item = $this->brands_model->get(
             array(
                 "id" => $id
             )
@@ -169,7 +160,6 @@ class References extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "update";
         $viewData->item = $item;
-        $viewData->seo = json_decode($item->seo, true);
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
@@ -178,7 +168,7 @@ class References extends CI_Controller
 
     public function updateItem($id){
 
-        $item = $this->references_model->get(
+        $item = $this->brands_model->get(
             array(
                 "id" => $id
             )
@@ -188,7 +178,6 @@ class References extends CI_Controller
 
         // Kurallar yazilir..
         $this->form_validation->set_rules("title", "Başlık", "required|trim");
-        $this->form_validation->set_rules("description", "Açıklama", "required");
 
         $this->form_validation->set_message(array(
             "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
@@ -200,13 +189,6 @@ class References extends CI_Controller
         if ($validate) {
 
             $data['title'] = $this->input->post('title');
-            $data['description'] = htmlspecialchars($this->input->post('description'));
-            $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
-            $data['url'] = permalink($this->input->post('url'));
-
-            if (!$data['url']) {
-                $data['url'] = permalink($this->input->post('title'));
-            }
 
                 // Upload Süreci...
                 if ($_FILES["img_url"]["name"] !== "") {
@@ -237,7 +219,7 @@ class References extends CI_Controller
 
                         $this->session->set_flashdata("alert", $alert);
 
-                        redirect(base_url("references/updateForm/$id"));
+                        redirect(base_url("brands/updateForm/$id"));
 
                         die();
 
@@ -245,7 +227,7 @@ class References extends CI_Controller
 
                 }
 
-            $update = $this->references_model->update(array("id" => $id), $data);
+            $update = $this->brands_model->update(array("id" => $id), $data);
 
             // TODO Alert sistemi eklenecek...
             if ($update) {
@@ -270,7 +252,7 @@ class References extends CI_Controller
             // İşlemin Sonucunu Session'a yazma işlemi...
             $this->session->set_flashdata("alert", $alert);
 
-            redirect(base_url("references"));
+            redirect(base_url("brands"));
 
         } else {
 
@@ -282,12 +264,11 @@ class References extends CI_Controller
             $viewData->form_error = true;
 
             /** Tablodan Verilerin Getirilmesi.. */
-            $viewData->item = $this->references_model->get(
+            $viewData->item = $this->brands_model->get(
                 array(
                     "id" => $id,
                 )
             );
-            $viewData->seo = json_decode($item->seo, true);
 
             $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
         }
@@ -296,9 +277,9 @@ class References extends CI_Controller
 
     public function deleteItem($id)
     {
-        $getItem = $this->references_model->get(array("id" => $id));
+        $getItem = $this->brands_model->get(array("id" => $id));
 
-        $delete = $this->references_model->delete(
+        $delete = $this->brands_model->delete(
             array(
                 "id" => $id
             )
@@ -306,19 +287,6 @@ class References extends CI_Controller
 
         if ($delete) {
             unlink("uploads/{$this->viewFolder}/$getItem->img_url");
-            /* Item'e ait görsellerin silinmesi start */
-            $getImages = $this->references_image_model->getAll(array("references_id" => $id), array());
-
-            foreach ($getImages as $image) {
-                $delete = $this->references_image_model->delete(
-                    array(
-                        "id" => $image->id
-                    )
-                );
-                unlink("uploads/{$this->viewFolder}/$image->image_url");
-            }
-            /* Item'e ait görsellerin silinmesi end */
-
             $alert = array(
                 "title" => "İşlem başarılı!",
                 "text" => "Kayıt başarıyla silindi!",
@@ -335,16 +303,16 @@ class References extends CI_Controller
         }
 
         $this->session->set_flashdata("alert", $alert);
-        redirect(base_url('references'));
+        redirect(base_url('brands'));
     }
 
     public function deleteImage($id, $parent_id)
     {
-        $fileName = $this->references_image_model->get(
+        $fileName = $this->brands_image_model->get(
             array("id" => $id)
         );
 
-        $delete = $this->references_image_model->delete(
+        $delete = $this->brands_image_model->delete(
             array(
                 "id" => $id
             )
@@ -367,7 +335,7 @@ class References extends CI_Controller
             );
         }
         $this->session->set_flashdata("alert", $alert);
-        redirect(base_url("references/imageForm/$parent_id"));
+        redirect(base_url("brands/imageForm/$parent_id"));
     }
 
     public function isActiveSetter($id){
@@ -380,7 +348,7 @@ class References extends CI_Controller
                 $isActive = 1;
             }
 
-            $update = $this->references_model->update(array("id" => $id), array("isActive" => $isActive));
+            $update = $this->brands_model->update(array("id" => $id), array("isActive" => $isActive));
 
         }
 
@@ -397,11 +365,11 @@ class References extends CI_Controller
             }
 
             if ($isCover = 0) {
-                $update = $this->references_image_model->update(array("id" => $id, "references_id" => $parent_id), array("isCover" => 0));
-                $update = $this->references_image_model->update(array("id !=" => $id, "references_id" => $parent_id), array("isCover" => 1));
+                $update = $this->brands_image_model->update(array("id" => $id, "brands_id" => $parent_id), array("isCover" => 0));
+                $update = $this->brands_image_model->update(array("id !=" => $id, "brands_id" => $parent_id), array("isCover" => 1));
             } else {
-                $update = $this->references_image_model->update(array("id" => $id, "references_id" => $parent_id), array("isCover" => 1));
-                $update = $this->references_image_model->update(array("id !=" => $id, "references_id" => $parent_id), array("isCover" => 0));
+                $update = $this->brands_image_model->update(array("id" => $id, "brands_id" => $parent_id), array("isCover" => 1));
+                $update = $this->brands_image_model->update(array("id !=" => $id, "brands_id" => $parent_id), array("isCover" => 0));
             }
 
         }
@@ -412,7 +380,7 @@ class References extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "image";
 
-        $viewData->itemImages = $this->references_image_model->getAll(array("references_id" => $parent_id), "rank ASC");
+        $viewData->itemImages = $this->brands_image_model->getAll(array("brands_id" => $parent_id), "rank ASC");
 
 
         $renderHtml = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_view", $viewData, true);
@@ -431,7 +399,7 @@ class References extends CI_Controller
                 $isActive = 1;
             }
 
-            $update = $this->references_image_model->update(array("id" => $id), array("isActive" => $isActive));
+            $update = $this->brands_image_model->update(array("id" => $id), array("isActive" => $isActive));
 
         }
 
@@ -443,7 +411,7 @@ class References extends CI_Controller
         $items = $order['ord'];
 
         foreach ($items as $rank => $id) {
-            $this->references_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
+            $this->brands_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
         }
     }
 
@@ -453,7 +421,7 @@ class References extends CI_Controller
         $items = $order['ord'];
 
         foreach ($items as $rank => $id) {
-            $this->references_image_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
+            $this->brands_image_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
         }
     }
 
@@ -461,8 +429,8 @@ class References extends CI_Controller
     {
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Referanslar', '/references');
-        $this->breadcrumbs->push('Referans Görselleri','/');
+        $this->breadcrumbs->push('Markalar', '/brands');
+        $this->breadcrumbs->push('Marka Görselleri','/');
 
         $viewData = new stdClass();
 
@@ -470,14 +438,14 @@ class References extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "image";
 
-        $item = $this->references_model->get(
+        $item = $this->brands_model->get(
             array(
                 "id" => $id
             )
         );
 
         $viewData->item = $item;
-        $viewData->itemImages = $this->references_image_model->getAll(array("references_id" => $id), "rank ASC");
+        $viewData->itemImages = $this->brands_image_model->getAll(array("brands_id" => $id), "rank ASC");
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
 
@@ -499,9 +467,9 @@ class References extends CI_Controller
 
         if ($upload) {
             $data['image_url'] = $this->upload->data("file_name");
-            $data['references_id'] = $id;
+            $data['brands_id'] = $id;
 
-            $result = $this->references_image_model->add($data);
+            $result = $this->brands_image_model->add($data);
 
         } else {
             echo "başarısız";
@@ -517,7 +485,7 @@ class References extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "image";
 
-        $viewData->itemImages = $this->references_image_model->getAll(array("references_id" => $id), "rank ASC");
+        $viewData->itemImages = $this->brands_image_model->getAll(array("brands_id" => $id), "rank ASC");
 
 
         $renderHtml = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_view", $viewData, true);
