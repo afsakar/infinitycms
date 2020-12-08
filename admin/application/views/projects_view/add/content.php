@@ -22,14 +22,14 @@
                             <div role="tabpanel" class="tab-pane in active fade" id="general">
                                 <div class="form-group">
                                     <label>Başlık<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="title" placeholder="Başlık Giriniz" value="<?php echo set_value('title'); ?>">
+                                    <input type="text" class="form-control" name="title" placeholder="Başlık Giriniz" value="<?php if (isset($form_error)){ echo set_value('title'); } ?>">
                                     <?php if(isset($form_error)): ?>
                                         <span id="helpBlock" class="help-block text-danger"><?=form_error('title')?></span>
                                     <?php endif; ?>
                                 </div>
                                 <div class="form-group">
                                     <label>İçerik<span class="text-danger">*</span></label>
-                                    <textarea class="m-0" data-plugin="summernote" name="description" data-options="{height: 250}"><?php echo set_value('description');?></textarea>
+                                    <textarea class="m-0" data-plugin="summernote" name="description" data-options="{height: 250}"><?php if (isset($form_error)){ echo set_value('description'); } ?></textarea>
                                     <?php if(isset($form_error)): ?>
                                         <span id="helpBlock" class="help-block text-danger"><?=form_error('description')?></span>
                                     <?php endif; ?>
@@ -39,19 +39,19 @@
                             <div role="tabpanel" class="tab-pane fade" id="seo">
                                 <div class="form-group">
                                     <label>SEO URL</label>
-                                    <input type="text" class="form-control" name="url" placeholder="Url giriniz" value="<?php echo set_value('url');?>">
+                                    <input type="text" class="form-control" name="url" placeholder="Url giriniz" value="<?php if (isset($form_error)){ echo set_value('url'); } ?>">
                                 </div>
                                 <div class="form-group">
                                     <label>SEO Title</label>
-                                    <input type="text" class="form-control" name="seo[title]" placeholder="Başlık giriniz" value="<?php echo set_value("seo[title]");?>">
+                                    <input type="text" class="form-control" name="seo[title]" placeholder="Başlık giriniz" value="<?php if (isset($form_error)){ echo set_value('seo[title]'); } ?>">
                                 </div>
                                 <div class="form-group">
                                     <label>SEO Description</label>
-                                    <input type="text" class="form-control" name="seo[description]" placeholder="Açıklama giriniz" value="<?php echo set_value("seo[description]");?>">
+                                    <input type="text" class="form-control" name="seo[description]" placeholder="Açıklama giriniz" value="<?php if (isset($form_error)){ echo set_value('seo[description]'); } ?>">
                                 </div>
                                 <div class="form-group">
                                     <label>SEO Keywords</label>
-                                    <input type="text" data-role="tagsinput" data-plugin="tagsinput" class="form-control" name="seo[keywords]" placeholder="Keyword giriniz" value="<?php echo set_value("seo[keywords]");?>">
+                                    <input type="text" data-role="tagsinput" data-plugin="tagsinput" class="form-control" name="seo[keywords]" placeholder="Keyword giriniz" value="<?php if (isset($form_error)){ echo set_value('seo[keywords]'); } ?>">
                                 </div>
                             </div><!-- .tab-pane  -->
                             <button type="submit" class="btn btn-primary btn-md"><i class="fa fa-save"></i> Kaydet</button>

@@ -111,7 +111,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?=base_url()?>">
+                    <a href="<?=base_url('news')?>">
                         <i class="menu-icon fa fa-newspaper zmdi-hc-lg"></i>
                         <span class="menu-text">Haberler</span>
                     </a>

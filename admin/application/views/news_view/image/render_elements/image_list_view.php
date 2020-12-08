@@ -14,10 +14,9 @@
             <th scope="col">Resim Adı</th>
             <th scope="col">Oluşturma Tarihi</th>
             <th scope="col">Durumu</th>
-            <th scope="col">Kapak</th>
             <th scope="col">İşlemler</th>
             </thead>
-            <tbody class="sortable" data-url="<?php echo base_url("projects/imageRankSetter")?>">
+            <tbody class="sortable" data-url="<?php echo base_url("news/imageRankSetter")?>">
             <?php foreach ($itemImages as $image): ?>
                 <tr id="ord-<?=$image->id?>">
                     <td class="text-center sortableItem"><i class="fa fa-bars"></i></td>
@@ -36,13 +35,10 @@
                     <td><?=$image->image_url?></td>
                     <td><?=timeConvert($image->createdAt)?></td>
                     <td>
-                        <input class="isActive" data-url="<?php echo base_url("projects/imageIsActiveSetter/$image->id")?>" type="checkbox" data-switchery data-color="#25D366" <?=$image->isActive == 1 ? 'checked' : null?>/>
+                        <input class="isActive" data-url="<?php echo base_url("news/imageIsActiveSetter/$image->id")?>" type="checkbox" data-switchery data-color="#25D366" <?=$image->isActive == 1 ? 'checked' : null?>/>
                     </td>
                     <td>
-                        <input class="isCover" data-url="<?php echo base_url("projects/isCoverSetter/$image->id/$image->project_id")?>" type="checkbox" data-switchery data-color="#34B7F1" <?=$image->isCover == 1 ? 'checked' : null?>/>
-                    </td>
-                    <td>
-                        <button data-url="<?php echo base_url("projects/deleteImage/$image->id/$image->project_id")?>" class="btn btn-danger btn-sm btn-outline remove-btn"><i class="fa fa-trash"></i> Sil</button>
+                        <button data-url="<?php echo base_url("news/deleteImage/$image->id/$image->news_id")?>" class="btn btn-danger btn-sm btn-outline remove-btn"><i class="fa fa-trash"></i> Sil</button>
                     </td>
                 </tr>
             <?php endforeach; ?>

@@ -12,8 +12,6 @@ class Projects extends CI_Controller
         $this->viewFolder = 'projects_view';
         $this->load->model('projects_model');
         $this->load->model('projects_image_model');
-        $this->load->helper('Seo');
-        $this->load->helper('Time');
     }
 
     public function index()
@@ -33,6 +31,17 @@ class Projects extends CI_Controller
 
 
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
+    }
+
+    public function addForm(){
+        $viewData = new stdClass();
+
+        /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "add";
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
+
     }
 
     public function addItem()

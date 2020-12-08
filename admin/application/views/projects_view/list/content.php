@@ -2,7 +2,7 @@
     <div class="col-md-10 col-md-offset-1">
         <h4 class="m-b-lg">
             Proje Listesi
-            <a href="<?=base_url('projects/addItem')?>" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Yeni Ekle</a>
+            <a href="<?=base_url('projects/addForm')?>" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Yeni Ekle</a>
         </h4>
     </div>
     <div class="col-md-10 col-md-offset-1">
@@ -11,7 +11,7 @@
             <?php if(empty($items)): ?>
 
             <div class="alert alert-info text-center">
-                <p>Burada herhangi bir kayıt bulunmamaktadır. Kayıt eklemek için <a href="<?=base_url('projects/addItem')?>" class="alert-link">buraya</a> tıklayın.</p>
+                <p>Burada herhangi bir kayıt bulunmamaktadır. Kayıt eklemek için <a href="<?=base_url('projects/addForm')?>" class="alert-link">buraya</a> tıklayın.</p>
             </div>
 
             <?php else: ?>
@@ -30,7 +30,7 @@
                         <tbody class="sortable" data-url="<?php echo base_url("projects/rankSetter")?>">
                         <?php foreach ($items as $item): ?>
                             <tr id="ord-<?=$item->id?>">
-                                <td class="text-center"><i class="fa fa-bars"></i></td>
+                                <td class="text-center sortableItem"><i class="fa fa-bars"></i></td>
                                 <th class="text-center" scope="row"><?=$item->id?></th>
                                 <td><?=$item->url?></td>
                                 <td><?=$item->title?></td>

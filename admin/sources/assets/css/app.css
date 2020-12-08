@@ -3088,4 +3088,8 @@ td.mail-right {
 .theme-deepOrange .menubar .app-menu li.menu-heading > a {
   color: #FF5722; }
 
+.sortableItem{
+  cursor: move;
+}
+
 /*# sourceMappingURL=app.css.map */
