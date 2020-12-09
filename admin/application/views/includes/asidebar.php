@@ -71,33 +71,41 @@
                         <span class="menu-text">Kullanıcılar</span>
                     </a>
                 </li>
-                <li class="has-submenu">
-                    <a href="javascript:void(0)" class="submenu-toggle">
+                <li>
+                    <a href="<?=base_url('galleries')?>">
                         <i class="menu-icon zmdi zmdi-collection-folder-image zmdi-hc-lg"></i>
-                        <span class="menu-text">Galeri</span>
-                        <i class="menu-caret zmdi zmdi-hc-sm zmdi-chevron-right"></i>
+                        <span class="menu-text">Galeriler</span>
                     </a>
-                    <ul class="submenu">
-                        <li>
-                            <a href="#">
-                                <span class="menu-text">Resim Galerisi</span>
-                                <span class="label label-primary menu-label">12</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="menu-text">Video Galerisi</span>
-                                <span class="label label-primary menu-label">12</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="menu-text">Dosya Galerisi</span>
-                                <span class="label label-primary menu-label">12</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
+<!--                <li class="has-submenu">-->
+<!--                    <a href="javascript:void(0)" class="submenu-toggle">-->
+<!--                        <i class="menu-icon zmdi zmdi-collection-folder-image zmdi-hc-lg"></i>-->
+<!--                        <span class="menu-text">Galeri</span>-->
+<!--                        <i class="menu-caret zmdi zmdi-hc-sm zmdi-chevron-right"></i>-->
+<!--                    </a>-->
+<!--                    <ul class="submenu">-->
+<!--                        <li>-->
+<!--                            <a href="--><?//=base_url('galleries')?><!--">-->
+<!--                                <span class="menu-text">Galeri Listesi</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">-->
+<!--                                <span class="menu-text">Resim Galerisi</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">-->
+<!--                                <span class="menu-text">Video Galerisi</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#">-->
+<!--                                <span class="menu-text">Dosya Galerisi</span>-->
+<!--                            </a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </li>-->
                 <li>
                     <a href="<?=base_url()?>">
                         <i class="menu-icon zmdi zmdi-layers zmdi-hc-lg"></i>

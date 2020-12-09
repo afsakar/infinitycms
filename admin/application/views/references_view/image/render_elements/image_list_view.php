@@ -6,7 +6,7 @@
 <?php else: ?>
 
     <div class="table-responsive">
-        <table class="table table-hover pictures_list">
+        <table id="responsive-datatable" data-plugin="DataTable" data-options="{ responsive: true }" class="table table-hover pictures_list" cellspacing="0" width="100%">
             <thead>
             <th class="text-center" scope="col"></th>
             <th class="text-center" scope="col">#ID</th>
