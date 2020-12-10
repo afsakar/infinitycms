@@ -66,7 +66,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?=base_url()?>">
+                    <a href="<?=base_url('users')?>">
                         <i class="menu-icon zmdi zmdi-accounts zmdi-hc-lg"></i>
                         <span class="menu-text">Kullanıcılar</span>
                     </a>
