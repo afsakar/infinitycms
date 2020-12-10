@@ -46,7 +46,6 @@ class Galleries extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "add";
         $viewData->breadcrumbs = $this->breadcrumbs->show();
-        $viewData->breadcrumbs = $this->breadcrumbs->show();
 
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
 
@@ -412,38 +411,6 @@ class Galleries extends CI_Controller
         redirect(base_url('galleries'));
     }
 
-    public function deleteImage($id, $parent_id)
-    {
-        $fileName = $this->galleries_image_model->get(
-            array("id" => $id)
-        );
-
-        $delete = $this->galleries_image_model->delete(
-            array(
-                "id" => $id
-            )
-        );
-
-        if ($delete) {
-            $alert = array(
-                "title" => "İşlem başarılı!",
-                "text" => "Görsel başarıyla silindi!",
-                "type" => "success",
-                "position" => "top-center"
-            );
-            unlink("$fileName->url");
-        } else {
-            $alert = array(
-                "title" => "İşlem başarısız!",
-                "text" => "Görsel silinirken bir hata oluştu, lütfen tekrar deneyin!",
-                "type" => "error",
-                "position" => "top-center"
-            );
-        }
-        $this->session->set_flashdata("alert", $alert);
-        redirect(base_url("galleries/imageForm/$parent_id"));
-    }
-
     public function isActiveSetter($id)
     {
 
@@ -459,6 +426,17 @@ class Galleries extends CI_Controller
 
         }
 
+    }
+
+    public function rankSetter()
+    {
+        $data = $this->input->post("data");
+        parse_str($data, $order);
+        $items = $order['ord'];
+
+        foreach ($items as $rank => $id) {
+            $this->galleries_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
+        }
     }
 
     public function isCoverSetter($id, $parent_id)
@@ -497,6 +475,8 @@ class Galleries extends CI_Controller
 
     }
 
+    /* Resim ve dosya işlemleri start */
+
     public function imageIsActiveSetter($id)
     {
         if ($id) {
@@ -519,17 +499,6 @@ class Galleries extends CI_Controller
 
         }
 
-    }
-
-    public function rankSetter()
-    {
-        $data = $this->input->post("data");
-        parse_str($data, $order);
-        $items = $order['ord'];
-
-        foreach ($items as $rank => $id) {
-            $this->galleries_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
-        }
     }
 
     public function imageRankSetter()
@@ -611,6 +580,38 @@ class Galleries extends CI_Controller
 
     }
 
+    public function deleteImage($id, $parent_id)
+    {
+        $fileName = $this->galleries_image_model->get(
+            array("id" => $id)
+        );
+
+        $delete = $this->galleries_image_model->delete(
+            array(
+                "id" => $id
+            )
+        );
+
+        if ($delete) {
+            $alert = array(
+                "title" => "İşlem başarılı!",
+                "text" => "Görsel başarıyla silindi!",
+                "type" => "success",
+                "position" => "top-center"
+            );
+            unlink("$fileName->url");
+        } else {
+            $alert = array(
+                "title" => "İşlem başarısız!",
+                "text" => "Görsel silinirken bir hata oluştu, lütfen tekrar deneyin!",
+                "type" => "error",
+                "position" => "top-center"
+            );
+        }
+        $this->session->set_flashdata("alert", $alert);
+        redirect(base_url("galleries/imageForm/$parent_id"));
+    }
+
     public function refreshImageList($id, $type)
     {
 
@@ -631,6 +632,255 @@ class Galleries extends CI_Controller
         $renderHtml = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_view", $viewData, true);
 
         echo $renderHtml;
+    }
+
+    /* Video işlemleri start */
+
+    public function videos($id)
+    {
+        $this->breadcrumbs->unshift('Anasayfa', '/', true);
+        $this->breadcrumbs->push('Galeriler', '/galleries');
+        $this->breadcrumbs->push('Videolar', '/');
+        $viewData = new stdClass();
+
+        //Tablodan verilerin çekilmesi.
+        $items = $this->galleries_image_model->getAll(
+            array("gallery_type" => "video", "gallery_id" => $id),
+            "rank ASC"
+        );
+
+        //View'e gönderilen verilerin set edilmesi.
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "video";
+        $viewData->subViewFolder2 = "list";
+        $viewData->items = $items;
+        $viewData->id = $id;
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+    }
+
+    public function addVideoForm($id){
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Galeriler', '/galleries');
+        $this->breadcrumbs->push('Video Ekle','/');
+        $viewData = new stdClass();
+
+        /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "video";
+        $viewData->subViewFolder2 = "add";
+        $viewData->id = $id;
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+
+    }
+
+    public function addVideo($id)
+    {
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Galeriler', '/galleries');
+        $this->breadcrumbs->push('Video Ekle','/');
+
+        //Form Validation
+        $this->load->library("form_validation");
+        $this->form_validation->set_rules("url", "URL", "required|trim");
+        $this->form_validation->set_message(array(
+            "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
+        ));
+
+        //Form validation çalıştır
+        $validate = $this->form_validation->run();
+
+        if ($validate) {
+            //Form'dan verileri al.
+            $data['url'] = $this->input->post('url');
+            $data['gallery_id'] = $id;
+            $data['gallery_type'] = "video";
+
+            //Form verilerini kaydet
+            $insert = $this->galleries_image_model->add($data);
+            if ($insert) {
+                $alert = array(
+                    "title"     => "İşlem başarılı!",
+                    "text"      => "Kayıt başarıyla eklendi!",
+                    "type"      => "success",
+                    "position"  => "top-center"
+                );
+            } else {
+                $alert = array(
+                    "title"     => "İşlem başarısız!",
+                    "text"      => "Kayıt eklenirken bir hata oluştu, lütfen tekrar deneyin!",
+                    "type"      => "error",
+                    "position"  => "top-center"
+                );
+            }
+
+            $this->session->set_flashdata("alert", $alert);
+            redirect(base_url("galleries/videos/$id"));
+
+        } else {
+
+            $viewData = new stdClass();
+
+            //View'e gönderilen verilerin set edilmesi.
+            $viewData->viewFolder = $this->viewFolder;
+            $viewData->subViewFolder = "video";
+            $viewData->subViewFolder2 = "add";
+            $viewData->form_error = true;
+            $viewData->id = $id;
+            $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+            $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+
+        }
+    }
+
+    public function updateVideoForm($id, $parent_id){
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Galeriler', '/galleries');
+        $this->breadcrumbs->push('Video Düzenle','/');
+
+        //Verilerin getirilmesi
+        $item = $this->galleries_image_model->get(
+            array(
+                "id" => $id
+            )
+        );
+
+        $viewData = new stdClass();
+
+        /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "video";
+        $viewData->subViewFolder2 = "update";
+        $viewData->id = $parent_id;
+        $viewData->item = $item;
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+
+    }
+
+    public function updateVideo($id, $parent_id)
+    {
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Galeriler', '/galleries');
+        $this->breadcrumbs->push('Video Düzenle','/');
+        //Form Validation
+        $this->load->library("form_validation");
+        $this->form_validation->set_rules("url", "URL", "required|trim");
+
+        //Form validation çalıştır
+        $validate = $this->form_validation->run();
+
+        if ($validate) {
+            //Form'dan verileri al.
+            $data['url'] = $this->input->post('url');
+
+            //Form verilerini güncelle
+            $update = $this->galleries_image_model->update(array("id" => $id), $data);
+            if ($update) {
+                $alert = array(
+                    "title"     => "İşlem başarılı!",
+                    "text"      => "Kayıt başarıyla güncellendi!",
+                    "type"      => "success",
+                    "position"  => "top-center"
+                );
+            } else {
+                $alert = array(
+                    "title"     => "İşlem başarısız!",
+                    "text"      => "Kayıt güncellenirken bir hata oluştu, lütfen tekrar deneyin!",
+                    "type"      => "error",
+                    "position"  => "top-center"
+                );
+            }
+
+            $this->session->set_flashdata("alert", $alert);
+            redirect(base_url("galleries/videos/$parent_id"));
+
+        } else {
+
+            $viewData = new stdClass();
+
+            //Verilerin getirilmesi
+            $item = $this->galleries_image_model->get(
+                array(
+                    "id" => $id
+                )
+            );
+
+            //View'e gönderilen verilerin set edilmesi.
+            $viewData->viewFolder = $this->viewFolder;
+            $viewData->subViewFolder = "video";
+            $viewData->subViewFolder2 = "update";
+            $viewData->form_error = true;
+            $viewData->item = $item;
+            $viewData->id = $parent_id;
+            $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+            $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+
+        }
+    }
+
+    public function deleteVideo($id, $parent_id)
+    {
+
+        $delete = $this->galleries_image_model->delete(
+            array(
+                "id" => $id
+            )
+        );
+
+        if ($delete) {
+            $alert = array(
+                "title"     => "İşlem başarılı!",
+                "text"      => "Kayıt başarıyla silindi!",
+                "type"      => "success",
+                "position"  => "top-center"
+            );
+        } else {
+            $alert = array(
+                "title"     => "İşlem başarısız!",
+                "text"      => "Kayıt silinirken bir hata oluştu, lütfen tekrar deneyin!",
+                "type"      => "error",
+                "position"  => "top-center"
+            );
+        }
+
+        $this->session->set_flashdata("alert", $alert);
+        redirect(base_url("galleries/videos/$parent_id"));
+    }
+
+    public function videoActiveSetter($id)
+    {
+
+        if ($id) {
+            $isActive = $this->input->post("data");
+            if ($isActive == "false") {
+                $isActive = 0;
+            } else {
+                $isActive = 1;
+            }
+
+            $update = $this->galleries_image_model->update(array("id" => $id), array("isActive" => $isActive));
+
+        }
+
+    }
+
+    public function videoRankSetter($parent_id)
+    {
+        $data = $this->input->post("data");
+        parse_str($data, $order);
+        $items = $order['ord'];
+
+        foreach ($items as $rank => $id) {
+            $this->galleries_image_model->update(array("id" => $id, "rank !=" => $rank, "gallery_id" => $parent_id), array("rank" => $rank));
+        }
     }
 
 }

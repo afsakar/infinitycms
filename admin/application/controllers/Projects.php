@@ -46,7 +46,6 @@ class Projects extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "add";
         $viewData->breadcrumbs = $this->breadcrumbs->show();
-        $viewData->breadcrumbs = $this->breadcrumbs->show();
 
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
 

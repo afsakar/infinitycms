@@ -18,7 +18,7 @@
             <?php else: ?>
 
                 <div class="table-responsive">
-                    <table id="responsive-datatable" data-plugin="DataTable" data-options="{ responsive: true }" class="table table-striped table-container table-bordered" cellspacing="0" width="100%">
+                    <table id="responsive-datatable" data-plugin="DataTable" class="table table-striped table-container table-bordered" cellspacing="0" width="100%">
                         <thead>
                         <th class="text-center" scope="col"></th>
                         <th class="text-center" scope="col">#ID</th>
@@ -44,7 +44,11 @@
                                     <input class="isActive" data-url="<?php echo base_url("galleries/isActiveSetter/$item->id")?>" type="checkbox" data-switchery data-color="#10c469" <?=$item->isActive == 1 ? 'checked' : null?>/>
                                 </td>
                                 <td class="text-center">
+                                    <?php if($item->gallery_type == "video"): ?>
+                                    <a href="<?php echo base_url("galleries/videos/$item->id")?>" class="btn btn-success btn-sm ">
+                                    <?php else: ?>
                                     <a href="<?php echo base_url("galleries/imageForm/$item->id")?>" class="btn btn-success btn-sm ">
+                                    <?php endif; ?>
                                         <?php if($item->gallery_type == "image"): ?>
                                             <i class="fa fa-image"></i>
                                         <?php elseif($item->gallery_type == "video"): ?>
@@ -54,7 +58,7 @@
                                         <?php endif; ?>
                                     Galeriye gözat</a>
                                     <a href="<?php echo base_url("galleries/updateForm/$item->id")?>" class="btn btn-primary btn-sm "><i class="fa fa-edit"></i> Düzenle</a>
-                                    <button data-url="<?php echo base_url("galleries/deleteItem/$item->id")?>" class="btn btn-danger btn-sm  remove-btn"><i class="fa fa-trash"></i> Sil</button>
+                                    <button data-url="<?php echo base_url("galleries/deleteItem/$item->id")?>" class="btn btn-danger btn-sm remove-btn"><i class="fa fa-trash"></i> Sil</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

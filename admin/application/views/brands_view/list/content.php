@@ -18,7 +18,7 @@
             <?php else: ?>
 
                 <div class="table-responsive">
-                    <table id="responsive-datatable" data-plugin="DataTable" data-options="{ responsive: true }" class="table table-striped table-container table-bordered" cellspacing="0" width="100%">
+                    <table id="responsive-datatable" data-plugin="DataTable" class="table table-striped table-container table-bordered" cellspacing="0" width="100%">
                         <thead>
                         <th class="text-center" scope="col"></th>
                         <th class="text-center" scope="col">#ID</th>
