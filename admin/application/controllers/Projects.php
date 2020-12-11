@@ -12,6 +12,10 @@ class Projects extends CI_Controller
         $this->viewFolder = 'projects_view';
         $this->load->model('projects_model');
         $this->load->model('projects_image_model');
+        if(!get_active_user())
+        {
+            redirect(base_url("login"));
+        }
     }
 
     public function index()

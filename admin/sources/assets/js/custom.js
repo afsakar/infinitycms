@@ -21,7 +21,7 @@ $(document).ready(function(){
     $(".sortable").sortable();
 
     //Delete SweetAlert2
-    $(".table-container, .imageListContainer").on('click', '.remove-btn', function () {
+    $(".table-container, .imageListContainer, .table-email").on('click', '.remove-btn', function () {
 
        var $dataUrl = $(this).data('url');
 
@@ -43,7 +43,7 @@ $(document).ready(function(){
     })
 
     //Aktif-Pasif
-    $(".table-container, .imageListContainer").on('change', '.isActive', function () {
+    $(".table-container, .imageListContainer, .table-email").on('change', '.isActive', function () {
        var $data = $(this).prop("checked");
        var $data_url = $(this).data("url");
 

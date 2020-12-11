@@ -12,6 +12,10 @@ class References extends CI_Controller
         $this->viewFolder = 'references_view';
         $this->load->model('references_model');
         $this->load->model('references_image_model');
+        if(!get_active_user())
+        {
+            redirect(base_url("login"));
+        }
     }
 
     public function index()

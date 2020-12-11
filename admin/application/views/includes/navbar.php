@@ -1,3 +1,4 @@
+<?php $user = get_active_user()?>
 <!-- APP NAVBAR ==========-->
 <nav id="app-navbar" class="navbar navbar-inverse navbar-fixed-top primary">
 
@@ -33,7 +34,7 @@
                     </a>
                 </li>
                 <li>
-                    <h5 class="page-title hidden-menubar-top hidden-float">Dashboard</h5>
+                    <h5 class="page-title hidden-menubar-top hidden-float"><?=$user->full_name?></h5>
                 </li>
             </ul>
 
@@ -45,7 +46,7 @@
                 </li>
 
                 <li class="dropdown">
-                    <a href="javascript:void(0)"><i class="fa fa-power-off zmdi-hc-lg"></i></a>
+                    <a href="<?=base_url('logout')?>"><i class="fa fa-power-off zmdi-hc-lg"></i></a>
                 </li>
             </ul>
         </div>

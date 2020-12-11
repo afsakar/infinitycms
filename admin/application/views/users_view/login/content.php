@@ -1,58 +1,45 @@
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        <h4 class="m-b-lg">
-            Yeni Referans Ekle
-            <a href="<?=base_url('users')?>" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-arrow-left"></i> Geri Dön</a>
-        </h4>
-        <?=$breadcrumbs?>
-    </div>
-    <div class="col-md-10 col-md-offset-1">
-        <div class="widget">
-            <div class="widget-body">
-                <form method="post" action="<?=base_url('users/addItem')?>" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label>Kullanıcı Adı<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="user_name" placeholder="Kullanıcı adı giriniz" value="<?php if (isset($formError)){ echo set_value('user_name'); } ?>">
-                        <small>Lütfen kullanıcı adınızı boşluk kullanmadan giriniz.</small>
-                        <?php if(isset($formError)): ?>
-                            <span id="helpBlock" class="help-block text-danger"><?=form_error('user_name')?></span>
-                        <?php endif; ?>
-                    </div>
-                    <div class="form-group imageContainer">
-                        <label>Avatar</label>
-                        <input type="file" class="form-control" name="img_url">
-                    </div><!-- .form-group -->
-                    <div class="form-group">
-                        <label>Adı Soyadı<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="full_name" placeholder="Ad soyad giriniz" value="<?php if (isset($formError)){ echo set_value('full_name'); } ?>">
-                        <?php if(isset($formError)): ?>
-                            <span id="helpBlock" class="help-block text-danger"><?=form_error('full_name')?></span>
-                        <?php endif; ?>
-                    </div>
-                    <div class="form-group">
-                        <label>Email Adresi<span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" name="email" placeholder="Email adresi giriniz" value="<?php if (isset($formError)){ echo set_value('email'); } ?>">
-                        <?php if(isset($formError)): ?>
-                            <span id="helpBlock" class="help-block text-danger"><?=form_error('email')?></span>
-                        <?php endif; ?>
-                    </div>
-                    <div class="form-group">
-                        <label>Şifre<span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" name="password" placeholder="Şifre Giriniz" value="<?php if (isset($formError)){ echo set_value('password'); } ?>">
-                        <?php if(isset($formError)): ?>
-                            <span id="helpBlock" class="help-block text-danger"><?=form_error('password')?></span>
-                        <?php endif; ?>
-                    </div>
-                    <div class="form-group">
-                        <label>Şifre tekrar<span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" name="re_password" placeholder="Şifreyi tekrar giriniz" value="<?php if (isset($formError)){ echo set_value('re_password'); } ?>">
-                        <?php if(isset($formError)): ?>
-                            <span id="helpBlock" class="help-block text-danger"><?=form_error('re_password')?></span>
-                        <?php endif; ?>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-md"><i class="fa fa-save"></i> Kaydet</button>
-                </form>
-            </div><!-- .widget-body -->
-        </div><!-- .widget -->
-    </div>
-</div>
+<?php
+$remember_me = get_cookie("remember_me");
+if($remember_me){
+    $member = json_decode($remember_me);
+}
+?>
+<div class="simple-page-wrap">
+    <div class="simple-page-logo animated swing">
+        <a href="index.html">
+            <span><i class="fa fa-code"></i></span>
+            <span>Infinity</span>
+        </a>
+    </div><!-- logo -->
+    <div class="simple-page-form animated flipInY" id="login-form">
+        <h4 class="form-title m-b-xl text-center">Panele Erişmek için Giriş Yapın</h4>
+        <form action="<?=base_url('usersop/doLogin')?>" method="post">
+            <div class="form-group">
+                <input id="sign-in-email" type="email" name="user_email" class="form-control" placeholder="Eposta adresiniz" value="<?php if (isset($form_error)){ echo set_value('user_email'); }elseif($remember_me){echo $member->email;} ?>">
+                <small class="text-danger"><?=form_error('user_email')?></small>
+            </div>
+
+            <div class="form-group">
+                <input id="sign-in-password" type="password" name="user_password" class="form-control" placeholder="Şifre" value="<?php if($remember_me) { echo $member->password; }else{ null; }?>">
+                <small class="text-danger"><?=form_error('user_password')?></small>
+            </div>
+
+            <div class="form-group m-b-xl">
+                <div class="checkbox checkbox-primary">
+
+                    <input type="checkbox" id="keep_me_logged_in" name="remember_me" <?php if($remember_me) { echo "checked"; }else{ echo ""; }?>/>
+                    <label for="keep_me_logged_in">Beni hatırla</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in-alt"></i> Giriş Yap</button>
+        </form>
+    </div><!-- #login-form -->
+
+    <div class="simple-page-footer">
+        <p><a href="<?=base_url("forget_password")?>">Şifremi unuttum</a></p>
+<!--        <p>-->
+<!--            <small>Don't have an account ?</small>-->
+<!--            <a href="signup.html">CREATE AN ACCOUNT</a>-->
+<!--        </p>-->
+    </div><!-- .simple-page-footer -->
+</div><!-- .simple-page-wrap -->

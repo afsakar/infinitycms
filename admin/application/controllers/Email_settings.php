@@ -1,16 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Users extends CI_Controller
+class Email_settings extends CI_Controller
 {
     public $viewFolder = "";
-    public $tableName = "users";
+    public $tableName = "email_settings";
 
     public function __construct()
     {
         parent::__construct();
-        $this->viewFolder = 'users_view';
-        $this->load->model('users_model');
+        $this->viewFolder = 'email_view';
+        $this->load->model('email_settings_model');
         $this->load->database();
         if(!get_active_user())
         {
@@ -21,12 +21,12 @@ class Users extends CI_Controller
     public function index()
     {
         $this->breadcrumbs->unshift('Anasayfa', '/');
-        $this->breadcrumbs->push('Kullanıcılar', '/users');
+        $this->breadcrumbs->push('Email Listesi', '/users');
 
         $viewData = new stdClass();
 
         //Tablodan verilerin çekilmesi.
-        $items = $this->users_model->getAll(array(),"");
+        $items = $this->email_settings_model->getAll(array(),"");
 
         //View'e gönderilen verilerin set edilmesi.
         $viewData->viewFolder = $this->viewFolder;
@@ -34,15 +34,14 @@ class Users extends CI_Controller
         $viewData->items = $items;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
-
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
     }
 
     public function addForm(){
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Kullanıcılar', '/users');
-        $this->breadcrumbs->push('Kullanıcı Ekle','/');
+        $this->breadcrumbs->push('Email Listesi', '/users');
+        $this->breadcrumbs->push('Yeni Email Hesabı Ekle','/');
 
         $viewData = new stdClass();
 
@@ -58,36 +57,23 @@ class Users extends CI_Controller
     public function addItem()
     {
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Kullanıcılar', '/users');
-        $this->breadcrumbs->push('Kullanıcı Ekle','/');
+        $this->breadcrumbs->push('Email Listesi', '/users');
+        $this->breadcrumbs->push('Yeni Email Hesabı Ekle','/');
 
         $this->load->library("form_validation");
 
-            if ($_FILES["img_url"]["name"] == "") {
-                $alert = array(
-                    "title" => "İşlem başarısız!",
-                    "text" => "Lütfen bir görsel seçiniz!",
-                    "type" => "error",
-                    "position" => "top-center"
-                );
-                $this->session->set_flashdata("alert", $alert);
-                redirect(base_url('users/addForm'));
-                die();
-            }
-
-
-        $this->form_validation->set_rules("user_name", "Kullanıcı Adı", "required|is_unique[users.user_name]|trim");
-        $this->form_validation->set_rules("full_name", "Ad Soyad", "required|trim");
-        $this->form_validation->set_rules("email", "Email", "required|is_unique[users.email]|valid_email|trim");
-        $this->form_validation->set_rules("password", "Şifre", "required|min_length[8]|trim");
-        $this->form_validation->set_rules("re_password", "Şifre Tekrarı", "required|matches[password]|min_length[8]|trim");
+        $this->form_validation->set_rules("protocol", "Protokol Türü", "required|trim");
+        $this->form_validation->set_rules("host", "Email Sunucu Bilgisi", "required|trim");
+        $this->form_validation->set_rules("port", "Port Numarası", "required|trim");
+        $this->form_validation->set_rules("user", "Email Adres,", "required|trim|valid_email");
+        $this->form_validation->set_rules("password", "Şifre", "required|trim");
+        $this->form_validation->set_rules("from", "From Adresi", "required|trim|valid_email");
+        $this->form_validation->set_rules("to", "To Adresi", "required|trim|valid_email");
+        $this->form_validation->set_rules("user_name", "Email Görünen İsim", "required|trim");
 
         $this->form_validation->set_message(array(
             "required" => "<strong>{field}</strong> alanı doldurulmalıdır.",
-            "valid_email" => "Lütfen geçerli bir eposta adresi giriniz.",
-            "is_unique" => "<strong>{field}</strong> alanında aynı isimde bir kayıt mecvut.",
-            "matches" =>    "Şifreler uyuşmuyor.",
-            "min_length" =>    "Şifre en az 8 karakterde olmalı."
+            "valid_email" => "Lütfen geçerli bir eposta adresi giriniz."
         ));
 
         //Form validation çalıştır
@@ -96,33 +82,16 @@ class Users extends CI_Controller
         if ($validate) {
             //Form'dan verileri al.
             $data['user_name'] = $this->input->post('user_name');
-            $data['full_name'] = $this->input->post('full_name');
-            $data['email'] = $this->input->post('email');
-            $data['password'] = md5($this->input->post('password'));
-
-                $randName = rand(0, 99999) . $this->viewFolder;
-
-                $config["allowed_types"] = "jpg|jpeg|png";
-                $config["upload_path"] = "uploads/$this->viewFolder/";
-                $config['file_name'] = $randName;
-
-                $this->load->library('upload', $config);
-
-                $upload = $this->upload->do_upload("img_url");
-
-                if ($upload) {
-                    $data['img_url'] = $this->upload->data("file_name");
-                } else {
-                    $alert = array(
-                        "title" => "İşlem başarısız!",
-                        "text" => "Görsel yüklenirken bir hata oluştu, lütfen tekrar deneyin!",
-                        "type" => "error",
-                        "position" => "top-center"
-                    );
-                }
+            $data['protocol'] = $this->input->post('protocol');
+            $data['port'] = $this->input->post('port');
+            $data['user'] = $this->input->post('user');
+            $data['password'] = $this->input->post('password');
+            $data['from'] = $this->input->post('from');
+            $data['to'] = $this->input->post('to');
+            $data['host'] = $this->input->post('host');
 
             //Form verilerini kaydet
-            $insert = $this->users_model->add($data);
+            $insert = $this->email_settings_model->add($data);
             if ($insert) {
                 $alert = array(
                     "title" => "İşlem başarılı!",
@@ -140,7 +109,7 @@ class Users extends CI_Controller
             }
 
             $this->session->set_flashdata("alert", $alert);
-            redirect(base_url('users'));
+            redirect(base_url('email_settings'));
             die();
         } else {
             $viewData = new stdClass();
@@ -148,7 +117,7 @@ class Users extends CI_Controller
             /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
             $viewData->viewFolder = $this->viewFolder;
             $viewData->subViewFolder = "add";
-            $this->session->set_flashdata("formError", $viewData->formError = true);
+            $this->session->set_flashdata("form_error", $viewData->form_error = true);
             $viewData->breadcrumbs = $this->breadcrumbs->show();
 
             $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
@@ -159,13 +128,13 @@ class Users extends CI_Controller
     public function updateForm($id){
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Kullanıcılar', '/users');
-        $this->breadcrumbs->push('Kullanıcı Düzenle','/');
+        $this->breadcrumbs->push('Email Listesi', '/users');
+        $this->breadcrumbs->push('Email Hesabı Düzenle','/');
 
         $viewData = new stdClass();
 
         //Verilerin getirilmesi
-        $item = $this->users_model->get(
+        $item = $this->email_settings_model->get(
             array(
                 "id" => $id
             )
@@ -184,10 +153,10 @@ class Users extends CI_Controller
     public function updateItem($id){
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Kullanıcılar', '/users');
-        $this->breadcrumbs->push('Kullanıcı Düzenle','/');
+        $this->breadcrumbs->push('Email Listesi', '/users');
+        $this->breadcrumbs->push('Email Hesabı Düzenle','/');
 
-        $item = $this->users_model->get(
+        $item = $this->email_settings_model->get(
             array(
                 "id" => $id
             )
@@ -195,19 +164,18 @@ class Users extends CI_Controller
 
         $this->load->library("form_validation");
 
-        // Kurallar yazilir..
-        if($this->input->post('user_name') != $item->user_name){
-            $this->form_validation->set_rules("user_name", "Kullanıcı Adı", "required|is_unique[users.user_name]|trim");
-        }
-        $this->form_validation->set_rules("full_name", "Ad Soyad", "required|trim");
-        if($this->input->post('email') != $item->email){
-            $this->form_validation->set_rules("email", "Email", "required|is_unique[users.email]|valid_email|trim");
-        }
+        $this->form_validation->set_rules("protocol", "Protokol Türü", "required|trim");
+        $this->form_validation->set_rules("host", "Email Sunucu Bilgisi", "required|trim");
+        $this->form_validation->set_rules("port", "Port Numarası", "required|trim");
+        $this->form_validation->set_rules("user", "Email Adres,", "required|trim|valid_email");
+        $this->form_validation->set_rules("password", "Şifre", "required|trim");
+        $this->form_validation->set_rules("from", "From Adresi", "required|trim|valid_email");
+        $this->form_validation->set_rules("to", "To Adresi", "required|trim|valid_email");
+        $this->form_validation->set_rules("user_name", "Email Görünen İsim", "required|trim");
 
         $this->form_validation->set_message(array(
             "required" => "<strong>{field}</strong> alanı doldurulmalıdır.",
-            "valid_email" => "Lütfen geçerli bir eposta adresi giriniz.",
-            "is_unique" => "<strong>{field}</strong> alanında aynı isimde bir kayıt mecvut."
+            "valid_email" => "Lütfen geçerli bir eposta adresi giriniz."
         ));
 
         //Form validation çalıştır
@@ -216,40 +184,15 @@ class Users extends CI_Controller
         if ($validate) {
 
             $data['user_name'] = $this->input->post('user_name');
-            $data['full_name'] = $this->input->post('full_name');
-            $data['email'] = $this->input->post('email');
+            $data['protocol'] = $this->input->post('protocol');
+            $data['port'] = $this->input->post('port');
+            $data['user'] = $this->input->post('user');
+            $data['password'] = $this->input->post('password');
+            $data['from'] = $this->input->post('from');
+            $data['to'] = $this->input->post('to');
+            $data['host'] = $this->input->post('host');
 
-                // Upload Süreci...
-                if ($_FILES["img_url"]["name"] !== "") {
-
-                    $randName = rand(0, 99999) . $this->viewFolder;
-
-                    $config["allowed_types"] = "jpg|jpeg|png";
-                    $config["upload_path"] = "uploads/$this->viewFolder/";
-                    $config['file_name'] = $randName;
-
-                    $this->load->library('upload', $config);
-
-                    $upload = $this->upload->do_upload("img_url");
-
-                    if ($upload) {
-                        $data['img_url'] = $this->upload->data("file_name");
-                        unlink("uploads/{$this->viewFolder}/$item->img_url");
-                    } else {
-                        $alert = array(
-                            "title" => "İşlem başarısız!",
-                            "text" => "Görsel yüklenirken bir problem oluştu!",
-                            "type" => "error",
-                            "position" => "top-center"
-                        );
-                        $this->session->set_flashdata("alert", $alert);
-                        redirect(base_url("users/updateForm/$id"));
-                        die();
-                    }
-
-                }
-
-            $update = $this->users_model->update(array("id" => $id), $data);
+            $update = $this->email_settings_model->update(array("id" => $id), $data);
 
             // TODO Alert sistemi eklenecek...
             if ($update) {
@@ -270,7 +213,7 @@ class Users extends CI_Controller
 
             // İşlemin Sonucunu Session'a yazma işlemi...
             $this->session->set_flashdata("alert", $alert);
-            redirect(base_url("users"));
+            redirect(base_url("email_settings"));
 
         } else {
 
@@ -283,7 +226,7 @@ class Users extends CI_Controller
             $viewData->breadcrumbs = $this->breadcrumbs->show();
 
             /** Tablodan Verilerin Getirilmesi.. */
-            $viewData->item = $this->users_model->get(
+            $viewData->item = $this->email_settings_model->get(
                 array(
                     "id" => $id,
                 )
@@ -296,17 +239,13 @@ class Users extends CI_Controller
 
     public function deleteItem($id)
     {
-        $getItem = $this->users_model->get(array("id" => $id));
-
-        $delete = $this->users_model->delete(
+        $delete = $this->email_settings_model->delete(
             array(
                 "id" => $id
             )
         );
 
         if ($delete) {
-            unlink("uploads/{$this->viewFolder}/$getItem->img_url");
-
             $alert = array(
                 "title" => "İşlem başarılı!",
                 "text" => "Kayıt başarıyla silindi!",
@@ -323,7 +262,7 @@ class Users extends CI_Controller
         }
 
         $this->session->set_flashdata("alert", $alert);
-        redirect(base_url('users'));
+        redirect(base_url('email_settings'));
     }
 
     public function isActiveSetter($id){
@@ -336,7 +275,13 @@ class Users extends CI_Controller
                 $isActive = 1;
             }
 
-            $update = $this->users_model->update(array("id" => $id), array("isActive" => $isActive));
+            if($isActive = 0){
+                $update = $this->email_settings_model->update(array("id" => $id), array("isActive" => 0));
+                $update = $this->email_settings_model->update(array("id !=" => $id), array("isActive" => 1));
+            }else{
+                $update = $this->email_settings_model->update(array("id" => $id), array("isActive" => 1));
+                $update = $this->email_settings_model->update(array("id !=" => $id), array("isActive" => 0));
+            }
 
         }
 
@@ -348,20 +293,20 @@ class Users extends CI_Controller
         $items = $order['ord'];
 
         foreach ($items as $rank => $id) {
-            $this->users_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
+            $this->email_settings_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
         }
     }
 
     public function password($id){
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Kullanıcılar', '/users');
+        $this->breadcrumbs->push('Email Listesi', '/users');
         $this->breadcrumbs->push('Şifre Düzenle','/');
 
         $viewData = new stdClass();
 
         //Verilerin getirilmesi
-        $item = $this->users_model->get(
+        $item = $this->email_settings_model->get(
             array(
                 "id" => $id
             )
@@ -380,10 +325,10 @@ class Users extends CI_Controller
     public function updatePassword($id){
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Kullanıcılar', '/users');
-        $this->breadcrumbs->push('Kullanıcı Düzenle','/');
+        $this->breadcrumbs->push('Email Listesi', '/users');
+        $this->breadcrumbs->push('Email Hesabı Düzenle','/');
 
-        $item = $this->users_model->get(
+        $item = $this->email_settings_model->get(
             array(
                 "id" => $id
             )
@@ -409,10 +354,10 @@ class Users extends CI_Controller
 
             $data['password'] = md5($this->input->post('password'));
 
-            if($data['password'] == $item->password){
+            if($data['password'] = $item->password){
                 $alert = array(
                     "title" => "İşlem başarısız!",
-                    "text" => "Yeni şifreniz eski şifreniz ile aynı olamaz! $item->password",
+                    "text" => "Yeni şifreniz eski şifreniz ile aynı olamaz!",
                     "type" => "error",
                     "position" => "top-center"
                 );
@@ -421,7 +366,7 @@ class Users extends CI_Controller
                 die();
             }
 
-            $update = $this->users_model->update(array("id" => $id), $data);
+            $update = $this->email_settings_model->update(array("id" => $id), $data);
 
             // TODO Alert sistemi eklenecek...
             if ($update) {
@@ -455,7 +400,7 @@ class Users extends CI_Controller
             $viewData->breadcrumbs = $this->breadcrumbs->show();
 
             /** Tablodan Verilerin Getirilmesi.. */
-            $viewData->item = $this->users_model->get(
+            $viewData->item = $this->email_settings_model->get(
                 array(
                     "id" => $id,
                 )

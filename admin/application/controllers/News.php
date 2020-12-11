@@ -12,6 +12,10 @@ class News extends CI_Controller
         $this->viewFolder = 'news_view';
         $this->load->model('news_model');
         $this->load->model('news_image_model');
+        if(!get_active_user())
+        {
+            redirect(base_url("login"));
+        }
     }
 
     public function index()

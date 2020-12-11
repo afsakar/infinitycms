@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="<?=base_url('sources')?>/libs/bower/font-awesome/css/all.min.css">
-<link rel="stylesheet" href="<?=base_url('sources')?>/libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.css">
+<link rel="stylesheet" href="<?=base_url('sources')?>/libs/bower/material-design-iconic-font/dist/css/material-design-iconic-font.min.css">
 <!-- build:css ../assets/css/app.min.css -->
 <link rel="stylesheet" href="<?=base_url('sources')?>/libs/bower/animate.css/animate.min.css">
 <link rel="stylesheet" href="<?=base_url('sources')?>/libs/bower/fullcalendar/dist/fullcalendar.min.css">

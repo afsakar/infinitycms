@@ -11,6 +11,10 @@ class Brands extends CI_Controller
         parent::__construct();
         $this->viewFolder = 'brands_view';
         $this->load->model('brands_model');
+        if(!get_active_user())
+        {
+            redirect(base_url("login"));
+        }
     }
 
     public function index()

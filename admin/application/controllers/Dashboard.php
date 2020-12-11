@@ -9,6 +9,12 @@ class Dashboard extends CI_Controller {
     {
         parent::__construct();
         $this->viewFolder = 'dashboard_view';
+
+        if(!get_active_user())
+        {
+            redirect(base_url("login"));
+        }
+
     }
 
     public function index()
@@ -16,7 +22,6 @@ class Dashboard extends CI_Controller {
         $viewData = new stdClass();
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "list";
-
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
 	}
 }
