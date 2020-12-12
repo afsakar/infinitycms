@@ -16,3 +16,10 @@
     Breakpoints();
 </script>
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
+<style>
+    @media screen and (max-width: 600px) {
+        .navbar-brand{
+            visibility: hidden;
+        }
+    }
+</style>

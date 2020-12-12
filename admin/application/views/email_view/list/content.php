@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <h4 class="m-b-lg">
-            Video Listesi
+            Email Hesabı Listesi
             <a href="<?=base_url("email_settings/addForm")?>" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-plus"></i> Yeni Ekle</a>
         </h4>
         <?=$breadcrumbs?>

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr">
     <head>
+        <title>Kategori Ekle | <?=settings('title')?></title>
         <?php $this->load->view('includes/head'); ?>
-        <?php $this->load->view("{$viewFolder}/{$subViewFolder}/page_style"); ?>
-        <title>Haber Resimleri</title>
     </head>
 
     <body class="menubar-left menubar-unfold menubar-light theme-primary">
@@ -25,7 +24,7 @@
         <main id="app-main" class="app-main">
             <div class="wrap">
                 <section class="app-content">
-                    <?php $this->load->view("{$viewFolder}/{$subViewFolder}/content"); ?>
+                    <?php $this->load->view("{$viewFolder}/{$subViewFolder}/{$subViewFolder2}/content"); ?>
                 </section>
                 <!-- #dash-content -->
             </div>
@@ -38,6 +37,7 @@
         <!-- /#side-panel -->
 
         <?php $this->load->view('includes/include_script'); ?>
+        <?php $this->load->view("{$viewFolder}/{$subViewFolder}/{$subViewFolder2}/page_script"); ?>
 
     </body>
 </html>

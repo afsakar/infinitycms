@@ -29,6 +29,17 @@
                                     <?php endif; ?>
                                 </div>
                                 <div class="form-group">
+                                    <label>Kategori<span class="text-danger">*</span></label>
+                                    <select id="select2-demo-1" class="form-control" name="category_id" data-plugin="select2">
+                                        <?php foreach ($categories as $category): ?>
+                                            <option <?php if(isset($form_error) && set_value('category_id') == $category->id){echo "selected"; }else{ echo ""; } ?> value="<?=$category->id?>"><?=$category->category_name?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <?php if(isset($form_error)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('category_name')?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
                                     <label>İçerik<span class="text-danger">*</span></label>
                                     <textarea class="m-0" data-plugin="summernote" name="description" data-options="{height: 250}"><?php if (isset($form_error)){ echo set_value('description'); } ?></textarea>
                                     <?php if(isset($form_error)): ?>

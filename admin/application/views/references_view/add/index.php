@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
     <head>
-        <title>Referans Ekle</title>
+        <title>Referans Ekle | <?=settings('title')?></title>
         <?php $this->load->view('includes/head'); ?>
     </head>
 

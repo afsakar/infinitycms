@@ -20,6 +20,27 @@ $(document).ready(function(){
 
     $(".sortable").sortable();
 
+    //Logout SweetAlert2
+    $("li.logout").on('click', '.logout-btn', function () {
+            var $dataUrl = $(this).data('url');
+
+            Swal.fire({
+                title: 'Çıkış yapıyorsunuz!',
+                text: "Devam etmek için 'Çıkış Yap'a tıklayın!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Çıkıp yap',
+                cancelButtonText: 'İptal'
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = $dataUrl;
+                }
+            })
+
+        })
+
     //Delete SweetAlert2
     $(".table-container, .imageListContainer, .table-email").on('click', '.remove-btn', function () {
 

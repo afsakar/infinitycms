@@ -2,7 +2,7 @@
 <html lang="tr">
     <head>
         <?php $this->load->view('includes/head'); ?>
-        <title>Haberler</title>
+        <title>Haberler | <?=settings('title')?></title>
     </head>
 
     <body class="menubar-left menubar-unfold menubar-light theme-primary">

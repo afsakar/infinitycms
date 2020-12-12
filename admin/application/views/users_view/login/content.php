@@ -6,9 +6,8 @@ if($remember_me){
 ?>
 <div class="simple-page-wrap">
     <div class="simple-page-logo animated swing">
-        <a href="index.html">
-            <span><i class="fa fa-code"></i></span>
-            <span>Infinity</span>
+        <a href="#">
+            <img src="<?=logo("logo")?>" width="200" alt="">
         </a>
     </div><!-- logo -->
     <div class="simple-page-form animated flipInY" id="login-form">
@@ -37,9 +36,8 @@ if($remember_me){
 
     <div class="simple-page-footer">
         <p><a href="<?=base_url("forget_password")?>">Şifremi unuttum</a></p>
-<!--        <p>-->
-<!--            <small>Don't have an account ?</small>-->
-<!--            <a href="signup.html">CREATE AN ACCOUNT</a>-->
-<!--        </p>-->
+        <p>
+            <small><?=settings("title")?> | Tüm hakkı saklıdır © <?=date("Y")?></small>
+        </p>
     </div><!-- .simple-page-footer -->
 </div><!-- .simple-page-wrap -->

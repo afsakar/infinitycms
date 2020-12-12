@@ -2,7 +2,7 @@
 <html lang="tr">
     <head>
         <?php $this->load->view('includes/head'); ?>
-        <title>Video Ekle</title>
+        <title>Video Ekle | <?=settings('title')?></title>
     </head>
 
     <body class="menubar-left menubar-unfold menubar-light theme-primary">

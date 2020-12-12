@@ -12,6 +12,7 @@ class Projects extends CI_Controller
         $this->viewFolder = 'projects_view';
         $this->load->model('projects_model');
         $this->load->model('projects_image_model');
+        $this->load->model('projects_category_model');
         if(!get_active_user())
         {
             redirect(base_url("login"));
@@ -41,6 +42,9 @@ class Projects extends CI_Controller
     }
 
     public function addForm(){
+
+        $category = $this->projects_category_model->getAll(array("isActive" => 1), "");
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Projeler', '/projects');
         $this->breadcrumbs->push('Proje Ekle','/');
@@ -49,6 +53,7 @@ class Projects extends CI_Controller
         /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "add";
+        $viewData->categories = $category;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
@@ -57,16 +62,18 @@ class Projects extends CI_Controller
 
     public function addItem()
     {
+        $category = $this->projects_category_model->getAll(array("isActive" => 1), "");
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Projeler', '/projects');
         $this->breadcrumbs->push('Proje Ekle','/');
 
         //Form Validation
         $this->load->library("form_validation");
-        $this->form_validation->set_rules("title", "Başlık", "required|trim");
+        $this->form_validation->set_rules("title", "Başlık", "required|is_unique[projects.title]|trim");
         $this->form_validation->set_rules("description", "Açıklama", "required");
         $this->form_validation->set_message(array(
-            "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
+            "required" => "<strong>{field}</strong> alanı doldurulmalıdır.",
+            "is_unique" => "<strong>{field}</strong> alanında başka bir kayıt mecvut."
         ));
 
         //Form validation çalıştır
@@ -75,6 +82,7 @@ class Projects extends CI_Controller
         if ($validate) {
             //Form'dan verileri al.
             $data['title'] = $this->input->post('title');
+            $data['category_id'] = $this->input->post('category_id');
             $data['description'] = htmlspecialchars($this->input->post('description'));
             $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
             $data['url'] = permalink($this->input->post('url'));
@@ -113,6 +121,7 @@ class Projects extends CI_Controller
             $viewData->viewFolder = $this->viewFolder;
             $viewData->subViewFolder = "add";
             $viewData->form_error = true;
+            $viewData->categories = $category;
             $viewData->breadcrumbs = $this->breadcrumbs->show();
 
             $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
@@ -120,17 +129,55 @@ class Projects extends CI_Controller
         }
     }
 
+    public function updateForm($id){
+
+        $category = $this->projects_category_model->getAll(array("isActive" => 1), "");
+
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Projeler', '/projects');
+        $this->breadcrumbs->push('Proje Düzenle','/');
+        $viewData = new stdClass();
+
+        $items = $this->projects_model->get(
+            array(
+                "id" => $id
+            )
+        );
+
+        //View'e gönderilen verilerin set edilmesi.
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "update";
+        $viewData->item = $items;
+        $viewData->categories = $category;
+        $viewData->seo = json_decode($items->seo, true);
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
+
+    }
+
     public function updateItem($id)
     {
+        $item = $this->projects_model->get(
+            array(
+                "id" => $id
+            )
+        );
+
+        $category = $this->projects_category_model->getAll(array("isActive" => 1), "");
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Projeler', '/projects');
         $this->breadcrumbs->push('Proje Düzenle','/');
         //Form Validation
         $this->load->library("form_validation");
-        $this->form_validation->set_rules("title", "Başlık", "required|trim");
+        if($this->input->post('title') != $item->title){
+            $this->form_validation->set_rules("title", "Başlık", "required|is_unique[projects.title]|trim");
+        }
         $this->form_validation->set_rules("description", "Açıklama", "required");
         $this->form_validation->set_message(array(
-            "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
+            "required" => "<strong>{field}</strong> alanı doldurulmalıdır.",
+            "is_unique" => "<strong>{field}</strong> alanında başka bir kayıt mecvut."
         ));
 
         //Form validation çalıştır
@@ -139,6 +186,7 @@ class Projects extends CI_Controller
         if ($validate) {
             //Form'dan verileri al.
             $data['title'] = $this->input->post('title');
+            $data['category_id'] = $this->input->post('category_id');
             $data['description'] = htmlspecialchars($this->input->post('description'));
             $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
             $data['url'] = permalink($this->input->post('url'));
@@ -185,6 +233,7 @@ class Projects extends CI_Controller
             $viewData->subViewFolder = "update";
             $viewData->form_error = true;
             $viewData->item = $item;
+            $viewData->categories = $category;
             $viewData->seo = json_decode($item->seo, true);
             $viewData->breadcrumbs = $this->breadcrumbs->show();
 
@@ -249,12 +298,12 @@ class Projects extends CI_Controller
         );
 
         if ($delete) {
-        $alert = array(
-            "title"     => "İşlem başarılı!",
-            "text"      => "Görsel başarıyla silindi!",
-            "type"      => "success",
-            "position"  => "top-center"
-        );
+            $alert = array(
+                "title"     => "İşlem başarılı!",
+                "text"      => "Görsel başarıyla silindi!",
+                "type"      => "success",
+                "position"  => "top-center"
+            );
             unlink("uploads/{$this->viewFolder}/$fileName->image_url");
         } else {
             $alert = array(
@@ -359,6 +408,9 @@ class Projects extends CI_Controller
 
     public function imageForm($id)
     {
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Projeler', '/projects');
+        $this->breadcrumbs->push('Proje Görselleri','/');
 
         $viewData = new stdClass();
 
@@ -374,6 +426,7 @@ class Projects extends CI_Controller
 
         $viewData->item = $item;
         $viewData->itemImages = $this->projects_image_model->getAll(array("project_id" => $id), "rank ASC");
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
 
 
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
@@ -399,7 +452,12 @@ class Projects extends CI_Controller
             $result = $this->projects_image_model->add($data);
 
         }else{
-            echo "başarısız";
+            $alert = array(
+                "title"     => "İşlem başarısız!",
+                "text"      => "Görseller eklenirken bir hata oluştu, lütfen tekrar deneyin!",
+                "type"      => "error",
+                "position"  => "top-center"
+            );
         }
 
     }
@@ -415,9 +473,220 @@ class Projects extends CI_Controller
         $viewData->itemImages = $this->projects_image_model->getAll(array("project_id" => $id), "rank ASC");
 
 
-       $renderHtml = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_view", $viewData, true);
+        $renderHtml = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_view", $viewData, true);
 
-       echo $renderHtml;
+        echo $renderHtml;
     }
+
+    //Kategoriler
+    public function projects_category()
+    {
+        $this->breadcrumbs->unshift('Anasayfa', '/');
+        $this->breadcrumbs->push('Projeler', '/projects');
+        $this->breadcrumbs->push('Proje Kategorileri', '/');
+        $viewData = new stdClass();
+
+        //Tablodan verilerin çekilmesi.
+        $items = $this->projects_category_model->getAll(array(),"");
+
+        //View'e gönderilen verilerin set edilmesi.
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "category";
+        $viewData->subViewFolder2 = "list";
+        $viewData->items = $items;
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+    }
+
+    public function categoryForm(){
+
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Projeler', '/brands');
+        $this->breadcrumbs->push('Proje Kategorileri','/projects_category');
+        $this->breadcrumbs->push('Kategori Ekle','/');
+
+        $viewData = new stdClass();
+
+        /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "category";
+        $viewData->subViewFolder2 = "add";
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+
+    }
+
+    public function addCategory()
+    {
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Projeler', '/brands');
+        $this->breadcrumbs->push('Proje Kategorileri','/projects_category');
+        $this->breadcrumbs->push('Kategori Ekle','/');
+
+        //Form Validation
+        $this->load->library("form_validation");
+        $this->form_validation->set_rules("category_name", "Kategori Adı", "required|is_unique[projects_category.category_name]|trim");
+        $this->form_validation->set_message(array(
+            "required" => "<strong>{field}</strong> alanı doldurulmalıdır.",
+            "is_unique" => "<strong>{field}</strong> alanında aynı isimde bir kayıt mecvut."
+        ));
+
+        //Form validation çalıştır
+        $validate = $this->form_validation->run();
+
+        if ($validate) {
+            //Form'dan verileri al.
+            $data['category_name'] = $this->input->post('category_name');
+
+            //Form verilerini kaydet
+            $insert = $this->projects_category_model->add($data);
+            if ($insert) {
+                $alert = array(
+                    "title"     => "İşlem başarılı!",
+                    "text"      => "Kayıt başarıyla eklendi!",
+                    "type"      => "success",
+                    "position"  => "top-center"
+                );
+            } else {
+                $alert = array(
+                    "title"     => "İşlem başarısız!",
+                    "text"      => "Kayıt eklenirken bir hata oluştu, lütfen tekrar deneyin!",
+                    "type"      => "error",
+                    "position"  => "top-center"
+                );
+            }
+
+            $this->session->set_flashdata("alert", $alert);
+            redirect(base_url('projects_category'));
+
+        } else {
+
+            $viewData = new stdClass();
+
+            //View'e gönderilen verilerin set edilmesi.
+            $viewData->viewFolder = $this->viewFolder;
+            $viewData->subViewFolder = "category";
+            $viewData->subViewFolder2 = "add";
+            $viewData->form_error = true;
+            $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+            $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+
+        }
+    }
+
+    public function categoryUpdate($id){
+
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Projeler', '/brands');
+        $this->breadcrumbs->push('Proje Kategorileri','/projects_category');
+        $this->breadcrumbs->push('Kategori Düzenle','/');
+
+        $viewData = new stdClass();
+
+        //Verilerin getirilmesi
+        $item = $this->projects_category_model->get(
+            array(
+                "id" => $id
+            )
+        );
+
+        //View'e gönderilen verilerin set edilmesi.
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "category";
+        $viewData->subViewFolder2 = "update";
+        $viewData->item = $item;
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+
+    }
+
+    public function updateCategory($id)
+    {
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Projeler', '/brands');
+        $this->breadcrumbs->push('Proje Kategorileri','/projects_category');
+        $this->breadcrumbs->push('Kategori Düzenle','/');
+
+        //Form Validation
+        $this->load->library("form_validation");
+        $this->form_validation->set_rules("category_name", "Kategori Adı", "required|is_unique[projects_category.category_name]|trim");
+        $this->form_validation->set_message(array(
+            "required" => "<strong>{field}</strong> alanı doldurulmalıdır.",
+            "is_unique" => "<strong>{field}</strong> alanında aynı isimde bir kayıt mecvut."
+        ));
+
+        //Form validation çalıştır
+        $validate = $this->form_validation->run();
+
+        if ($validate) {
+            //Form'dan verileri al.
+            $data['category_name'] = $this->input->post('category_name');
+
+            //Form verilerini güncelle
+            $update = $this->projects_category_model->update(array("id" => $id), $data);
+            if ($update) {
+                $alert = array(
+                    "title"     => "İşlem başarılı!",
+                    "text"      => "Kayıt başarıyla güncellendi!",
+                    "type"      => "success",
+                    "position"  => "top-center"
+                );
+            } else {
+                $alert = array(
+                    "title"     => "İşlem başarısız!",
+                    "text"      => "Kayıt güncellenirken bir hata oluştu, lütfen tekrar deneyin!",
+                    "type"      => "error",
+                    "position"  => "top-center"
+                );
+            }
+
+            $this->session->set_flashdata("alert", $alert);
+            redirect(base_url('projects_category'));
+
+        } else {
+
+            $viewData = new stdClass();
+
+            //Verilerin getirilmesi
+            $item = $this->projects_category_model->get(
+                array(
+                    "id" => $id
+                )
+            );
+
+            //View'e gönderilen verilerin set edilmesi.
+            $viewData->viewFolder = $this->viewFolder;
+            $viewData->subViewFolder = "category";
+            $viewData->subViewFolder2 = "update";
+            $viewData->form_error = true;
+            $viewData->item = $item;
+            $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+            $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+
+        }
+    }
+
+    public function isActiveCategory($id){
+
+        if($id){
+            $isActive = $this->input->post("data");
+            if($isActive == "false"){
+                $isActive = 0;
+            }else{
+                $isActive = 1;
+            }
+
+            $update = $this->projects_category_model->update(array("id" => $id), array("isActive" => $isActive));
+
+        }
+
+    }
+
 
 }

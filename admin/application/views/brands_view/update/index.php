@@ -2,7 +2,7 @@
 <html lang="tr">
     <head>
         <?php $this->load->view('includes/head'); ?>
-        <title>Marka Düzenle</title>
+        <title>Marka Düzenle | <?=settings('title')?></title>
     </head>
 
     <body class="menubar-left menubar-unfold menubar-light theme-primary">

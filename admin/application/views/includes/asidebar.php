@@ -36,11 +36,11 @@
                                     </a>
                                 </li>
                                 <li role="separator" class="divider"></li>
-                                <li>
-                                    <a class="text-color" href="<?=base_url("logout")?>">
+                                <li class="logout">
+                                    <button data-url="<?=base_url('logout')?>" style="text-decoration: none;" class="btn btn-link logout-btn btn-default">
                                         <span class="m-r-xs"><i class="fa fa-power-off"></i></span>
                                         <span>Çıkış Yap</span>
-                                    </a>
+                                    </button>
                                 </li>
                             </ul>
                         </li>
@@ -54,86 +54,99 @@
         <div class="menubar-scroll-inner">
             <ul class="app-menu">
 
-                <li>
+                <li class="<?=($this->uri->segment(1)===null)?'active':''?>">
                     <a href="<?=base_url()?>">
                         <i class="menu-icon zmdi zmdi-view-dashboard zmdi-hc-lg"></i>
                         <span class="menu-text">Dashboard</span>
                     </a>
                 </li>
-                <li class="has-submenu">
+                <li class="has-submenu <?=($this->uri->segment(1)==='settings' || $this->uri->segment(1)==='email_settings')?'active':''?>">
                     <a href="javascript:void(0)" class="submenu-toggle">
                         <i class="menu-icon zmdi zmdi-settings zmdi-hc-lg"></i>
                         <span class="menu-text">Ayarlar</span>
                         <i class="menu-caret zmdi zmdi-hc-sm zmdi-chevron-right"></i>
                     </a>
-                    <ul class="submenu">
-                        <li>
-                            <a href="<?=base_url()?>">
+                    <ul class="submenu" <?=($this->uri->segment(1)==='settings' || $this->uri->segment(1)==='email_settings')?'style="display: block"':''?>>
+                        <li class="<?=($this->uri->segment(1)==='settings')?'active':''?>">
+                            <a href="<?=base_url('settings')?>">
                                 <span class="menu-text">Genel Ayarlar</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="<?=($this->uri->segment(1)==='email_settings')?'active':''?>">
                             <a href="<?=base_url('email_settings')?>">
                                 <span class="menu-text">Email Listesi</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li class="<?=($this->uri->segment(1)==='users')?'active':''?>">
                     <a href="<?=base_url('users')?>">
                         <i class="menu-icon zmdi zmdi-accounts zmdi-hc-lg"></i>
                         <span class="menu-text">Kullanıcılar</span>
                     </a>
                 </li>
-                <li>
+                <li class="<?=($this->uri->segment(1)==='galleries')?'active':''?>">
                     <a href="<?=base_url('galleries')?>">
                         <i class="menu-icon zmdi zmdi-collection-folder-image zmdi-hc-lg"></i>
                         <span class="menu-text">Galeriler</span>
                     </a>
                 </li>
-                <li>
+                <li class="<?=($this->uri->segment(1)==='slider')?'active':''?>">
                     <a href="<?=base_url()?>">
                         <i class="menu-icon zmdi zmdi-layers zmdi-hc-lg"></i>
                         <span class="menu-text">Slider</span>
                     </a>
                 </li>
-                <li>
-                    <a href="<?=base_url('projects')?>">
+                <li class="has-submenu <?=($this->uri->segment(1)==='projects' || $this->uri->segment(1)==='projects_category')?'active':''?>">
+                    <a href="javascript:void(0)" class="submenu-toggle">
                         <i class="menu-icon fa fa-rocket zmdi-hc-lg"></i>
                         <span class="menu-text">Projeler</span>
+                        <i class="menu-caret zmdi zmdi-hc-sm zmdi-chevron-right"></i>
                     </a>
+                    <ul class="submenu" <?=($this->uri->segment(1)==='projects' || $this->uri->segment(1)==='projects_category')?'style="display: block"':''?>>
+                        <li class="<?=($this->uri->segment(1)==='projects')?'active':''?>">
+                            <a href="<?=base_url('projects')?>">
+                                <span class="menu-text">Projeler</span>
+                            </a>
+                        </li>
+                        <li class="<?=($this->uri->segment(1)==='projects_category')?'active':''?>">
+                            <a href="<?=base_url('projects_category')?>">
+                                <span class="menu-text">Proje Kategorileri</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li>
+                <li class="<?=($this->uri->segment(1)==='news')?'active':''?>">
                     <a href="<?=base_url('news')?>">
                         <i class="menu-icon fa fa-newspaper zmdi-hc-lg"></i>
                         <span class="menu-text">Haberler</span>
                     </a>
                 </li>
-                <li>
+                <li class="<?=($this->uri->segment(1)==='courses')?'active':''?>">
                     <a href="<?=base_url('courses')?>">
                         <i class="menu-icon fa fa-calendar zmdi-hc-lg"></i>
                         <span class="menu-text">Etkinlikler</span>
                     </a>
                 </li>
-                <li>
+                <li class="<?=($this->uri->segment(1)==='references')?'active':''?>">
                     <a href="<?=base_url('references')?>">
                         <i class="menu-icon zmdi zmdi-check zmdi-hc-lg"></i>
                         <span class="menu-text">Referanslar</span>
                     </a>
                 </li>
-                <li>
+                <li class="<?=($this->uri->segment(1)==='popups')?'active':''?>">
                     <a href="<?=base_url()?>">
                         <i class="menu-icon zmdi zmdi-widgets zmdi-hc-lg"></i>
                         <span class="menu-text">Popuplar</span>
                     </a>
                 </li>
-                <li>
+                <li class="<?=($this->uri->segment(1)==='brands')?'active':''?>">
                     <a href="<?=base_url('brands')?>">
                         <i class="menu-icon zmdi zmdi-present-to-all zmdi-hc-lg"></i>
                         <span class="menu-text">Markalar</span>
                     </a>
                 </li>
-                <li>
+                <li class="<?=($this->uri->segment(1)==='members')?'active':''?>">
                     <a href="<?=base_url()?>">
                         <i class="menu-icon zmdi zmdi-account-box-mail zmdi-hc-lg"></i>
                         <span class="menu-text">Aboneler</span>

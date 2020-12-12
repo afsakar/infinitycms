@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
     <head>
-        <title>Şifremi Unuttum</title>
+        <title>Şifremi Unuttum | <?=settings('title')?></title>
         <?php $this->load->view('includes/head'); ?>
         <link rel="stylesheet" href="<?=base_url('sources/assets/css/toastr.min.css')?>">
         <link rel="stylesheet" href="<?=base_url("sources/assets/css/misc-pages.css")?>">

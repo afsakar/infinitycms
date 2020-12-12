@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
     <head>
-        <title>Marka Ekle</title>
+        <title>Marka Ekle | <?=settings('title')?></title>
         <?php $this->load->view('includes/head'); ?>
     </head>
 

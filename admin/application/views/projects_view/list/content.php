@@ -24,24 +24,27 @@
                         <th class="text-center" scope="col">#ID</th>
                         <th scope="col">Url</th>
                         <th scope="col">Başlık</th>
+                        <th scope="col">Kategori Adı</th>
                         <th scope="col">Oluşturma Tarihi</th>
                         <th scope="col">Durumu</th>
                         <th scope="col">İşlemler</th>
                         </thead>
                         <tbody class="sortable" data-url="<?php echo base_url("projects/rankSetter")?>">
                         <?php foreach ($items as $item): ?>
+                            <?php $category = $this->projects_category_model->get(array("id" => $item->category_id)); ?>
                             <tr id="ord-<?=$item->id?>">
                                 <td class="text-center sortableItem"><i class="fa fa-bars"></i></td>
                                 <th class="text-center" scope="row"><?=$item->id?></th>
                                 <td><?=$item->url?></td>
                                 <td><?=$item->title?></td>
+                                <td><?=$category->category_name?></td>
                                 <td><?=timeConvert($item->createdAt)?></td>
                                 <td>
                                     <input class="isActive" data-url="<?php echo base_url("projects/isActiveSetter/$item->id")?>" type="checkbox" data-switchery data-color="#10c469" <?=$item->isActive == 1 ? 'checked' : null?>/>
                                 </td>
                                 <td>
                                     <a href="<?php echo base_url("projects/imageForm/$item->id")?>" class="btn btn-warning btn-sm btn-outline"><i class="fa fa-image"></i> Resimler</a>
-                                    <a href="<?php echo base_url("projects/updateItem/$item->id")?>" class="btn btn-primary btn-sm btn-outline"><i class="fa fa-edit"></i> Düzenle</a>
+                                    <a href="<?php echo base_url("projects/updateForm/$item->id")?>" class="btn btn-primary btn-sm btn-outline"><i class="fa fa-edit"></i> Düzenle</a>
                                     <button data-url="<?php echo base_url("projects/deleteItem/$item->id")?>" class="btn btn-danger btn-sm btn-outline remove-btn"><i class="fa fa-trash"></i> Sil</button>
                                 </td>
                             </tr>

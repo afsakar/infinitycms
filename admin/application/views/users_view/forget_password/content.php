@@ -7,8 +7,7 @@ if($remember_me){
 <div class="simple-page-wrap">
     <div class="simple-page-logo animated swing">
         <a href="#">
-            <span><i class="fa fa-code"></i></span>
-            <span>Infinity</span>
+            <img src="<?=logo("logo")?>" width="200" alt="">
         </a>
     </div><!-- logo -->
     <div class="simple-page-form animated flipInY" id="reset-password-form">
@@ -29,5 +28,10 @@ if($remember_me){
             </div>
         </form>
     </div><!-- #reset-password-form -->
+    <div class="simple-page-footer">
+                <p>
+                    <small><?=settings("title")?> | Tüm hakkı saklıdır © <?=date("Y")?></small>
+                </p>
+    </div><!-- .simple-page-footer -->
 
 </div><!-- .simple-page-wrap -->

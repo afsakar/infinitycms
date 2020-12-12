@@ -19,9 +19,8 @@
             <span class="zmdi zmdi-hc-lg zmdi-search"></span>
         </button>
 
-        <a href="../index.html" class="navbar-brand">
-            <span class="brand-icon"><i class="zmdi zmdi-code"></i></span>
-            <span class="brand-name">Infinity</span>
+        <a href="<?=base_url()?>" class="navbar-brand">
+            <img src="<?=logo("logo")?>" width="150" alt="">
         </a>
     </div><!-- .navbar-header -->
 
@@ -39,14 +38,14 @@
             </ul>
 
             <ul class="nav navbar-toolbar navbar-toolbar-right navbar-right">
-                <li class="nav-item dropdown hidden-float">
+                <li class="nav-item dropdown hidden-float m-r-sm">
                     <a href="javascript:void(0)" data-toggle="collapse" data-target="#navbar-search" aria-expanded="false">
                         <i class="zmdi zmdi-hc-lg zmdi-search"></i>
                     </a>
                 </li>
 
-                <li class="dropdown">
-                    <a href="<?=base_url('logout')?>"><i class="fa fa-power-off zmdi-hc-lg"></i></a>
+                <li class="dropdown logout m-r-sm">
+                    <button data-url="<?=base_url('logout')?>" class="btn btn-danger btn-sm logout-btn m-t-sm"><i class="fa fa-power-off zmdi-hc-lg"></i></button>
                 </li>
             </ul>
         </div>

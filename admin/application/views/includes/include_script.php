@@ -20,3 +20,4 @@
 <script src="<?=base_url('sources')?>/libs/bower/fullcalendar/dist/fullcalendar.min.js"></script>
 <script src="<?=base_url('sources')?>/assets/js/fullcalendar.js"></script>
 <?php $this->load->view("includes/alert.php"); ?>
+

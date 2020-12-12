@@ -22,6 +22,12 @@ class Projects_model extends CI_Model
         return $this->db->where($where)->order_by($orderBy)->get($this->tableName)->result();
     }
 
+    //Bütün kayıtları getir
+    public function getJoins($where = array(), $orderBy, $joinTable, $column, $joinColumn, $joinType)
+    {
+        return $this->db->where($where)->order_by($orderBy)->join($joinTable, "$joinTable.$joinColumn = $this->tableName.$column", $joinType)->get($this->tableName)->result();
+    }
+
     //Veritabanına ekle
     public function add($data = array())
     {

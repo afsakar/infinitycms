@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
     <head>
-        <title>Etkinlik Ekle</title>
+        <title>Etkinlik Ekle | <?=settings('title')?></title>
         <?php $this->load->view('includes/head'); ?>
     </head>
 

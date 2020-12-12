@@ -42,3 +42,16 @@ function send_mail($toEmail = "", $subjectMail = "", $messageMail = ""){
 
     return $t->email->send();
 }
+
+function settings($name){
+    $settings = array();
+    require __DIR__. '/settings.php';
+    return isset($settings[$name]) ? $settings[$name] : false;
+}
+
+function logo($item){
+    $t = &get_instance();
+    $t->load->model('settings_model');
+    $logos = $t->settings_model->get();
+    return base_url("uploads/settings_view/").$logos->$item;
+}
