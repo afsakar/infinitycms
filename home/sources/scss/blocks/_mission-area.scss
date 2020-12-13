@@ -1,0 +1,107 @@
+/**
+	Mission Area
+*/
+.mission-area{
+	position: relative;
+}
+.mission-area-thumb{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    max-height: 98%;
+    height: 95%;
+	@include transform(translateY(-50%));
+    img{
+    	height: 100%;
+    }
+}
+.mission-area-content{
+	z-index: 1;
+	position: relative;
+	h6{
+		color: $theme-color;
+		font-weight: 700;
+		letter-spacing: 0.5px;
+		text-transform: uppercase;
+	}
+	h2{
+		font-family: $heading-font;
+		color: $heading-color;
+		font-size: 48px;
+		font-weight: 700;
+		padding-right: 130px;
+	}
+	p{
+		font-size: 16px;
+		line-height: 30px;
+		color: $body-color;
+		margin-bottom: 30px;
+	}
+	ul{
+		margin-bottom: 15px;
+		li{
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+	}
+	.cr-btn{
+		margin-top: 30px;
+	}
+}
+
+@media #{$xlg-layout}{
+	.mission-area-thumb{
+		height: 65%;
+	}
+}
+@media only screen and (min-width: 1401px) and (max-width: 1599px){
+	.mission-area-thumb{
+		height: 77%;
+	}
+}
+
+@media #{$lg-layout}{
+	.mission-area-thumb{
+		text-align: right;
+		position: relative;
+		@include transform(translateY(0));
+	}
+	.mission-area{
+		padding-bottom: 0;
+	}
+	.mission-area-content h2 {
+	    padding-right: 0;
+	}
+}
+
+@media #{$md-layout}{
+	.mission-area-thumb{
+		text-align: right;
+		position: relative;
+		@include transform(translateY(0));
+	}
+	.mission-area{
+		padding-bottom: 0;
+	}
+	.mission-area-content h2 {
+	    padding-right: 0;
+	}
+}
+
+@media #{$sm-layout}{
+	.mission-area-thumb{
+		text-align: right;
+		position: relative;
+		@include transform(translateY(0));
+		img{
+			height: auto;
+		}
+	}
+	.mission-area{
+		padding-bottom: 0;
+	}
+	.mission-area-content h2 {
+	    padding-right: 0;
+	    font-size: 34px;
+	}
+}

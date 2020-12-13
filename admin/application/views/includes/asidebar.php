@@ -85,6 +85,12 @@
                         <span class="menu-text">Kullanıcılar</span>
                     </a>
                 </li>
+                <li class="<?=($this->uri->segment(1)==='menu')?'active':''?>">
+                    <a href="<?=base_url('menu')?>">
+                        <i class="menu-icon zmdi zmdi-format-list-bulleted zmdi-hc-lg"></i>
+                        <span class="menu-text">Menü İşlemleri</span>
+                    </a>
+                </li>
                 <li class="<?=($this->uri->segment(1)==='galleries')?'active':''?>">
                     <a href="<?=base_url('galleries')?>">
                         <i class="menu-icon zmdi zmdi-collection-folder-image zmdi-hc-lg"></i>

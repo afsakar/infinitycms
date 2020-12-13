@@ -1,0 +1,97 @@
+/**
+    Accordion Styles
+*/
+
+.accordion-wrap {
+    margin-top: -20px;
+}
+
+.accordion {
+    margin-top: 20px;
+}
+
+.accordion-title {
+    background: $theme-color;
+    color: #ffffff;
+    padding: 18px 30px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 100px;
+    @include transition(all 0.3s ease-in-out 0s);
+    &:not(.collapsed) {
+        background: #f6f6f6;
+        @include box-shadow(0 15px 20px rgba(#555555, 0.2));
+        color: #555555;
+    }
+    &:focus,
+    &:active {
+        outline: none;
+    }
+    h5 {
+        font-weight: 500;
+        font-size: $h5 - 2;
+        margin-bottom: 0;
+        font-family: $body-font;
+    }
+}
+
+.accordion-body {
+    padding: 25px;
+    padding-bottom: 10px;
+}
+
+
+/* Accordion Style 2 */
+
+.accordion-style-2 {
+    .accordion-title {
+        border-radius: 0px;
+        padding-right: 50px;
+        &:after {
+            content: "\ed19";
+            font-family: "Icofont";
+            position: absolute;
+            top: 50%;
+            text-align: center;
+            right: 0;
+            width: 50px;
+            background: transparent;
+            @include transform(translateY(-50%));
+        }
+        &:not(.collapsed) {
+            &:after {
+                content: "\ed5c";
+            }
+        }
+    }
+}
+
+.bg-grey {
+    .accordion .accordion-title:not(.collapsed){
+        background: #ffffff;
+    }
+}
+
+@media #{$xs-layout} {
+    .accordion-body {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+.faq-wrapper {
+    margin-top: 20px;
+    .accordion-wrap{
+        margin-top: 20px;
+    }
+}
+@media #{$md-layout}{
+    .faq-wrapper {
+        margin-top: 0;
+    }
+}
+@media #{$sm-layout}{
+    .faq-wrapper {
+        margin-top: 0;
+    }
+}

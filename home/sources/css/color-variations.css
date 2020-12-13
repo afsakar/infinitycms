@@ -1,0 +1,123 @@
+/* Color #f6644f */
+
+.header nav.menu>ul>li:hover>a,
+.cr-btn.cr-btn-white,
+a.cr-btn.cr-btn-white,
+button.cr-btn.cr-btn-white,
+ul.cr-liststyle-1 li::before,
+ol.cr-liststyle-1 li::before,
+.service-icon span,
+.service-icon span i,
+.service-content h4 a:hover,
+.portfolio-filters button.is-checked,
+.portfolio-filters button:hover,
+.footer-widgets .single-widget.widget-latest-blog .widget-latest-blog-content h6 a:hover,
+p.footer-copyright a:hover,
+.header .header-iconline ul li i,
+.header .header-iconline ul li a:hover,
+.header .social-icons ul li:hover a,
+.section-title h6,
+.cr-pricebox:hover a.cr-btn,
+.cr-pricebox.is-active a.cr-btn,
+.header-sidemenu .address span a:hover,
+.service-content a.cr-readmore:hover,
+.service-content a.cr-readmore2:hover,
+.cr-readmore2:hover,
+button.cr-readmore2:hover,
+a.cr-readmore2:hover,
+.counter-style-2 .counter h6,
+.team-social-icons ul li a,
+.video-box .play-button:hover,
+.header nav.menu li.cr-dropdown ul li:hover>a,
+.header nav.menu .cr-megamenu-single>h6,
+.header.transparent-header nav.menu>ul>li:hover>a,
+.header.transparent-header nav.menu ul>li:hover>a,
+.header nav.menu .cr-megamenu-single ul li:hover a,
+.video-box:hover::before,
+.bg-theme .callto-action-inner .cr-btn:hover,
+.bg-theme .cr-btn.cr-btn-white:hover,
+.bg-theme a.cr-btn.cr-btn-white:hover,
+.bg-theme button.cr-btn.cr-btn-white:hover,
+.single-team-style-2 .team-social-icons ul li a:hover,
+.cr-pricebox:hover a.cr-btn:hover,
+.cr-pricebox.is-active a.cr-btn:hover,
+.service-content h2 a:hover,
+.service-content h3 a:hover,
+.service-content h4 a:hover,
+.service-content h5 a:hover,
+.service-content h6 a:hover {
+    color: #f6644f;
+}
+
+.cr-btn,
+a.cr-btn,
+button.cr-btn,
+.cr-btn.cr-btn-white b,
+a.cr-btn.cr-btn-white b,
+button.cr-btn.cr-btn-white b,
+.cr-btn.cr-btn-transparent b,
+a.cr-btn.cr-btn-transparent b,
+button.cr-btn.cr-btn-transparent b,
+.cr-slider-navigation-1 .cr-slider-nav:hover,
+.cr-progress-bar .progress-bar,
+#scrollUp,
+.cr-pricebox:before,
+.mean-container .mean-nav ul li a:hover,
+.single-banner-content .button-group a.cr-btn.cr-btn-white b,
+.single-banner-content .button-group button.cr-btn.cr-btn-white b,
+.cr-slider-dots-1 ul.slick-dots li.slick-active button,
+.cr-slider-dots-1 ul.slick-dots li:hover button,
+.single-team-style-2::after,
+.single-banner-content a.cr-btn.cr-btn-white b,
+.single-banner-content button.cr-btn.cr-btn-white b {
+    background: #f6644f;
+}
+
+.bg-theme,
+.cr-slider-navigation-2 .cr-slider-nav:hover,
+.testimonial-wrap.testimonial-slider-active ul.slick-dots li.slick-active button,
+.testimonial-wrap.testimonial-slider-active ul.slick-dots li:hover button {
+    background: #f6644f !important;
+}
+
+.cr-btn.cr-btn-transparent:hover,
+a.cr-btn.cr-btn-transparent:hover,
+button.cr-btn.cr-btn-transparent:hover,
+#scrollUp,
+.footer-widgets .single-widget.widget-newsletter input:focus,
+.testimonial-wrap.testimonial-style-5.testimonial-slider-active ul.slick-dots li.slick-active button,
+.testimonial-wrap.testimonial-style-5.testimonial-slider-active ul.slick-dots li:hover button,
+.testimonial-wrap.testimonial-style-5.sidemenu-wrapper-testimonial-slider-active ul.slick-dots li.slick-active button,
+.testimonial-wrap.testimonial-style-5.sidemenu-wrapper-testimonial-slider-active ul.slick-dots li:hover button {
+    border-color: #f6644f;
+}
+
+.portfolio-content a:hover {
+    color: #eeeeee;
+}
+
+.portfolio:hover .portfolio-content {
+    background: rgba(246, 100, 79, 0.9);
+}
+
+.header-sidemenu .cr-btn:hover,
+.header-sidemenu button.cr-btn:hover,
+.header-sidemenu a.cr-btn:hover {
+    color: #ffffff;
+}
+
+.cr-btn.cr-btn-white b,
+a.cr-btn.cr-btn-white b,
+button.cr-btn.cr-btn-white b {
+    display: block;
+}
+
+.cr-btn.cr-btn-white:hover,
+a.cr-btn.cr-btn-white:hover,
+button.cr-btn.cr-btn-white:hover {
+    color: #ffffff;
+}
+
+.bg-theme .callto-action-inner .cr-btn b {
+    display: none;
+}

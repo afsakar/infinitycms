@@ -1,0 +1,198 @@
+/**
+    Button Styles 
+*/
+
+.cr-btn,
+a.cr-btn,
+button.cr-btn {
+    display: inline-block;
+    height: 50px;
+    color: #fff;
+    background: $theme-color;
+    padding: 11px 30px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    font-size: 16px;
+    position: relative;
+    @include transition(all 0.3s ease-in-out 0s);
+    border: none;
+    outline: none;
+    overflow: hidden;
+    vertical-align: middle;
+    @include transform(translateY(0) translateZ(0));
+    span {
+        position: relative;
+        z-index: 2;
+    }
+    b {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        display: block;
+        border-radius: 50%;
+        @include transition(width 0.6s ease-in-out, height 0.6s ease-in-out);
+        height: 0;
+        width: 0;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.1);
+        z-index: 1;
+    }
+    &:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        @include transform(translateY(-3px));
+        b {
+            height: 400px;
+            width: 400px;
+        }
+    }
+    &:active{
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        @include transform(translateY(-1px));
+    }
+
+    /* Small Buton */
+    &.cr-btn-sm {
+        height: 40px;
+        font-size: 14px;
+        padding: 5px 30px;
+    }
+
+    /* Large Button */
+    &.cr-btn-lg {
+        height: 56px;
+        font-size: 18px;
+        padding: 12px 35px;
+    }
+    /* Color Variation */
+    &.cr-btn-white {
+        color: $theme-color;
+        background: #fff;
+        b {
+            background: $theme-color;
+        }
+        &:hover {
+            color: #ffffff;
+        }
+    }
+    &.cr-btn-dark {
+        color: #ffffff;
+        background: #333333;
+        b{
+            background: rgab(255,255,255,0.1);
+        }
+    }
+    &.cr-btn-minimal {
+        color: #333333;
+        background: #fff;
+        b {
+            background: #333333;
+        }
+        &:hover {
+            color: #ffffff;
+        }
+    }
+    &.cr-btn-transparent {
+        background: transparent;
+        border: 1px solid #fff;
+        @include transition(all 0.6s ease-in-out 0s, border-color 0.4s ease-in-out 0.2s);
+        b {
+            background: $theme-color;
+        }
+        &:hover {
+            border-color: $theme-color;
+        }
+    }
+    /* Bordered Button */
+    &.cr-btn-round {
+        border-radius: 100px;
+        overflow: hidden;
+    }
+}
+
+.bg-theme {
+    .cr-btn,
+    a.cr-btn,
+    button.cr-btn {
+        &.cr-btn-white {
+            b {
+                display: none;
+            }
+            &:hover {
+                color: $theme-color;
+            }
+        }
+    }
+}
+
+.bg-dark-light{
+    .cr-btn,
+    a.cr-btn,
+    button.cr-btn {
+        &.cr-btn-white{
+            color: #000000;
+            b{
+                display: none;
+            }
+            &:hover{
+                color: #000000;
+            }
+        }
+    }
+}
+
+/* Readmore Style */
+
+.cr-readmore,
+a.cr-readmore,
+button.cr-readmore {
+    display: inline-block;
+    color: #333;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 700;
+    &:hover {
+        color: $theme-color;
+    }
+}
+
+.cr-readmore2 {
+    color: #555;
+    font-size: 14px;
+    line-height: 26px;
+    display: inline-block;
+    font-weight: 500;
+    &:after {
+        content: "\eb55";
+        font-family: "Icofont";
+        padding-left: 2px;
+        font-size: 18px;
+        line-height: 26px;
+        vertical-align: middle;
+        @include transition(all 0.4s ease-in-out 0s);
+    }
+    &:hover {
+        color: $theme-color;
+        &:after {
+            padding-left: 7px;
+        }
+    }
+}
+
+.buttons-showcase {
+    .container {
+        margin-top: -3rem;
+    }
+}
+
+@media #{$xs-layout} {
+    .buttons-showcase {
+        .container {
+            div[class^="col-"] {
+                text-align: center;
+            }
+        }
+    }
+}

@@ -1,0 +1,79 @@
+/**
+    Breadcrumb Styles
+*/
+
+.breadcrumb-area {
+    background: url(images/bg/breadcrumb-bg.jpg) no-repeat scroll center center;
+    background-image: url(images/bg/breadcrumb-bg.jpg);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+}
+
+.cr-breadcrumb {
+    padding: 280px 0;
+    color: #ffffff;
+    &.text-center {
+        padding: auto 50px;
+    }
+    h1 {
+        font-size: 50px;
+        letter-spacing: 1px;
+    }
+    p {
+        font-size: 14px;
+        margin-bottom: 0;
+        letter-spacing: 0.5px;
+    }
+    ul{
+        display: inline-block;
+        font-size: 0;
+        vertical-align: middle;
+        margin-bottom: 0;
+        padding-left: 0;
+        li{
+            display: inline-block;
+            font-size: 14px;
+            line-height: 24px;
+            font-family: $body-font;
+            color: #ffffff;
+            text-transform: capitalize;
+            &::after{
+                content: "/";
+                padding: 0 5px;
+            }
+            &:last-child{
+                &::after{
+                    display: none;
+                }
+            }
+            a{
+                color: #ffffff;
+                &:hover{
+                    color: $theme-color;
+                }
+            }
+        }
+    }
+}
+
+@media #{$lg-layout} {
+    .cr-breadcrumb {
+        padding: 200px 0;
+    }
+}
+
+@media #{$md-layout} {
+    .cr-breadcrumb {
+        padding: 150px 0;
+    }
+}
+
+@media #{$sm-layout} {
+    .cr-breadcrumb {
+        padding: 100px 0;
+        h1 {
+            font-size: 36px;
+        }
+    }
+}

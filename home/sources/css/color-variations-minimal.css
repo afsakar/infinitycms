@@ -1,0 +1,98 @@
+.cr-btn,
+a.cr-btn,
+button.cr-btn {
+    background: #555555;
+}
+
+.cr-btn b,
+a.cr-btn b,
+button.cr-btn b,
+.cr-btn.cr-btn-transparent b,
+a.cr-btn.cr-btn-transparent b,
+button.cr-btn.cr-btn-transparent b {
+    background: #dddddd;
+}
+
+.cr-btn:hover,
+a.cr-btn:hover,
+button.cr-btn:hover,
+.cr-btn.cr-btn-transparent:hover,
+a.cr-btn.cr-btn-transparent:hover,
+button.cr-btn.cr-btn-transparent:hover {
+    color: #555555;
+    border-color: #ccc;
+}
+
+.service-content h2 a:hover,
+.service-content h3 a:hover,
+.service-content h4 a:hover,
+.service-content h5 a:hover,
+.service-content h6 a:hover,
+    {
+    color: #555555;
+}
+
+ul.cr-liststyle-1 li::before,
+ol.cr-liststyle-1 li::before {
+    color: #333;
+}
+
+.cr-slider-dots-1 ul.slick-dots li.slick-active button,
+.cr-slider-dots-1 ul.slick-dots li:hover button,
+#scrollUp,
+.mean-container .mean-nav ul li a:hover {
+    background: #555555;
+}
+
+#scrollUp {
+    border-color: #555555;
+}
+
+.footer-widgets .single-widget.widget-newsletter input:focus {
+    border-color: #cccccc;
+}
+
+.footer-widgets .single-widget.widget-latest-blog .widget-latest-blog-content h6 a:hover,
+p.footer-copyright a:hover,
+.portfolio-content a:hover {
+    color: #cccccc;
+}
+
+.cr-btn:hover{
+    box-shadow: none !important;
+}
+.cr-btn.cr-btn.cr-btn-transparent{
+    background: transparent;
+    border: 1px solid #dddddd;
+    color: #dddddd;
+}
+.cr-btn.cr-btn.cr-btn-transparent b{
+    background: #555555;
+}
+.cr-btn.cr-btn.cr-btn-transparent:hover{
+    color: #ffffff;
+    box-shadow: none;
+    border-color: #555555;
+}
+
+.bg-grey .cr-btn.cr-btn.cr-btn-transparent,
+.bg-white .cr-btn.cr-btn.cr-btn-transparent{
+    border-color: #555555;
+    color: #555555;
+}
+.bg-grey .cr-btn.cr-btn.cr-btn-transparent:hover,
+.bg-white .cr-btn.cr-btn.cr-btn-transparent:hover{
+    color: #dddddd;
+}
+
+
+
+
+.social-icons ul li a{
+    color: #333333;
+}
+
+
+.header .social-icons ul li:hover a{
+    color: #888888;
+}

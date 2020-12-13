@@ -1,0 +1,43 @@
+/**
+	Progress Styles
+*/
+
+.cr-progress-bar {
+	width: 100%;
+	overflow: hidden;
+	margin-top: 25px;
+	.progress {
+		background: #f1f1f1;
+		border-radius: 0;
+		height: 3px;
+		overflow: visible;
+		position: relative;
+		border-radius: 3px;
+		span {
+			position: absolute;
+			right: 0;
+			top: -35px;
+			color: #777777;
+			font-size: 16px;
+			font-weight: 400;
+			@include transition(all 0.4s ease 1s);
+		}
+	}
+	.progress-bar {
+		background: $theme-color;
+		border-radius: 3px;
+	}
+	h6 {
+		margin-bottom: 12px;
+		font-size: 16px;
+		text-transform: capitalize;
+		color: #555;
+		font-weight: 700;
+		letter-spacing: 0.5px;
+	}
+	&.minimal-color {
+		.progress-bar {
+			background: #555555;
+		}
+	}
+}

@@ -1,0 +1,224 @@
+/**
+    Navigation Styles
+*/
+
+/* Dropdown Styles */
+
+.header nav.menu {
+    li.cr-dropdown {
+        position: relative;
+        &>a {
+            &::after {
+                content: "\eb73";
+                font-family: 'Icofont';
+                padding-left: 3px;
+                font-size: 14px;
+                font-weight: 400;
+                display: inline-block;
+            }
+        }
+        ul {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 250px;
+            background: #252525;
+            padding: 20px 25px;
+            visibility: hidden;
+            opacity: 0;
+            @include transform(scaleY(0));
+            @include transform-origin(0 0);
+            @include transition(all 0.3s ease-in-out 0s);
+            z-index: -9;
+            li {
+                padding: 0;
+                display: block;
+                position: relative;
+                a {
+                    display: block;
+                    padding: 6px 0;
+                    color: #aaaaaa;
+                    text-transform: capitalize;
+                    font-family: $body-font;
+                    font-weight: 400;
+                }
+                &:hover {
+                    &>a {
+                        color: $theme-color;
+                        padding-left: 0;
+                    }
+                }
+                &.cr-sub-dropdown {
+                    &>a {
+                        &:after {
+                            content: "\eb79";
+                            font-family: 'Icofont';
+                            float: right;
+                            margin-right: -15px;
+                        }
+                    }
+                    &:hover {
+                        &>ul {
+                            visibility: visible;
+                            opacity: 1;
+                            @include transform(scaleY(1));
+                        }
+                    }
+                }
+                ul {
+                    visibility: hidden;
+                    opacity: 0;
+                    left: calc(100% + 26px);
+                    top: -20px;
+                    z-index: -999;
+                    @include transform(scaleY(0));
+                    @include transition(all 0.3s ease-in-out 0s);
+                }
+            }
+        }
+        &:hover {
+            &>ul {
+                visibility: visible;
+                opacity: 1;
+                @include transform(scaleY(1));
+                z-index: 99;
+            }
+        }
+        &.last-element {
+            ul {
+                right: 0;
+                left: auto;
+                li {
+                    ul {
+                        right: calc(100% + 26px);
+                        left: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Megamenu Styles */
+
+.header {
+    nav.menu {
+        li.cr-megamenu {
+            position: inherit;
+        }
+        .cr-megamenu-wrap {
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 100%;
+            background: #252525;
+            @include flexbox();
+            @include justify-content(space-between);
+            @include transition(all 0.3s ease-in-out 0s);
+            visibility: hidden;
+            opacity: 0;
+            @include transform(scaleY(0));
+            @include transform-origin(0 0);
+        }
+        .cr-megamenu-single {
+            padding: 40px 30px;
+            padding-bottom: 30px;
+            @include flex-grow(100);
+            border-right: 1px solid #353535;
+            &:last-child {
+                border-right: 0;
+            }
+            &>h6 {
+                color: $theme-color;
+                font-family: $body-font;
+                font-size: 14px;
+                position: relative;
+                padding-bottom: 15px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                &:after {
+                    content: "";
+                    height: 1px;
+                    background: #353535;
+                    width: 100%;
+                    left: 0;
+                    bottom: 0;
+                    position: absolute;
+                }
+            }
+            ul {
+                li {
+                    padding: 0;
+                    display: block;
+                    position: relative;
+                    a {
+                        display: block;
+                        padding: 6px 0;
+                        color: #aaaaaa;
+                        text-transform: capitalize;
+                        font-family: $body-font;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+        li.cr-megamenu {
+            &>a {
+                &::after {
+                    content: "\eb73";
+                    font-family: 'Icofont';
+                    padding-left: 3px;
+                    font-size: 14px;
+                    font-weight: 400;
+                    display: inline-block;
+                }
+            }
+            &:hover {
+                .cr-megamenu-wrap {
+                    visibility: visible;
+                    opacity: 1;
+                    z-index: 98;
+                    @include transform(scaleY(1));
+                }
+            }
+        }
+    }
+    &.megamenu-fullwidth {
+        div[class^="col-"] {
+            position: inherit !important;
+        }
+    }
+    &.megamenu-container {
+        .header-inner {
+            position: relative;
+        }
+    }
+}
+
+@media #{$md-layout} {
+    .cr-megamenu-wrap {
+        display: none;
+    }
+}
+
+@media #{$sm-layout} {
+    .cr-megamenu-wrap {
+        display: none;
+    }
+}
+
+.header-style-2 {
+    nav.menu .cr-megamenu-wrap {
+        left: auto;
+        right: -36px;
+        width: 152%;
+    }
+}
+
+@media #{$lg-layout} {
+    .header-style-2 {
+        nav.menu .cr-megamenu-wrap {
+            width: 139%;
+        }
+    }
+}

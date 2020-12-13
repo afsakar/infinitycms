@@ -1,0 +1,68 @@
+/**
+	Call to Action Styles
+*/
+
+.callto-action {
+	padding: 50px 0;
+	overflow: hidden;
+}
+
+.callto-action-inner {
+	@include flexbox();
+	@include justify-content(space-between);
+	color: #fff;
+	margin-top: -30px;
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	p {
+		margin-top: 30px;
+		margin-bottom: 0;
+		padding-right: 50px;
+		font-family: $body-font;
+	}
+	.cr-btn {
+		margin-top: 30px;
+	}
+}
+
+@media #{$sm-layout} {
+	.callto-action-inner {
+		@include flex-wrap(wrap);
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			padding-right: 20px;
+		}
+	}
+}
+
+.bg-grey {
+	.callto-action-inner {
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6,
+		p {
+			color: #555555;
+		}
+	}
+}
+
+.bg-theme {
+	.callto-action-inner {
+		.cr-btn {
+			&:hover {
+				color: $theme-color;
+			}
+		}
+	}
+}

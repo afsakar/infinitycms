@@ -1,0 +1,133 @@
+/**
+	Section Title Styles
+*/
+
+.section-title {
+	padding-left: 0;
+	padding-right: 60px;
+	margin-bottom: 40px;
+	margin-top: -10px;
+	h6 {
+		color: $theme-color;
+		font-weight: 700;
+		letter-spacing: 0.5px;
+		text-transform: uppercase;
+	}
+	h2 {
+		font-family: $heading-font;
+		color: $heading-color;
+		font-size: 48px;
+		font-weight: 700;
+	}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5 {
+		color: $heading-color;
+	}
+	p {
+		font-size: 16px;
+		line-height: 26px;
+		color: $body-color;
+	}
+	&.text-center {
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+	&.text-right {
+		padding-right: 0;
+		padding-left: 30px;
+	}
+	&.minimal-color {
+		h6 {
+			color: #555555;
+		}
+	}
+}
+
+@media #{$sm-layout} {
+	.section-title {
+		padding: 0;
+		&.text-center {
+			padding-left: 0;
+			padding-right: 0;
+		}
+		&.text-right {
+			padding-left: 0;
+		}
+		h2 {
+			font-size: 34px;
+		}
+	}
+}
+
+/* Section Title 2 */
+
+.section-title-2 {
+	border-bottom: 1px solid #eeeeee;
+	padding-bottom: 25px;
+	margin-top: -7px;
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		letter-spacing: 0.5px;
+		color: #333333;
+	}
+}
+
+.section-title-showcase {
+	.section-title {
+		margin-bottom: 0;
+	}
+}
+
+h1.small-title,
+h2.small-title,
+h3.small-title,
+h4.small-title,
+h5.small-title,
+h6.small-title {
+	margin-bottom: 30px;
+	color: #333333;
+	font-family: $body-font;
+}
+
+.small-title {
+	margin-bottom: 30px;
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin-bottom: 0;
+		color: #333333;
+		font-family: $body-font;
+	}
+	p {
+		margin-top: 20px;
+		margin-bottom: 0;
+	}
+	&.text-center {
+		padding: 0 30px;
+	}
+}
+
+@media #{$lg-layout} {
+	.small-title {
+		&.text-center {
+			padding: 0 20px;
+		}
+	}
+}
+
+@media #{$xs-layout} {
+	.small-title {
+		&.text-center {
+			padding: 0;
+		}
+	}
+}

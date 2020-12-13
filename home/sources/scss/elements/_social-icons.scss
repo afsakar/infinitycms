@@ -1,0 +1,609 @@
+/**
+	Social Icons Styles
+*/
+
+.social-icons{
+	ul{
+		padding-left: 0;
+		margin-bottom: 0;
+		list-style: none;
+		font-size: 0;
+		li{
+			display: inline-block;
+			padding: 0 6px;
+			a{
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 24px;
+				line-height: 24px;
+				color: #555;
+			}
+			&:hover{
+				a{
+					color: $theme-color;
+				}
+			}
+		}
+	}
+	&.social-icons-large{
+		ul{
+			li{
+				padding: 0 10px;
+				a{
+					font-size: 30px;
+				}
+				&:first-child{
+					padding-left: 0;
+				}
+				&:last-child{
+					padding-right: 0;
+				}
+			}
+		}
+	}
+
+	&.social-icons-colorized{
+		ul{
+			li{
+				&.facebook{
+					a{
+						color: $facebook;
+					}
+					&:hover{
+						a{
+							background: $facebook;
+							color: #ffffff;
+							border-color: $facebook;
+						}
+					}
+				}
+				&.twitter{
+					a{
+						color: $twitter;
+					}
+					&:hover{
+						a{
+							background: $twitter;
+							color: #ffffff;
+							border-color: $twitter;
+						}
+					}
+				}
+				&.google-plus{
+					a{
+						color: $google-plus;
+					}
+					&:hover{
+						a{
+							background: $google-plus;
+							color: #ffffff;
+							border-color: $google-plus;
+						}
+					}
+				}
+				&.pinterest{
+					a{
+						color: $pinterest;
+					}
+					&:hover{
+						a{
+							background: $pinterest;
+							color: #ffffff;
+							border-color: $pinterest;
+						}
+					}
+				}
+				&.linkedin{
+					a{
+						color: $linkedin;
+					}
+					&:hover{
+						a{
+							background: $linkedin;
+							color: #ffffff;
+							border-color: $linkedin;
+						}
+					}
+				}
+				&.flickr{
+					a{
+						color: $flickr;
+					}
+					&:hover{
+						a{
+							background: $flickr;
+							color: #ffffff;
+							border-color: $flickr;
+						}
+					}
+				}
+				&.dribbble{
+					a{
+						color: $dribbble;
+					}
+					&:hover{
+						a{
+							background: $dribbble;
+							color: #ffffff;
+							border-color: $dribbble;
+						}
+					}
+				}
+				&.google{
+					a{
+						color: $google;
+					}
+					&:hover{
+						a{
+							background: $google;
+							color: #ffffff;
+							border-color: $google;
+						}
+					}
+				}
+				&.skype{
+					a{
+						color: $skype;
+					}
+					&:hover{
+						a{
+							background: $skype;
+							color: #ffffff;
+							border-color: $skype;
+						}
+					}
+				}
+				&.youtube{
+					a{
+						color: $youtube;
+					}
+					&:hover{
+						a{
+							background: $youtube;
+							color: #ffffff;
+							border-color: $youtube;
+						}
+					}
+				}
+				&.vimeo{
+					a{
+						color: $vimeo;
+					}
+					&:hover{
+						a{
+							background: $vimeo;
+							color: #ffffff;
+							border-color: $vimeo;
+						}
+					}
+				}
+				&.yahoo{
+					a{
+						color: $yahoo;
+					}
+					&:hover{
+						a{
+							background: $yahoo;
+							color: #ffffff;
+							border-color: $yahoo;
+						}
+					}
+				}
+				&.paypal{
+					a{
+						color: $paypal;
+					}
+					&:hover{
+						a{
+							background: $paypal;
+							color: #ffffff;
+							border-color: $paypal;
+						}
+					}
+				}
+				&.delicious{
+					a{
+						color: $delicious;
+					}
+					&:hover{
+						a{
+							background: $delicious;
+							color: #ffffff;
+							border-color: $delicious;
+						}
+					}
+				}
+				&.flattr{
+					a{
+						color: $flattr;
+					}
+					&:hover{
+						a{
+							background: $flattr;
+							color: #ffffff;
+							border-color: $flattr;
+						}
+					}
+				}
+				&.android{
+					a{
+						color: $android;
+					}
+					&:hover{
+						a{
+							background: $android;
+							color: #ffffff;
+							border-color: $android;
+						}
+					}
+				}
+				&.tumblr{
+					a{
+						color: $tumblr;
+					}
+					&:hover{
+						a{
+							background: $tumblr;
+							color: #ffffff;
+							border-color: $tumblr;
+						}
+					}
+				}
+				&.wikipedia{
+					a{
+						color: $wikipedia;
+					}
+					&:hover{
+						a{
+							background: $wikipedia;
+							color: #ffffff;
+							border-color: $wikipedia;
+						}
+					}
+				}
+				&.stumbleupon{
+					a{
+						color: $stumbleupon;
+					}
+					&:hover{
+						a{
+							background: $stumbleupon;
+							color: #ffffff;
+							border-color: $stumbleupon;
+						}
+					}
+				}
+				&.foursquare{
+					a{
+						color: $foursquare;
+					}
+					&:hover{
+						a{
+							background: $foursquare;
+							color: #ffffff;
+							border-color: $foursquare;
+						}
+					}
+				}
+				&.digg{
+					a{
+						color: $digg;
+					}
+					&:hover{
+						a{
+							background: $digg;
+							color: #ffffff;
+							border-color: $digg;
+						}
+					}
+				}
+				&.spotify{
+					a{
+						color: $spotify;
+					}
+					&:hover{
+						a{
+							background: $spotify;
+							color: #ffffff;
+							border-color: $spotify;
+						}
+					}
+				}
+				&.reddit{
+					a{
+						color: $reddit;
+					}
+					&:hover{
+						a{
+							background: $reddit;
+							color: #ffffff;
+							border-color: $reddit;
+						}
+					}
+				}
+				&.cc{
+					a{
+						color: $cc;
+					}
+					&:hover{
+						a{
+							background: $cc;
+							color: #ffffff;
+							border-color: $cc;
+						}
+					}
+				}
+				&.vk{
+					a{
+						color: $vk;
+					}
+					&:hover{
+						a{
+							background: $vk;
+							color: #ffffff;
+							border-color: $vk;
+						}
+					}
+				}
+				&.rss{
+					a{
+						color: $rss;
+					}
+					&:hover{
+						a{
+							background: $rss;
+							color: #ffffff;
+							border-color: $rss;
+						}
+					}
+				}
+				&.podcast{
+					a{
+						color: $podcast;
+					}
+					&:hover{
+						a{
+							background: $podcast;
+							color: #ffffff;
+							border-color: $podcast;
+						}
+					}
+				}
+				&.dropbox{
+					a{
+						color: $dropbox;
+					}
+					&:hover{
+						a{
+							background: $dropbox;
+							color: #ffffff;
+							border-color: $dropbox;
+						}
+					}
+				}
+				&.github{
+					a{
+						color: $github;
+					}
+					&:hover{
+						a{
+							background: $github;
+							color: #ffffff;
+							border-color: $github;
+						}
+					}
+				}
+				&.soundcloud{
+					a{
+						color: $soundcloud;
+					}
+					&:hover{
+						a{
+							background: $soundcloud;
+							color: #ffffff;
+							border-color: $soundcloud;
+						}
+					}
+				}
+				&.wordpress{
+					a{
+						color: $wordpress;
+					}
+					&:hover{
+						a{
+							background: $wordpress;
+							color: #ffffff;
+							border-color: $wordpress;
+						}
+					}
+				}
+				&.yelp{
+					a{
+						color: $yelp;
+					}
+					&:hover{
+						a{
+							background: $yelp;
+							color: #ffffff;
+							border-color: $yelp;
+						}
+					}
+				}
+				&.scribd{
+					a{
+						color: $scribd;
+					}
+					&:hover{
+						a{
+							background: $scribd;
+							color: #ffffff;
+							border-color: $scribd;
+						}
+					}
+				}
+				&.cc-stripe{
+					a{
+						color: $cc-stripe;
+					}
+					&:hover{
+						a{
+							background: $cc-stripe;
+							color: #ffffff;
+							border-color: $cc-stripe;
+						}
+					}
+				}
+				&.drupal{
+					a{
+						color: $drupal;
+					}
+					&:hover{
+						a{
+							background: $drupal;
+							color: #ffffff;
+							border-color: $drupal;
+						}
+					}
+				}
+				&.get-pocket{
+					a{
+						color: $get-pocket;
+					}
+					&:hover{
+						a{
+							background: $get-pocket;
+							color: #ffffff;
+							border-color: $get-pocket;
+						}
+					}
+				}
+				&.bitbucket{
+					a{
+						color: $bitbucket;
+					}
+					&:hover{
+						a{
+							background: $bitbucket;
+							color: #ffffff;
+							border-color: $bitbucket;
+						}
+					}
+				}
+				&.stack-overflow{
+					a{
+						color: $stack-overflow;
+					}
+					&:hover{
+						a{
+							background: $stack-overflow;
+							color: #ffffff;
+							border-color: $stack-overflow;
+						}
+					}
+				}
+				&.hacker-news{
+					a{
+						color: $hacker-news;
+					}
+					&:hover{
+						a{
+							background: $hacker-news;
+							color: #ffffff;
+							border-color: $hacker-news;
+						}
+					}
+				}
+				&.xing{
+					a{
+						color: $xing;
+					}
+					&:hover{
+						a{
+							background: $xing;
+							color: #ffffff;
+							border-color: $xing;
+						}
+					}
+				}
+				&.instagram{
+					a{
+						color: $instagram;
+					}
+					&:hover{
+						a{
+							background: $instagram;
+							color: #ffffff;
+							border-color: $instagram;
+						}
+					}
+				}
+				&.quora{
+					a{
+						color: $quora;
+					}
+					&:hover{
+						a{
+							background: $quora;
+							color: #ffffff;
+							border-color: $quora;
+						}
+					}
+				}
+				&.openid{
+					a{
+						color: $openid;
+					}
+					&:hover{
+						a{
+							background: $openid;
+							color: #ffffff;
+							border-color: $openid;
+						}
+					}
+				}
+				&.steam{
+					a{
+						color: $steam;
+					}
+					&:hover{
+						a{
+							background: $steam;
+							color: #ffffff;
+							border-color: $steam;
+						}
+					}
+				}
+				&.amazon{
+					a{
+						color: $amazon;
+					}
+					&:hover{
+						a{
+							background: $amazon;
+							color: #ffffff;
+							border-color: $amazon;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	&.social-icons-rounded{
+		ul{
+			li{
+				a{
+					height: 30px;
+					width: 30px;
+					font-size: 16px;
+					text-align: center;
+					line-height: 30px;
+					border: 1px solid #dddddd;
+					border-radius: 100%;
+				}
+			}
+		}
+	}
+
+}
+

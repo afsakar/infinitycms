@@ -1,0 +1,94 @@
+/**
+	Skills Area Styles
+*/
+
+.skills-area-content {
+	padding: 60px 0;
+	&>h6 {
+		color: $theme-color;
+		font-weight: 700;
+		letter-spacing: 0.5px;
+		text-transform: uppercase;
+	}
+	&>h2 {
+		font-family: $heading-font;
+		color: $heading-color;
+		font-size: 48px;
+		font-weight: 700;
+		padding-right: 130px;
+	}
+	&>p {
+		font-size: 16px;
+		line-height: 30px;
+		color: $body-color;
+	}
+	a.cr-btn {
+		margin-top: 50px;
+	}
+	&.p-0 {
+		padding: 0;
+	}
+	&.skill-area-content-2 {
+		padding-right: 100px;
+		padding-top: 0;
+		padding-bottom: 0;
+		h2 {
+			padding-right: 50px;
+		}
+	}
+}
+
+.skills-area-progress {
+	margin-top: -30px;
+}
+
+@media #{$lg-layout} {
+	.skills-area-content {
+		h2 {
+			padding-right: 30px;
+		}
+	}
+}
+
+@media #{$md-layout} {
+	.skills-area-thumb {
+		text-align: center;
+	}
+	.skills-area-content {
+		padding-top: 80px;
+		padding-bottom: 80px;
+		h2 {
+			padding-right: 0;
+		}
+		&.p-0 {
+			padding-bottom: 60px !important;
+		}
+	}
+}
+
+@media #{$sm-layout} {
+	.skills-area-content {
+		h2 {
+			padding-right: 0;
+		}
+		&.skill-area-content-2 {
+			padding-right: 0;
+		}
+		&.p-0 {
+			padding-bottom: 60px !important;
+		}
+	}
+}
+
+@media #{$xs-layout} {
+	.skills-area-content {
+		h2 {
+			font-size: 34px;
+		}
+		&.skill-area-content-2 {
+			h2 {
+				padding-right: 0;
+			}
+		}
+	}
+}

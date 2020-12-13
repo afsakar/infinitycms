@@ -1,0 +1,23 @@
+/*********************************************************************************
+
+	Template Name: Karbar - Multipurpose Bootstrap 4 Template
+	Template URI: https://themeforest.net/user/themes-hub   
+	Description: Karbar is a best templete for your corporate/business website which comes with unique design and user friendly code.  
+	Author: Themes-Hub
+	Author URI: https://hastech.company/
+	Version: 1.0
+
+	Note: This is plugins css. All plugins css files import here.
+
+**********************************************************************************/
+
+@import url(plugins/slick.min.css);
+@import url(plugins/fakeloader.css);
+@import url(plugins/bicon.min.css);
+@import url(plugins/icofont.min.css);
+@import url(plugins/flaticon.css);
+@import url(plugins/lightgallery.min.css);
+@import url(plugins/animate.min.css);
+@import url(plugins/meanmenu.min.css);
+@import url(plugins/plyr.min.css);
+@import url(plugins/animate-headline.css);

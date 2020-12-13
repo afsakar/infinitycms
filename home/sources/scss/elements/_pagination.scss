@@ -1,0 +1,37 @@
+/**
+    Pagination Styles
+*/
+
+.cr-pagination{
+    margin-top: 70px;
+    ul{
+        display: inline-block;
+        vertical-align: middle;
+        padding-left: 0;
+        margin-bottom: 0;
+        li{
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 5px;
+            margin-top: 10px;
+            &:first-child{
+                margin-left: 0;
+            }
+            &:last-child{
+                margin-right: 0;
+            }
+            a{
+                border: 1px solid #dddddd;
+                padding: 4px 15px;
+                color: #777777;
+                display: inline-block;
+                vertical-align: middle;
+                &:hover{
+                    background: $theme-color;
+                    color: #ffffff;
+                    border-color: $theme-color;
+                }
+            }
+        }
+    }
+}

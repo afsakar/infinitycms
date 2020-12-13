@@ -1,0 +1,73 @@
+/**
+    Service Details Styles
+*/
+
+.pg-service-title{
+    font-family: $body-font;
+    color: #333333;
+    margin-bottom: 60px;
+}
+.pg-service-thumbs{
+    img{
+        width: 100%;
+    }
+    .slick-slide {
+        &:active, &:focus{
+            outline: 0;
+        }
+    }
+}
+.pg-service-details{
+    .small-title{
+        margin-bottom: 20px;
+    }
+}
+.pg-service-description{
+    .small-title{
+        margin-bottom: 20px;
+    }
+    ul{
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+        li{
+            font-weight: 500;
+            color: #555555;
+            font-size: 14px;
+            text-transform: uppercase;
+            span{
+                float: right;
+                font-weight: 400;
+                text-transform: initial;
+            }
+            a{
+                color: #555555;
+                &:hover{
+                    color: $theme-color;
+                }
+            }
+        }
+    }
+}
+
+.related-services{
+    margin-top: 100px;
+}
+
+@media #{$md-layout}{
+    .pg-service-details{
+        margin-top: 70px;
+    }
+    .related-services{
+        margin-top: 50px;
+    }
+}
+
+@media #{$sm-layout}{
+    .pg-service-details{
+        margin-top: 50px;
+    }
+    .related-services{
+        margin-top: 50px;
+    }
+}

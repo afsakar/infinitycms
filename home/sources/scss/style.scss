@@ -1,0 +1,122 @@
+/*********************************************************************************
+
+	Template Name: Karbar - Multipurpose Bootstrap 4 Template
+	Template URI: https://themeforest.net/user/themes-hub   
+	Description: Karbar is a best templete for your corporate/business website which comes with unique design and user friendly code.  
+	Author: Themes-Hub
+	Author URI: https://hastech.company/
+	Version: 1.0
+
+	Note: This is style css.
+
+**********************************************************************************/
+
+/*===============================================================================
+
+
+	[ INDEX ]
+	|
+	|___Basic Styles
+	|	|___Reset Styles
+	|	|___Typography Styles
+	|	|___Helper Classes
+	|
+	|___Elements Styles
+	|	|___Button Styles 
+	|	|___Section Title Styles
+	|	|___Progress Styles
+	|	|___Price Box Styles
+	|	|___Call to Action Styles
+	|	|___Slider Elements
+	|	|___Social Icons Styles
+	|	|___Breadcrumb Styles
+	|	|___Accordion Styles
+	|	|___Pagination Styles
+	|
+	|___Blocks Styles
+	|	|___Header Styles
+	|	|___Navigation Styles
+	|	|___Banner Styles
+	|	|___Service Styels
+	|	|___About Styles
+	|	|___Features Styles
+	|	|___Portfoio Styles
+	|	|___Mission Area
+	|	|___Video Area Styles
+	|	|___Counter Styles
+	|	|___Skills Area Styles
+	|	|___Brand Logo Styles
+	|	|___Blog Styles
+	|	|___Team Styles
+	|	|___Testimonial Style
+	|	|___Sidemenu Styles
+	|	|___Portfolio Page Styles
+	|	|___Blogs Page Styles
+	|	|___Blog Details Styles
+	|	|___Team Details
+	|	|___Contact Page Styles
+	|	|___Widget Styles
+	|	|___Service Details Styles
+	|	|___Boxed Layout Styles
+	|	|___Footer Styles
+	|
+	[END INDEX ]
+
+
+=============================================================================== */
+
+// Needed Files
+@import 'variables';
+@import 'mixins';
+/*******************
+Basic Styles
+********************/
+
+@import 'basic/reset';
+@import 'basic/typography';
+@import 'basic/helper-class';
+/*******************
+Elements Styles
+********************/
+
+@import 'elements/button';
+@import 'elements/section-title';
+@import 'elements/progress';
+@import 'elements/pricebox';
+@import 'elements/call-to-action';
+@import 'elements/slider-elements';
+@import 'elements/social-icons';
+@import 'elements/breadcrumb';
+@import 'elements/accordion';
+@import 'elements/pagination';
+/*******************
+Blocks Styles
+********************/
+
+@import 'blocks/header';
+@import 'blocks/navigation';
+@import 'blocks/banner';
+@import 'blocks/service';
+@import 'blocks/about';
+@import 'blocks/features-area';
+@import 'blocks/portfolio';
+@import 'blocks/mission-area';
+@import 'blocks/video-area';
+@import 'blocks/counter';
+@import 'blocks/skill-area';
+@import 'blocks/brand-logo';
+@import 'blocks/blog';
+@import 'blocks/team';
+@import 'blocks/testimonial';
+@import 'blocks/sidemenu-styles';
+@import 'blocks/pg-portfolio';
+@import 'blocks/pg-blog';
+@import 'blocks/blog-details';
+@import 'blocks/team-details';
+@import 'blocks/pg-contact';
+@import 'blocks/widgets';
+@import 'blocks/pg-service';
+@import 'blocks/boxed-layout';
+@import 'blocks/footer';
+
+  

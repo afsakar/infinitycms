@@ -1,0 +1,102 @@
+/**
+    Portfolio Page Styles
+*/
+.pg-portfolio-images{
+
+    img{
+        width: 100%;
+        &:focus, &:active{
+            outline: none;
+        }
+    }
+}
+.pg-portfolio-details{
+    margin-top: 70px;
+    h4{
+        color: #333333;
+        font-family: $body-font;
+    }
+}
+.pg-portfolio-single-info{
+    margin-top: 45px;
+    h5{
+        font-size: 18px;
+        color: #333333;
+        line-height: 26px;
+        font-weight: 700;
+        font-family: $body-font;
+        position: relative;
+        padding-bottom: 15px;
+        &::after{
+            content: "";
+            width: 100%;
+            background: #eeeeee;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 1px;
+        }
+    }
+    p{
+        color: #777777;
+        font-size: 16px;
+        margin-bottom: 0;
+    }
+    ul{
+        display: inline-block;
+        font-size: 0;
+        padding-left: 0;
+        margin-bottom: 0;
+        vertical-align: middle;
+        li{
+            display: inline-block;
+            font-size: 16px;
+            vertical-align: middle;
+            color: #777777;
+            &::after{
+                content: "/";
+                padding: 0 5px;
+            }
+            &:last-child{
+                &::after{
+                    display: none;
+                }
+            }
+            a{
+                color: #777777;
+                &:hover{
+                    color: $theme-color;
+                }
+            }
+        }
+    }
+}
+
+.pg-related-portfolio-wrap{
+    margin-top: 80px;
+    h4{
+        font-size: 24px;
+        font-family: $body-font;
+        font-weight: 700;
+        color: #333333;
+    }
+}
+
+.pg-related-portfolios{
+    .portfolio{
+        &:focus, &:active{
+            outline: none;
+        }
+    }
+}
+
+.pg-related-portfolios{
+    margin-left: -15px;
+    margin-right: -15px;
+    .portfolio{
+        margin-top: 50px;
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+}

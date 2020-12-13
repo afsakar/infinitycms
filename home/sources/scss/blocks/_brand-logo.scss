@@ -1,0 +1,23 @@
+/**
+	Brand Logo Styles
+*/
+.brand-logo-carousel-activation {
+	overflow: hidden;
+}
+.brand-logo{
+	text-align: center;
+	padding: 15px 15px;
+	a{
+		display: inline-block;
+		min-height: 200px;
+		@include flexbox();
+		@include justify-content(center);
+		@include align-items(center); 
+		&:hover{
+			@include filter(grayscale(0.7));
+		}
+	}
+	&:focus, &:active{
+		outline: none;
+	}
+}

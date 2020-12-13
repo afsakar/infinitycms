@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <h4 class="m-b-lg">
-            Haber Düzenle <small>(<?=$item->title?>)</small>
+            Marka Düzenle <small>(<?=$item->title?>)</small>
             <a href="<?=base_url('brands')?>" class="btn btn-outline btn-primary btn-xs pull-right"><i class="fa fa-arrow-left"></i> Geri Dön</a>
         </h4>
         <?=$breadcrumbs?>

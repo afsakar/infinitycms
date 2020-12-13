@@ -1,0 +1,235 @@
+/**
+	Price Box Styles
+*/
+
+.cr-pricebox-gallery {
+	margin-top: -30px;
+}
+
+.cr-pricebox {
+	margin-top: 30px;
+	padding: 60px 50px;
+	padding-right: 100px;
+	position: relative;
+	background: #fff;
+	@include box-shadow(0 1px 3px rgba(0, 0, 0, 0.15));
+	@include transition(all 0.5s ease-in-out 0s);
+	&:before {
+		content: "";
+		left: 0;
+		top: 0;
+		height: 3px;
+		width: 100%;
+		background: $theme-color;
+		position: absolute;
+		@include transition(all 0.5s cubic-bezier(1, 0.03, 0.15, 0.99) 0s);
+	}
+	&>* {
+		position: relative;
+	}
+	h6 {
+		font-size: 16px;
+		line-height: 24px;
+		letter-spacing: 1px;
+		text-transform: capitalize;
+		font-weight: 400;
+		@include transition(all 0.1s ease-in-out 0s);
+	}
+	h4 {
+		color: #555;
+		font-weight: 500;
+		line-height: 30px;
+		margin-bottom: 50px;
+		@include transition(all 0.3s ease-in-out 0s);
+	}
+	ul {
+		padding-left: 0;
+		list-style: none;
+		color: #777;
+		font-size: 16px;
+		line-height: 30px;
+		@include transition(all 0.5s ease-in-out 0s);
+		li {
+			padding: 3px 0;
+		}
+	}
+	a.cr-btn {
+		margin-top: 10px;
+		b {
+			display: none;
+		}
+		&:hover {
+			color: $theme-color;
+		}
+	}
+	&:hover,
+	&.is-active {
+		@include box-shadow(0 10px 20px rgba(85, 85, 85, 0.2));
+		&:before {
+			height: 100%;
+		}
+		h6,
+		h4,
+		ul {
+			color: #fff;
+		}
+		a.cr-btn {
+			background: #fff;
+			color: $theme-color;
+			&:hover {
+				color: $theme-color;
+			}
+		}
+	}
+}
+
+@media #{$lg-layout} {
+	.cr-pricebox {
+		padding: 40px 30px;
+		padding-right: 30px;
+	}
+}
+
+@media #{$md-layout} {
+	.cr-pricebox {
+		padding: 40px 40px;
+		padding-right: 30px;
+	}
+}
+
+@media #{$xs-layout} {
+	.cr-pricebox {
+		padding: 30px;
+		h4 {
+			margin-bottom: 30px;
+		}
+	}
+}
+
+/* Pricebox Style 2 */
+
+.cr-pricebox-style-2 {
+	@include box-shadow(0 1px 3px rgba(0, 0, 0, 0.15));
+	&:before {
+		height: 100%;
+	}
+	h6,
+	h4,
+	ul {
+		color: #fff;
+	}
+	a.cr-btn {
+		background: #ffff;
+		color: $theme-color;
+		&:hover {
+			color: #fff;
+		}
+	}
+	&:hover,
+	&.is-active {
+		@include box-shadow(0 10px 20px rgba(85, 85, 85, 0.2));
+		&:before {
+			height: 3px;
+		}
+		h6 {
+			color: #555555;
+		}
+		h4 {
+			color: #555555;
+		}
+		ul {
+			color: #777;
+		}
+		a.cr-btn {
+			background: $theme-color;
+			color: #fff;
+			&:hover {
+				color: #fff;
+			}
+		}
+	}
+}
+
+/* Pricebox Style 3 */
+
+.cr-pricebox-style-3 {
+	background: #fff;
+	border-radius: 15px;
+	border: 1px solid #dddddd;
+	@include box-shadow(none);
+	a.cr-btn {
+		border-radius: 100px;
+		background: transparent;
+		color: #555555;
+		border: 1px solid #dddddd;
+		&:hover {
+			color: #555555;
+		}
+	}
+	h6 {
+		font-weight: 700;
+	}
+	h2 {
+		padding-left: 22px;
+		font-size: 24px;
+		color: #333333;
+		font-weight: 400;
+		position: relative;
+		span.cr-pricebox-price {
+			font-size: 72px;
+		}
+		span.dollor-sign {
+			position: absolute;
+			left: 0;
+			top: 10px;
+			font-size: 36px;
+		}
+	}
+	&::before {
+		display: none;
+	}
+	&:hover,
+	&.is-active {
+		@include box-shadow(none);
+		h6 {
+			color: #555555;
+		}
+		ul {
+			color: #777777;
+		}
+	}
+	&:hover {
+		a.cr-btn {
+			&:hover {
+				background: #555;
+				color: #ffffff;
+				@include box-shadow(none);
+				&:hover {
+					color: #ffffff;
+				}
+			}
+		}
+	}
+	&:hover,
+	&.is-active {
+		a.cr-btn {
+			background: #555;
+			color: #ffffff;
+			&:hover {
+				color: #ffffff;
+			}
+		}
+	}
+}
+
+.bg-grey {
+	.cr-pricebox-style-3 {
+		background: #ffffff;
+	}
+}
+
+.bg-white {
+	.cr-pricebox-style-3 {
+		background: $bg-grey;
+	}
+}

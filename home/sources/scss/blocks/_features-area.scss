@@ -1,0 +1,58 @@
+/**
+	Features Styles
+*/
+
+.features-area-content {
+	padding: 60px 0;
+	h2 {
+		color: #333333;
+		font-size: 48px;
+		line-height: 55px;
+		margin-bottom: 30px;
+	}
+	p {
+		margin-bottom: 25px;
+    }
+    ul{
+		margin-bottom: 0;
+		li{
+			margin-bottom: 8px;
+			&:last-child{
+				margin-bottom: 0;
+			}
+		}
+    }
+}
+
+.feature-area-image {
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+
+
+@media #{$lg-layout} {
+    .features-area-content{
+        padding-top: 0;
+    }
+	.feature-area-image {
+		padding: 0;
+	}
+}
+
+@media #{$md-layout} {
+	.features-area-content {
+		padding-top: 30px;
+	}
+	.feature-area-image {
+		padding: 0;
+	}
+}
+
+@media #{$sm-layout} {
+	.features-area-content {
+		padding-top: 30px;
+	}
+	.feature-area-image {
+		padding: 0;
+	}
+}

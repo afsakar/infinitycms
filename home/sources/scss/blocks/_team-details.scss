@@ -1,0 +1,55 @@
+/**
+    Team Details
+*/
+
+.team-details-thumb{
+    img{
+        width: 100%;
+    }
+}
+.team-details{
+    & > p{
+        &:first-of-type{
+            margin-top: 25px;
+        }
+    }
+    h1, h2, h3, h4, h5, h6{
+        color: #555555;
+        font-family: $body-font;
+        font-weight: 700;
+    }
+}
+.team-details-title {
+    h4 {
+        color: #333333;
+    }
+    h4 {
+        line-height: 36px;
+        margin-bottom: 8px;
+    }
+    p {
+        color: #777777;
+        margin-bottom: 0;
+    }
+}
+.team-details-social{
+    margin-top: 30px;
+    h5{
+        margin-bottom: 23px;
+    }
+}
+.team-details-progress {
+    margin-top: 30px;
+}
+
+@media #{$md-layout}{
+    .team-details{
+        margin-top: 50px;
+    }
+}
+
+@media #{$sm-layout}{
+    .team-details{
+        margin-top: 50px;
+    }
+}
