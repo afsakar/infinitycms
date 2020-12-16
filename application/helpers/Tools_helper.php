@@ -63,5 +63,5 @@ function getCover($id){
     if(empty($cover)){
         $cover = $t->data_model->get("project_images", array("isActive" => 1, "project_id" => $id));
     }
-    return !empty($cover) ? $cover->image_url : "cover.jpg";
+    return !empty($cover) ? $cover->image_url : "";
 }

@@ -22,22 +22,22 @@
                         <thead>
                         <th class="text-center" scope="col"></th>
                         <th class="text-center" scope="col">#ID</th>
-                        <th class="text-center" scope="col">Url</th>
                         <th class="text-center" scope="col">Başlık</th>
                         <th class="text-center" scope="col">Etkinlik Tarihi</th>
                         <th class="text-center" scope="col">Etkinlik Saati</th>
+                        <th class="text-center" scope="col">Link</th>
                         <th class="text-center" scope="col">Durumu</th>
                         <th class="text-center" scope="col">İşlemler</th>
                         </thead>
-                        <tbody class="sortable" data-url="<?php echo base_url("courses/rankSetter")?>">
+                        <tbody data-url="<?php echo base_url("courses/rankSetter")?>">
                         <?php foreach ($items as $item): ?>
                             <tr id="ord-<?=$item->id?>">
-                                <td class="text-center sortableItem"><i class="fa fa-bars"></i></td>
                                 <th class="text-center" scope="row"><?=$item->id?></th>
                                 <td class="text-center"><?=$item->url?></td>
                                 <td class="text-center"><?=$item->title?></td>
                                 <td class="text-center"><?=$item->eventDate?></td>
                                 <td class="text-center"><?=$item->eventTime?></td>
+                                <td class="text-center"><?php if($item->link != ""){ ?><a target="_blank" href="<?=$item->link?>">Link'e gitmek için tıklayın</a> <?php } ?></td>
                                 <td class="text-center">
                                     <input class="isActive" data-url="<?php echo base_url("courses/isActiveSetter/$item->id")?>" type="checkbox" data-switchery data-color="#10c469" <?=$item->isActive == 1 ? 'checked' : null?>/>
                                 </td>

@@ -7,9 +7,9 @@
 <link rel="stylesheet" href="<?=base_url("sources/")?>css/bootstrap.min.css">
 <link rel="stylesheet" href="<?=base_url("sources/")?>css/plugins.css">
 <link rel="stylesheet" href="<?=base_url("sources/")?>style.css">
+<link rel="stylesheet" href="<?php echo base_url("sources/css/colors/").settings("color").".css"; ?>">
 
 <!-- Color Variations -->
-<link rel="stylesheet" href="<?=base_url("sources/")?>css/color-variations.css">
 
 <!-- Cusom css -->
 <link rel="stylesheet" href="<?=base_url("sources/")?>css/custom.css">

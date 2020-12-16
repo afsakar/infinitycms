@@ -25,7 +25,7 @@
                         <th scope="col">Url</th>
                         <th scope="col">Başlık</th>
                         <th scope="col">Kategori Adı</th>
-                        <th scope="col">Oluşturma Tarihi</th>
+                        <th scope="col">Proje Tarihi</th>
                         <th scope="col">Durumu</th>
                         <th scope="col">İşlemler</th>
                         </thead>
@@ -38,7 +38,7 @@
                                 <td><?=$item->url?></td>
                                 <td><?=$item->title?></td>
                                 <td><?=$category->category_name?></td>
-                                <td><?=timeConvert($item->createdAt)?></td>
+                                <td><?=$item->projectDate?></td>
                                 <td>
                                     <input class="isActive" data-url="<?php echo base_url("projects/isActiveSetter/$item->id")?>" type="checkbox" data-switchery data-color="#10c469" <?=$item->isActive == 1 ? 'checked' : null?>/>
                                 </td>

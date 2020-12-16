@@ -51,6 +51,20 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label>Link</label>
+                                    <input type="text" class="form-control" name="link" placeholder="Link Giriniz" value="<?php if (isset($formError)){ echo set_value('link'); } ?>">
+                                    <?php if(isset($formError)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('link')?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label>Yer / Mekan</label>
+                                    <input type="text" class="form-control" name="location" placeholder="Yer / Mekan Adı Giriniz" value="<?php if (isset($formError)){ echo set_value('location'); } ?>">
+                                    <?php if(isset($formError)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('location')?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
                                     <label>İçerik<span class="text-danger">*</span></label>
                                     <textarea class="m-0" data-plugin="summernote" name="description" data-options="{height: 250}"><?php if (isset($formError)){ echo set_value('description'); } ?></textarea>
                                     <?php if(isset($formError)): ?>

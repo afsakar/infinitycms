@@ -2,7 +2,7 @@
 <html lang="tr">
     <head>
         <?php $this->load->view('includes/head'); ?>
-        <title>Referanslar | <?=settings('title')?></title>
+        <title>Etkinlikler | <?=settings('title')?></title>
     </head>
 
     <body class="menubar-left menubar-unfold menubar-light theme-primary">

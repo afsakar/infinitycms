@@ -28,7 +28,7 @@ class Courses extends CI_Controller
         //Tablodan verilerin çekilmesi.
         $items = $this->courses_model->getAll(
             array(),
-            "rank ASC"
+            "eventDate ASC"
         );
 
         //View'e gönderilen verilerin set edilmesi.
@@ -95,6 +95,8 @@ class Courses extends CI_Controller
             $data['description'] = htmlspecialchars($this->input->post('description'));
             $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
             $data['url'] = permalink($this->input->post('url'));
+            $data['link'] = $this->input->post('link');
+            $data['location'] = $this->input->post('location');
             $data['eventTime'] = $this->input->post('eventTime');
             $data['eventDate'] = $this->input->post('eventDate');
 
@@ -213,6 +215,8 @@ class Courses extends CI_Controller
             $data['description'] = htmlspecialchars($this->input->post('description'));
             $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
             $data['url'] = permalink($this->input->post('url'));
+            $data['link'] = $this->input->post('link');
+            $data['location'] = $this->input->post('location');
             $data['eventTime'] = $this->input->post('eventTime');
             $data['eventDate'] = $this->input->post('eventDate');
 

@@ -52,5 +52,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+//Projeler
 $route['projects'] = "home/projectsList";
 $route["projects/(:any)"] = "home/projectDetail/$1";
+
+//Galeriler
+$route['galleries/videos'] = "home/videos";
+$route['galleries/images'] = "home/images";
+$route['galleries/files'] = "home/files";
+
+//Etkinlikler
+$route['courses'] = "home/courseList";
+$route["courses/(:any)"] = "home/courseDetail/$1";
+
+//Tekil Sayfalar
+$route['pages'] = "home/pageList";
+$route["pages/(:any)"] = "home/pageDetail/$1";

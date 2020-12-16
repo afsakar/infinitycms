@@ -45,6 +45,13 @@
                                         <span id="helpBlock" class="help-block text-danger"><?=form_error('category_name')?></span>
                                     <?php endif; ?>
                                 </div>
+                                <div class="form-group" id="datepicker">
+                                    <label>Tarih</label>
+                                    <input class="form-control datepicker" data-provide="datepicker" name="projectDate" data-date-format="dd/mm/yyyy" value="<?php echo $item->projectDate; ?>">
+                                    <?php if(isset($form_error)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('projectDate')?></span>
+                                    <?php endif; ?>
+                                </div><!-- .form-group -->
                                 <div class="form-group">
                                     <label>İçerik<span class="text-danger">*</span></label>
                                     <textarea class="m-0" data-plugin="summernote" name="description" data-options="{height: 250}"><?=isset($form_error) && set_value('description') ? set_value('description') : $item->description ?></textarea>

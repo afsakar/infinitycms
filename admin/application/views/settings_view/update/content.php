@@ -180,7 +180,24 @@
 
                             </div>
                             <div role="tabpanel" class="tab-pane in fade" id="theme">
-
+                                <div class="form-group imageContainer">
+                                    <img width="200" src="<?php echo base_url("uploads/$viewFolder/$item->cover"); ?>" alt="" class="img-responsive" style="margin-bottom: 24px;">
+                                    <label>Varsayılan Başlık arkaplan görseli</label>
+                                    <input type="file" name="cover" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Site rengi</label>
+                                    <div id="control-demo-6">
+                                        <select name="settings[color]" class="form-control" data-plugin="select2" style="width: 100%!important;">
+                                            <option <?=settings("color") == "primary" ? "selected" : ""?> value="primary">Primary</option>
+                                            <option <?=settings("color") == "danger" ? "selected" : ""?> value="danger">Danger</option>
+                                            <option <?=settings("color") == "warning" ? "selected" : ""?> value="warning">Warning</option>
+                                            <option <?=settings("color") == "success" ? "selected" : ""?> value="success">Success</option>
+                                            <option <?=settings("color") == "info" ? "selected" : ""?> value="info">Info</option>
+                                            <option <?=settings("color") == "purple" ? "selected" : ""?> value="purple">Purple</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-md"><i class="fa fa-edit"></i> Güncelle</button>

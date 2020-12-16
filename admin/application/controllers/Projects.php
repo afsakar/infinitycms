@@ -71,6 +71,7 @@ class Projects extends CI_Controller
         $this->load->library("form_validation");
         $this->form_validation->set_rules("title", "Başlık", "required|is_unique[projects.title]|trim");
         $this->form_validation->set_rules("description", "Açıklama", "required");
+        $this->form_validation->set_rules("projectDate", "Tarih", "required");
         $this->form_validation->set_message(array(
             "required" => "<strong>{field}</strong> alanı doldurulmalıdır.",
             "is_unique" => "<strong>{field}</strong> alanında başka bir kayıt mecvut."
@@ -83,6 +84,7 @@ class Projects extends CI_Controller
             //Form'dan verileri al.
             $data['title'] = $this->input->post('title');
             $data['category_id'] = $this->input->post('category_id');
+            $data['projectDate'] = $this->input->post('projectDate');
             $data['description'] = htmlspecialchars($this->input->post('description'));
             $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
             $data['url'] = permalink($this->input->post('url'));
@@ -175,6 +177,7 @@ class Projects extends CI_Controller
             $this->form_validation->set_rules("title", "Başlık", "required|is_unique[projects.title]|trim");
         }
         $this->form_validation->set_rules("description", "Açıklama", "required");
+        $this->form_validation->set_rules("projectDate", "Tarih", "required");
         $this->form_validation->set_message(array(
             "required" => "<strong>{field}</strong> alanı doldurulmalıdır.",
             "is_unique" => "<strong>{field}</strong> alanında başka bir kayıt mecvut."
@@ -187,6 +190,7 @@ class Projects extends CI_Controller
             //Form'dan verileri al.
             $data['title'] = $this->input->post('title');
             $data['category_id'] = $this->input->post('category_id');
+            $data['projectDate'] = $this->input->post('projectDate');
             $data['description'] = htmlspecialchars($this->input->post('description'));
             $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
             $data['url'] = permalink($this->input->post('url'));

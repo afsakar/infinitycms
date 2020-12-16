@@ -125,6 +125,43 @@ class Settings extends CI_Controller
 
             }
 
+            if ($_FILES["cover"]["name"] !== "") {
+
+                $file_name = rand(0, 99999) . $this->viewFolder;
+
+                $config["allowed_types"] = "jpg|jpeg|png";
+                $config["upload_path"] = "uploads/$this->viewFolder/";
+                $config["file_name"] = $file_name;
+
+                $this->load->library("upload", $config);
+
+                $upload = $this->upload->do_upload("cover");
+
+                if ($upload) {
+
+                    $data['cover'] = $this->upload->data("file_name");
+                    unlink("uploads/{$this->viewFolder}/$item->cover");
+                    $update = $this->settings_model->update(array("id" => 1), $data);
+
+                } else {
+
+                    $alert = array(
+                        "title" => "İşlem başarısız!",
+                        "text" => "Görsel yüklenirken bir problem oluştu!",
+                        "type" => "error",
+                        "position" => "top-center"
+                    );
+
+                    $this->session->set_flashdata("alert", $alert);
+
+                    redirect(base_url("settings"));
+
+                    die();
+
+                }
+
+            }
+
             $html = '<?php'.PHP_EOL.PHP_EOL;
             foreach ($this->input->post('settings') as $key => $val) {
                 $html .= '$settings["'.$key.'"] ='."'".$val."';".PHP_EOL;

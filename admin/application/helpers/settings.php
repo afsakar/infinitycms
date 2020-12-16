@@ -15,3 +15,4 @@ $settings["facebook"] ='http://www.facebook.com';
 $settings["twitter"] ='http://www.twitter.com';
 $settings["instagram"] ='http://www.instagram.com';
 $settings["linkedin"] ='http://www.linkedin.com';
+$settings["color"] ='purple';

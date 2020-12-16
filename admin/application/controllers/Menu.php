@@ -89,12 +89,41 @@ class Menu extends CI_Controller
         if ($validate) {
             //Form'dan verileri al.
             $data['title'] = $this->input->post('title');
+            $data['content'] = htmlspecialchars($this->input->post('content'));
             $data['isSubmenu'] = $this->input->post('isSubmenu');
             $data['url'] = permalink($this->input->post('url'));
+            $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
             if($data['isSubmenu'] == 0){
                 $data['isMain'] = 1;
             }else{
                 $data['isMain'] = 0;
+            }
+
+            if (!$data['url']) {
+                $data['url'] = permalink($this->input->post('title'));
+            }
+
+            if ($_FILES["img_url"]["name"] !== "") {
+                $randName = rand(0, 99999) . $this->viewFolder;
+
+                $config["allowed_types"] = "jpg|jpeg|png";
+                $config["upload_path"] = "uploads/$this->viewFolder/";
+                $config['file_name'] = $randName;
+
+                $this->load->library('upload', $config);
+
+                $upload = $this->upload->do_upload("img_url");
+
+                if ($upload) {
+                    $data['img_url'] = $this->upload->data("file_name");
+                } else {
+                    $alert = array(
+                        "title" => "İşlem başarısız!",
+                        "text" => "Görsel yüklenirken bir hata oluştu, lütfen tekrar deneyin!",
+                        "type" => "error",
+                        "position" => "top-center"
+                    );
+                }
             }
 
             //Form verilerini kaydet
@@ -157,6 +186,7 @@ class Menu extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "update";
         $viewData->item = $item;
+        $viewData->seo = json_decode($item->seo, true);
         $viewData->submenus = $submenu;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
@@ -189,18 +219,55 @@ class Menu extends CI_Controller
         if ($validate) {
             //Form'dan verileri al.
             $data['title'] = $this->input->post('title');
+            $data['content'] = htmlspecialchars($this->input->post('content'));
             $data['isSubmenu'] = $this->input->post('isSubmenu');
             $data['url'] = permalink($this->input->post('url'));
+            $data['seo'] = json_encode($this->input->post('seo'), JSON_UNESCAPED_UNICODE);
 
             if($data['isSubmenu'] == 0){
                 $data['isMain'] = 1;
             }else{
                 $data['isMain'] = 0;
             }
-//            if (!$data['url']) {
-//                $data['url'] = permalink($this->input->post('title'));
-//            }
+            if (!$data['url']) {
+                $data['url'] = permalink($this->input->post('title'));
+            }
 
+            if ($_FILES["img_url"]["name"] !== "") {
+
+                $file_name = rand(0, 99999) . $this->viewFolder;
+
+                $config["allowed_types"] = "jpg|jpeg|png";
+                $config["upload_path"] = "uploads/$this->viewFolder/";
+                $config["file_name"] = $file_name;
+
+                $this->load->library("upload", $config);
+
+                $upload = $this->upload->do_upload("img_url");
+
+                if ($upload) {
+
+                    $data['img_url'] = $this->upload->data("file_name");
+                    unlink("uploads/{$this->viewFolder}/$item->img_url");
+
+                } else {
+
+                    $alert = array(
+                        "title" => "İşlem başarısız!",
+                        "text" => "Görsel yüklenirken bir problem oluştu!",
+                        "type" => "error",
+                        "position" => "top-center"
+                    );
+
+                    $this->session->set_flashdata("alert", $alert);
+
+                    redirect(base_url("menu/updateForm/$id"));
+
+                    die();
+
+                }
+
+            }
 
             //Form verilerini güncelle
             $update = $this->menu_model->update(array("id" => $id), $data);
@@ -244,6 +311,7 @@ class Menu extends CI_Controller
             $viewData->subViewFolder = "update";
             $viewData->formError = true;
             $viewData->item = $item;
+            $viewData->seo = json_decode($item->seo, true);
             $viewData->submenus = $submenu;
             $viewData->breadcrumbs = $this->breadcrumbs->show();
 

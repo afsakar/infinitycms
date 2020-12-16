@@ -11,9 +11,9 @@
                 <!--TODO Mobile Logo ekle-->
                     <img src="<?=logo("logo")?>" class="img-responsive" alt="<?=settings("title")?>" width="180">
                 </a>
-                <a href="#" class="cr-btn cr-btn-sm cr-btn-round">
-                    <span>Buy now</span>
-                </a>
+<!--                <a href="#" class="cr-btn cr-btn-sm cr-btn-round">-->
+<!--                    <span>Buy now</span>-->
+<!--                </a>-->
             </div>
         </div>
     </div>

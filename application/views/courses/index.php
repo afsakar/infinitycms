@@ -38,36 +38,28 @@
                     <div class="col-lg-12">
                         <div class="portfolio-wrap">
 
-                            <?php if(empty($projects)): ?>
+                            <?php if(empty($courses)): ?>
                                 <div class="col-md-8 offset-md-2">
                                     <div class="alert alert-info text-center"><i class="icofont icofont-info-circle"></i> Henüz bir şey eklenmedi.</div>
                                 </div>
                             <?php else: ?>
-                                <!-- Poftfolio Filters -->
-                                <div class="portfolio-filters portfolio-filters-minimal text-center mt-0">
-                                    <button class="is-checked" data-filter="*">all</button>
-                                    <?php foreach ($categories as $category): ?>
-                                        <button data-filter=".<?=$category->id?>"><?=$category->category_name?></button>
-                                    <?php endforeach; ?>
-                                </div>
-                                <!--// Poftfolio Filters -->
 
                                 <!-- Portfolios -->
                                 <div class="row portfolios portfolios-minimal-4" data-show="6" data-load="2">
-                                    <?php foreach ($projects as $project): ?>
+                                    <?php foreach ($courses as $course): ?>
                                         <!-- Single Portfolio -->
-                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 portfolio-single <?=$project->category_id?>">
+                                        <div class="col-xl-6 col-lg-6 col-md-12 col-12 portfolio-single">
                                             <div class="portfolio">
                                                 <div class="portfoilo-thumb">
-                                                    <img src="<?php if(getCover($project->id)){ echo base_url("admin/uploads/$viewFolder/").getCover($project->id); }else{ echo logo("cover"); } ?>" alt="<?=$project->title?>" height="300" class="fitCover">
+                                                    <img src="<?=base_url("admin/uploads/$viewFolder/").$course->img_url?>" alt="<?=$course->title?>" height="300" class="fitCover">
                                                 </div>
                                                 <div class="portfolio-content">
                                                     <div class="portfolio-content-inner text-center">
                                                         <h3>
-                                                            <a href="<?=base_url("$controllerView/$project->url")?>"><?=$project->title?></a>
+                                                            <a href="<?=base_url("$controllerView/$course->url")?>"><?=$course->title?></a>
                                                         </h3>
                                                         <h5>
-                                                            <?=$project->projectDate?>
+                                                            <?=$course->eventDate?> - <?=$course->eventTime?>
                                                         </h5>
                                                     </div>
                                                 </div>

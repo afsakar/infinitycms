@@ -14,7 +14,7 @@
     <?php $this->load->view('includes/header'); ?>
 
     <!-- Breacrumb Area -->
-    <div class="breadcrumb-area cover-image" data-black-overlay="7" style="background: url(<?=base_url("admin/uploads/$viewFolder/").getCover($project->id)?>) no-repeat scroll center center;">
+    <div class="breadcrumb-area cover-image" data-black-overlay="7" style="background: url(<?php if(getCover($project->id)){ echo base_url("admin/uploads/$viewFolder/").getCover($project->id); }else{ echo logo("cover"); } ?>) no-repeat scroll center center;">
         <div class="container">
             <div class="row">
                 <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
@@ -22,7 +22,7 @@
                         <h1><?=$project->title?></h1>
                         <p><?=$breadcrumbs?></p>
                         <a href="<?=base_url("projects/")?>" class="cr-btn cr-btn-sm">
-                            <span>Projeler</span>
+                            <span>Geri dön</span>
                         </a>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                                     <div class="col-lg-4 col-md-6 col-12">
                                         <div class="pg-portfolio-single-info">
                                             <h5>Tarih</h5>
-                                            <p><?=timeConvert($project->createdAt)?></p>
+                                            <p><?=$project->projectDate?></p>
                                         </div>
                                     </div>
                                 </div>
