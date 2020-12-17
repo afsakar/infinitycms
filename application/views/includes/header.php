@@ -7,7 +7,7 @@
     <div class="mobile-menu-wrapper">
         <div class="container d-block d-lg-none">
             <div class="mobile-menu clearfix">
-                <a class="mobile-logo" href="index.html">
+                <a class="mobile-logo" href="<?=base_url()?>">
                 <!--TODO Mobile Logo ekle-->
                     <img src="<?=logo("logo")?>" class="img-responsive" alt="<?=settings("title")?>" width="180">
                 </a>

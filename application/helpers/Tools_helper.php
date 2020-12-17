@@ -18,8 +18,8 @@ function rand_password( $length ) {
 
 function send_mail($toEmail = "", $subjectMail = "", $messageMail = ""){
     $t = &get_instance();
-    $t->load->model('email_settings_model');
-    $emailSettings = $t->email_settings_model->get(array("isActive" => 1));
+    $t->load->model('data_model');
+    $emailSettings = $t->data_model->get("email_settings", array("isActive" => 1));
 
     $config = array(
         "protocol" => $emailSettings->protocol,
@@ -64,4 +64,37 @@ function getCover($id){
         $cover = $t->data_model->get("project_images", array("isActive" => 1, "project_id" => $id));
     }
     return !empty($cover) ? $cover->image_url : "";
+}
+
+
+function contact_mail($name = "", $fromMail = "", $phoneMail = "", $subjectMail = "", $messageMail = ""){
+    $t = &get_instance();
+    $t->load->model('data_model');
+    $emailSettings = $t->data_model->get("email_settings", array("isActive" => 1));
+
+    $config = array(
+        "protocol" => $emailSettings->protocol,
+        "smtp_host" => $emailSettings->host,
+        "smtp_port" => $emailSettings->port,
+        "smtp_user" => $emailSettings->user,
+        "smtp_pass" => $emailSettings->password,
+        "starttls" => true,
+        "charset" => "utf-8",
+        "mailtype" => "html",
+        "wordwrap" => true,
+        "newline" => "\r\n"
+    );
+    $t->load->library("email", $config);
+
+    $mesaj1 = str_replace("myName", "$name", htmlspecialchars_decode(settings("contact_template")));
+    $mesaj2 = str_replace("myPhone", "$phoneMail", htmlspecialchars_decode($mesaj1));
+    $mesaj3 = str_replace("myMail", "$fromMail", htmlspecialchars_decode($mesaj2));
+    $mesaj = str_replace("myMessage", "$messageMail", htmlspecialchars_decode($mesaj3));
+
+    $t->email->from($fromMail, $name);
+    $t->email->to($emailSettings->user);
+    $t->email->subject($subjectMail);
+    $t->email->message($mesaj);
+
+    return $t->email->send();
 }

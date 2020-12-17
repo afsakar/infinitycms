@@ -6,6 +6,7 @@
 <!-- Stylesheets -->
 <link rel="stylesheet" href="<?=base_url("sources/")?>css/bootstrap.min.css">
 <link rel="stylesheet" href="<?=base_url("sources/")?>css/plugins.css">
+<link rel="stylesheet" href="<?=base_url("sources/")?>css/toastr.min.css">
 <link rel="stylesheet" href="<?=base_url("sources/")?>style.css">
 <link rel="stylesheet" href="<?php echo base_url("sources/css/colors/").settings("color").".css"; ?>">
 

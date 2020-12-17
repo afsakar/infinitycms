@@ -69,3 +69,8 @@ $route["courses/(:any)"] = "home/courseDetail/$1";
 //Tekil Sayfalar
 $route['pages'] = "home/pageList";
 $route["pages/(:any)"] = "home/pageDetail/$1";
+
+//İletişim
+$route['contact'] = "home/contact";
+$route['contacts'] = "home/contactMail";
+$route['member'] = "home/member";

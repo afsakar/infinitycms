@@ -10,7 +10,7 @@
                     <div class="col-lg-4 col-md-6 col-12">
                         <!-- Single Widget -->
                         <div class="single-widget footer-widget-about">
-                            <a href="index.html">
+                            <a href="<?=base_url()?>">
                                 <img src="<?=logo("logo")?>" alt="<?=settings("title")?>" width="200">
                             </a>
                             <p>long established fact that a reader will be distracted by the readable content by the
@@ -20,10 +20,11 @@
 
                         <!-- Single Widget -->
                         <div class="single-widget widget-newsletter">
-                            <form action="http://devitems.us11.list-manage.com/subscribe/post?u=6bbb9b6f5827bd842d9640c82&id=05d85f18ef" method="post" class="newsletter-widget-form">
-                                <input type="email" placeholder="Your Email">
+                            <form action="<?=base_url("member")?>" method="post" class="newsletter-widget-form">
+                                <input type="email" name="email" placeholder="Email adresiniz" required>
+                                <input type="hidden" name="<?=$this->security->get_csrf_token_name()?>" value="<?=$this->security->get_csrf_hash()?>">
                                 <button type="submit" class="cr-btn cr-btn-sm cr-btn-round">
-                                    <span>Subscribe</span>
+                                    <span>Abone Ol</span>
                                 </button>
                             </form>
                         </div>

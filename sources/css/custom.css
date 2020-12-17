@@ -10,3 +10,7 @@
 	Note: This is custom css. All custom styles (user styles) declare here.
 
 **********************************************************************************/
+
+img#captcha_img{
+    margin-top: 1.4em;
+}

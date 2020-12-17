@@ -16,9 +16,11 @@
                         <li role="presentation"><a href="#seo" aria-controls="tab-1" role="tab" data-toggle="tab">Seo</a></li>
                         <li role="presentation"><a href="#mission" aria-controls="tab-1" role="tab" data-toggle="tab">Misyon</a></li>
                         <li role="presentation"><a href="#vision" aria-controls="tab-1" role="tab" data-toggle="tab">Vizyon</a></li>
+                        <li role="presentation"><a href="#api" aria-controls="tab-1" role="tab" data-toggle="tab">Api</a></li>
                         <li role="presentation"><a href="#socialMedia" aria-controls="tab-1" role="tab" data-toggle="tab">Sosyal Medya</a></li>
                         <li role="presentation"><a href="#logo" aria-controls="tab-1" role="tab" data-toggle="tab">Logo/Favicon</a></li>
                         <li role="presentation"><a href="#theme" aria-controls="tab-1" role="tab" data-toggle="tab">Tema Ayarları</a></li>
+                        <li role="presentation"><a href="#template" aria-controls="tab-1" role="tab" data-toggle="tab">Mesaj Teması</a></li>
                     </ul><!-- .nav-tabs -->
 
                     <!-- Tab panes -->
@@ -59,6 +61,13 @@
                                     <input type="text" class="form-control" name="settings[email]" placeholder="Email Adresi giriniz" value="<?=isset($form_error) ? set_value('settings[email]') : settings('email')?>">
                                     <?php if(isset($form_error)): ?>
                                         <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[email]')?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label>Adres</label>
+                                    <textarea class="form-control" name="settings[address]" rows="5"><?=isset($form_error) ? set_value('settings[address]') : settings('address')?></textarea>
+                                    <?php if(isset($form_error)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[address]')?></span>
                                     <?php endif; ?>
                                 </div>
                                 <div class="form-group">
@@ -116,6 +125,31 @@
                                     <textarea class="m-0" data-plugin="summernote" name="settings[vision]" data-options="{height: 250}"><?=isset($form_error) ? set_value('settings[vision]') : settings('vision')?></textarea>
                                     <?php if(isset($form_error)): ?>
                                         <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[vision]')?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div><!-- .tab-pane  -->
+                            <div role="tabpanel" class="tab-pane in fade" id="api">
+                                <div class="form-group">
+                                    <label>Harita Linki</label>
+                                    <textarea class="form-control" name="settings[map_code]" rows="5"><?=isset($form_error) ? set_value('settings[map_code]') : settings('map_code')?></textarea>
+                                    <?php if(isset($form_error)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[map_code]')?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label>Harita Açık/Kapalı</label>
+                                    <div id="control-demo-6">
+                                        <select name="settings[googlemap_isopen]" class="form-control" data-plugin="select2" style="width: 100%!important;">
+                                            <option <?=settings("googlemap_isopen") == 1 ? "selected" : ""?> value="1">Evet</option>
+                                            <option <?=settings("googlemap_isopen") == 0 ? "selected" : ""?> value="0">Hayır</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Google Analytics Kodu</label>
+                                    <input type="text" class="form-control" name="settings[analytics_code]" placeholder="Lütfen kodu giriniz..." value="<?=isset($form_error) ? set_value('settings[analytics_code]') : settings('analytics_code')?>">
+                                    <?php if(isset($form_error)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[analytics_code]')?></span>
                                     <?php endif; ?>
                                 </div>
                             </div><!-- .tab-pane  -->
@@ -198,7 +232,23 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label>İletişim Bölümü Yazısı</label>
+                                    <textarea class="m-0" data-plugin="summernote" name="settings[contact_text]" data-options="{height: 250}"><?=isset($form_error) ? set_value('settings[contact_text]') : settings('contact_text')?></textarea>
+                                    <?php if(isset($form_error)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[contact_text]')?></span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
+                            <div role="tabpanel" class="tab-pane in fade" id="template">
+                                <div class="form-group">
+                                    <label>Mesaj Teması</label>
+                                    <textarea class="m-0" data-plugin="summernote" name="settings[contact_template]" data-options="{height: 250}"><?=isset($form_error) ? set_value('settings[contact_template]') : settings('contact_template')?></textarea>
+                                    <?php if(isset($form_error)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[contact_template]')?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div><!-- .tab-pane  -->
 
                             <button type="submit" class="btn btn-primary btn-md"><i class="fa fa-edit"></i> Güncelle</button>
                         </div><!-- .tab-content  -->
