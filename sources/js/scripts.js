@@ -249,5 +249,21 @@
     }
     contactFormPopup();
 
+    $(document).ready(function() {
+        $(".dontShow").click(function () {
+
+            var $url = $(this).data("url");
+            var $id = $(this).data("popupid");
+
+            var $data = {url : $url, popupid : $id};
+
+            var csrf_key = $(this).data("csrf-key");
+            var csrf_value = $(this).data("csrf-value");
+
+            $data[csrf_key] = csrf_value;
+
+           $.post($url, $data, function(){})
+        })
+    } );
 
 })(jQuery);

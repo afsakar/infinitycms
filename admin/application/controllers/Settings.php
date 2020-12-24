@@ -20,6 +20,10 @@ class Settings extends CI_Controller
 
     public function index()
     {
+        if(!permission("settings", "show")){
+            redirect(base_url());
+        }
+
         $item = $this->settings_model->get();
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Genel Ayarlar','/');
@@ -36,6 +40,10 @@ class Settings extends CI_Controller
     }
 
     public function updateSetting(){
+
+        if(!permission("settings", "edit")){
+            redirect(base_url());
+        }
 
         $item = $this->settings_model->get();
 
@@ -141,6 +149,43 @@ class Settings extends CI_Controller
 
                     $data['cover'] = $this->upload->data("file_name");
                     unlink("uploads/{$this->viewFolder}/$item->cover");
+                    $update = $this->settings_model->update(array("id" => 1), $data);
+
+                } else {
+
+                    $alert = array(
+                        "title" => "İşlem başarısız!",
+                        "text" => "Görsel yüklenirken bir problem oluştu!",
+                        "type" => "error",
+                        "position" => "top-center"
+                    );
+
+                    $this->session->set_flashdata("alert", $alert);
+
+                    redirect(base_url("settings"));
+
+                    die();
+
+                }
+
+            }
+
+            if ($_FILES["about_img"]["name"] !== "") {
+
+                $file_name = rand(0, 99999) . $this->viewFolder;
+
+                $config["allowed_types"] = "jpg|jpeg|png";
+                $config["upload_path"] = "uploads/$this->viewFolder/";
+                $config["file_name"] = $file_name;
+
+                $this->load->library("upload", $config);
+
+                $upload = $this->upload->do_upload("about_img");
+
+                if ($upload) {
+
+                    $data['about_img'] = $this->upload->data("file_name");
+                    unlink("uploads/{$this->viewFolder}/$item->about_img");
                     $update = $this->settings_model->update(array("id" => 1), $data);
 
                 } else {

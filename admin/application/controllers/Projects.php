@@ -21,14 +21,50 @@ class Projects extends CI_Controller
 
     public function index()
     {
+        if(!permission("projects", "show")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Projeler', '/projects');
         $viewData = new stdClass();
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/index");
+        $config["total_rows"] = $this->projects_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
 
         //Tablodan verilerin çekilmesi.
-        $items = $this->projects_model->getAll(
+        $items = $this->projects_model->get_records(
             array(),
-            "rank ASC"
+            "rank ASC",
+            $config["per_page"],
+            $page
         );
 
         //View'e gönderilen verilerin set edilmesi.
@@ -42,6 +78,10 @@ class Projects extends CI_Controller
     }
 
     public function addForm(){
+
+        if(!permission("projects", "add")){
+            redirect(base_url());
+        }
 
         $category = $this->projects_category_model->getAll(array("isActive" => 1), "");
 
@@ -62,6 +102,10 @@ class Projects extends CI_Controller
 
     public function addItem()
     {
+        if(!permission("projects", "add")){
+            redirect(base_url());
+        }
+
         $category = $this->projects_category_model->getAll(array("isActive" => 1), "");
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Projeler', '/projects');
@@ -133,6 +177,10 @@ class Projects extends CI_Controller
 
     public function updateForm($id){
 
+        if(!permission("projects", "edit")){
+            redirect(base_url());
+        }
+
         $category = $this->projects_category_model->getAll(array("isActive" => 1), "");
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
@@ -160,6 +208,10 @@ class Projects extends CI_Controller
 
     public function updateItem($id)
     {
+        if(!permission("projects", "edit")){
+            redirect(base_url());
+        }
+
         $item = $this->projects_model->get(
             array(
                 "id" => $id
@@ -248,6 +300,10 @@ class Projects extends CI_Controller
 
     public function deleteItem($id)
     {
+        if(!permission("projects", "delete")){
+            redirect(base_url());
+        }
+
 
         $delete = $this->projects_model->delete(
             array(
@@ -291,6 +347,10 @@ class Projects extends CI_Controller
 
     public function deleteImage($id, $parent_id)
     {
+        if(!permission("projects", "delete")){
+            redirect(base_url());
+        }
+
         $fileName = $this->projects_image_model->get(
             array("id" => $id)
         );
@@ -438,7 +498,6 @@ class Projects extends CI_Controller
 
     public function imageUpload($id){
 
-
         $randName = rand(0,99999).$this->viewFolder;
 
         $config["allowed_types"] = "jpg|jpeg|png";
@@ -485,13 +544,52 @@ class Projects extends CI_Controller
     //Kategoriler
     public function projects_category()
     {
+        if(!permission("projects_category", "show")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Projeler', '/projects');
         $this->breadcrumbs->push('Proje Kategorileri', '/');
         $viewData = new stdClass();
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/projects_category");
+        $config["total_rows"] = $this->projects_category_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
 
         //Tablodan verilerin çekilmesi.
-        $items = $this->projects_category_model->getAll(array(),"");
+        $items = $this->projects_category_model->get_records(
+            array(),
+            "",
+            $config["per_page"],
+            $page
+        );
 
         //View'e gönderilen verilerin set edilmesi.
         $viewData->viewFolder = $this->viewFolder;
@@ -505,6 +603,10 @@ class Projects extends CI_Controller
     }
 
     public function categoryForm(){
+
+        if(!permission("projects_category", "add")){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Projeler', '/brands');
@@ -525,6 +627,10 @@ class Projects extends CI_Controller
 
     public function addCategory()
     {
+        if(!permission("projects_category", "add")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Projeler', '/brands');
         $this->breadcrumbs->push('Proje Kategorileri','/projects_category');
@@ -584,6 +690,10 @@ class Projects extends CI_Controller
 
     public function categoryUpdate($id){
 
+        if(!permission("projects_category", "edit")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Projeler', '/brands');
         $this->breadcrumbs->push('Proje Kategorileri','/projects_category');
@@ -611,6 +721,10 @@ class Projects extends CI_Controller
 
     public function updateCategory($id)
     {
+        if(!permission("projects_category", "edit")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Projeler', '/brands');
         $this->breadcrumbs->push('Proje Kategorileri','/projects_category');
@@ -690,6 +804,39 @@ class Projects extends CI_Controller
 
         }
 
+    }
+
+    public function categoryDelete($id)
+    {
+        if(!permission("projects_category", "delete")){
+            redirect(base_url());
+        }
+
+
+        $delete = $this->projects_category_model->delete(
+            array(
+                "id" => $id
+            )
+        );
+
+        if ($delete) {
+            $alert = array(
+                "title"     => "İşlem başarılı!",
+                "text"      => "Kayıt başarıyla silindi!",
+                "type"      => "success",
+                "position"  => "top-center"
+            );
+        } else {
+            $alert = array(
+                "title"     => "İşlem başarısız!",
+                "text"      => "Kayıt silinirken bir hata oluştu, lütfen tekrar deneyin!",
+                "type"      => "error",
+                "position"  => "top-center"
+            );
+        }
+
+        $this->session->set_flashdata("alert", $alert);
+        redirect(base_url('projects_category'));
     }
 
 

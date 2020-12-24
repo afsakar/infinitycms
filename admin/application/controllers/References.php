@@ -20,15 +20,51 @@ class References extends CI_Controller
 
     public function index()
     {
+        if(!permission("references", "show")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Referanslar', '/references');
 
         $viewData = new stdClass();
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/index");
+        $config["total_rows"] = $this->references_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
 
         //Tablodan verilerin çekilmesi.
-        $items = $this->references_model->getAll(
+        $items = $this->references_model->get_records(
             array(),
-            "rank ASC"
+            "rank ASC",
+            $config["per_page"],
+            $page
         );
 
         //View'e gönderilen verilerin set edilmesi.
@@ -42,6 +78,10 @@ class References extends CI_Controller
     }
 
     public function addForm(){
+
+        if(!permission("references", "add")){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Referanslar', '/references');
@@ -60,6 +100,10 @@ class References extends CI_Controller
 
     public function addItem()
     {
+        if(!permission("references", "add")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Referanslar', '/references');
         $this->breadcrumbs->push('Referans Ekle','/');
@@ -156,6 +200,10 @@ class References extends CI_Controller
 
     public function updateForm($id){
 
+        if(!permission("references", "edit")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Referanslar', '/references');
         $this->breadcrumbs->push('Referans Düzenle','/');
@@ -181,6 +229,10 @@ class References extends CI_Controller
     }
 
     public function updateItem($id){
+
+        if(!permission("references", "edit")){
+            redirect(base_url());
+        }
 
         $item = $this->references_model->get(
             array(
@@ -300,6 +352,10 @@ class References extends CI_Controller
 
     public function deleteItem($id)
     {
+        if(!permission("references", "delete")){
+            redirect(base_url());
+        }
+
         $getItem = $this->references_model->get(array("id" => $id));
 
         $delete = $this->references_model->delete(
@@ -344,6 +400,10 @@ class References extends CI_Controller
 
     public function deleteImage($id, $parent_id)
     {
+        if(!permission("references", "delete")){
+            redirect(base_url());
+        }
+
         $fileName = $this->references_image_model->get(
             array("id" => $id)
         );
@@ -489,6 +549,10 @@ class References extends CI_Controller
     }
 
     public function imageUpload($id){
+
+        if(!permission("references", "add")){
+            redirect(base_url());
+        }
 
 
         $randName = rand(0, 99999) . $this->viewFolder;

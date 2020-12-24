@@ -1,25 +1,25 @@
 <!-- About Area -->
 <section class="about-area bg-white">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-xl-7 col-lg-6 order-2 order-lg-1">
-                <div class="about-content about-content-2">
-                    <h2>No road is long with good company</h2>
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                        alteration passages of Lorem Ipsum available, but the majority </p>
-                    <ul class="cr-liststyle-1">
-                        <li>Variations of passages of suffered alteration of majority duskam suffered</li>
-                        <li>Many variations of passages of majority suffered </li>
-                        <li>Variations of passages one of Lorem majority suffered alteration</li>
-                    </ul>
+    <div class="pg-about-area section-padding-lg bg-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 order-2 order-lg-1">
+                    <div class="pg-about-content">
+                        <h2><?=settings("about_us_title")?></h2>
+                        <p><?=settings("about_us")?></p>
+                        <?php if($this->uri->segment(1) != "about"): ?>
+                        <a href="<?=base_url("about")?>" class="cr-btn bt">Daha fazla...</a>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
-            <div class="col-xl-5 col-lg-6 offset-lg-0 col-md-8 offset-md-2 order-1 order-lg-2">
-                <div class="about-thumb about-thumb-3 mt-5">
-                    <img class="wow slideInRight" data-wow-duration="2s" src="<?=base_url("sources/")?>images/others/skill-area-thumb.png" alt="skill area thumb">
+                <div class="col-lg-5 order-1 order-lg-2">
+                    <div class="pg-about-thumb" data-tilt="" style="will-change: transform; transform: perspective(800px) rotateX(0deg) rotateY(0deg);">
+                        <img src="<?=logo("about_img")?>" alt="about thumb">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 <!--// About Area -->

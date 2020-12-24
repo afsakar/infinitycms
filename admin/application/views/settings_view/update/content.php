@@ -12,8 +12,8 @@
                     <!-- tabs list -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#general" aria-controls="tab-3" role="tab" data-toggle="tab">Genel</a></li>
-                        <li role="presentation"><a href="#aboutUs" aria-controls="tab-1" role="tab" data-toggle="tab">Hakkımızda</a></li>
                         <li role="presentation"><a href="#seo" aria-controls="tab-1" role="tab" data-toggle="tab">Seo</a></li>
+                        <li role="presentation"><a href="#aboutUs" aria-controls="tab-1" role="tab" data-toggle="tab">Hakkımızda</a></li>
                         <li role="presentation"><a href="#mission" aria-controls="tab-1" role="tab" data-toggle="tab">Misyon</a></li>
                         <li role="presentation"><a href="#vision" aria-controls="tab-1" role="tab" data-toggle="tab">Vizyon</a></li>
                         <li role="presentation"><a href="#api" aria-controls="tab-1" role="tab" data-toggle="tab">Api</a></li>
@@ -78,15 +78,6 @@
                                     <?php endif; ?>
                                 </div>
                             </div><!-- .tab-pane  -->
-                            <div role="tabpanel" class="tab-pane in fade" id="aboutUs">
-                                <div class="form-group">
-                                    <label>Hakkımızda</label>
-                                    <textarea class="m-0" data-plugin="summernote" name="settings[about_us]" data-options="{height: 250}"><?=isset($form_error) ? set_value('settings[about_us]') : settings('about_us')?></textarea>
-                                    <?php if(isset($form_error)): ?>
-                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[about_us]')?></span>
-                                    <?php endif; ?>
-                                </div>
-                            </div><!-- .tab-pane  -->
                             <div role="tabpanel" class="tab-pane in fade" id="seo">
                                 <div class="form-group">
                                     <label>SEO Title</label>
@@ -107,6 +98,27 @@
                                     <input type="text" data-role="tagsinput" data-plugin="tagsinput" class="form-control" name="settings[meta_keywords]" placeholder="Keyword giriniz" value="<?=isset($form_error) ? set_value('settings[meta_keywords]') : settings('meta_keywords')?>">
                                     <?php if(isset($form_error)): ?>
                                         <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[meta_keywords]')?></span>
+                                    <?php endif; ?>
+                                </div>
+                            </div><!-- .tab-pane  -->
+                            <div role="tabpanel" class="tab-pane in fade" id="aboutUs">
+                                <div class="form-group imageContainer">
+                                    <img width="200" src="<?php echo base_url("uploads/$viewFolder/$item->about_img"); ?>" alt="" class="img-responsive" style="margin-bottom: 24px;">
+                                    <label>Görsel Seçiniz</label>
+                                    <input type="file" name="about_img" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Başlık</label>
+                                    <input type="text" class="form-control" name="settings[about_us_title]" placeholder="Başlık giriniz" value="<?=isset($form_error) ? set_value('settings[about_us_title]') : settings('about_us_title')?>">
+                                    <?php if(isset($form_error)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[about_us_title]')?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label>İçerik</label>
+                                    <textarea class="m-0" data-plugin="summernote" name="settings[about_us]" data-options="{height: 250}"><?=isset($form_error) ? set_value('settings[about_us]') : settings('about_us')?></textarea>
+                                    <?php if(isset($form_error)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[about_us]')?></span>
                                     <?php endif; ?>
                                 </div>
                             </div><!-- .tab-pane  -->
@@ -242,15 +254,23 @@
                             </div>
                             <div role="tabpanel" class="tab-pane in fade" id="template">
                                 <div class="form-group">
-                                    <label>Mesaj Teması</label>
+                                    <label>İletişim Formu'ndan Gelen Mesaj</label>
                                     <textarea class="m-0" data-plugin="summernote" name="settings[contact_template]" data-options="{height: 250}"><?=isset($form_error) ? set_value('settings[contact_template]') : settings('contact_template')?></textarea>
                                     <?php if(isset($form_error)): ?>
                                         <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[contact_template]')?></span>
                                     <?php endif; ?>
                                 </div>
+                                <div class="form-group">
+                                    <label>Admin Panelinden Yanıtlanan Mesaj</label>
+                                    <textarea class="m-0" data-plugin="summernote" name="settings[reply_template]" data-options="{height: 250}"><?=isset($form_error) ? set_value('settings[reply_template]') : settings('reply_template')?></textarea>
+                                    <?php if(isset($form_error)): ?>
+                                        <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[reply_template]')?></span>
+                                    <?php endif; ?>
+                                </div>
                             </div><!-- .tab-pane  -->
-
+                            <?php if(permission("settings", "edit")): ?>
                             <button type="submit" class="btn btn-primary btn-md"><i class="fa fa-edit"></i> Güncelle</button>
+                            <?php endif; ?>
                         </div><!-- .tab-content  -->
                     </form>
                 </div><!-- .nav-tabs-horizontal -->

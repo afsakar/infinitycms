@@ -11,9 +11,9 @@
 
             <?php if(empty($items)): ?>
 
-            <div class="alert alert-info text-center">
-                <p>Burada herhangi bir kayıt bulunmamaktadır. Kayıt eklemek için <a href="<?=base_url('brands/addForm')?>" class="alert-link">buraya</a> tıklayın.</p>
-            </div>
+                <div class="alert alert-info text-center">
+                    <p>Burada herhangi bir kayıt bulunmamaktadır. Kayıt eklemek için <a href="<?=base_url('brands/addForm')?>" class="alert-link">buraya</a> tıklayın.</p>
+                </div>
 
             <?php else: ?>
 

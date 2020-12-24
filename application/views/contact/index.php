@@ -51,7 +51,7 @@
                 <div class="row section-padding-top-xs">
                     <div class="col-lg-8">
                         <div class="pg-contact-form mr-0 mr-lg-3">
-                            <div class="small-title">
+                            <div class="small-title" style="padding-right: 0!important;">
                                 <h2>İletişim Formu</h2>
                                 <?php if(settings("contact_text") != ""){ ?>
                                     <p><?=htmlspecialchars_decode(settings("contact_text"))?></p>

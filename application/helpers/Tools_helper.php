@@ -10,10 +10,9 @@ function get_active_user(){
     }
 }
 
-function rand_password( $length ) {
+function rand_password($length) {
     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     return substr(str_shuffle($chars),0,$length);
-
 }
 
 function send_mail($toEmail = "", $subjectMail = "", $messageMail = ""){
@@ -66,7 +65,6 @@ function getCover($id){
     return !empty($cover) ? $cover->image_url : "";
 }
 
-
 function contact_mail($name = "", $fromMail = "", $phoneMail = "", $subjectMail = "", $messageMail = ""){
     $t = &get_instance();
     $t->load->model('data_model');
@@ -89,7 +87,8 @@ function contact_mail($name = "", $fromMail = "", $phoneMail = "", $subjectMail 
     $mesaj1 = str_replace("myName", "$name", htmlspecialchars_decode(settings("contact_template")));
     $mesaj2 = str_replace("myPhone", "$phoneMail", htmlspecialchars_decode($mesaj1));
     $mesaj3 = str_replace("myMail", "$fromMail", htmlspecialchars_decode($mesaj2));
-    $mesaj = str_replace("myMessage", "$messageMail", htmlspecialchars_decode($mesaj3));
+    $mesaj4 = str_replace("myMessage", "$messageMail", htmlspecialchars_decode($mesaj3));
+    $mesaj = str_replace("myLogo", logo("logo"), htmlspecialchars_decode($mesaj4));
 
     $t->email->from($fromMail, $name);
     $t->email->to($emailSettings->user);
@@ -97,4 +96,35 @@ function contact_mail($name = "", $fromMail = "", $phoneMail = "", $subjectMail 
     $t->email->message($mesaj);
 
     return $t->email->send();
+}
+
+function popup($page = ""){
+    $t = &get_instance();
+    $t->load->model('data_model');
+    $popup = $t->data_model->get("popups", array(
+        "isActive" => 1,
+        "page" => $page
+    ));
+    return (!empty($popup)) ? $popup : false;
+}
+
+function copyright(){
+    return '<div class="col-12 text-center">
+                    '.settings("footer_text").'</div>
+                <div class="col-12 text-center" style="font-size: 14px;">
+                    Web Programlama: <a class="text-white" href="http://www.afsakar.com">Azad Furkan ŞAKAR</a>
+                </div>';
+}
+
+function get_gravatar( $email, $s = 80, $d = 'mp', $r = 'g', $img = false, $atts = array() ) {
+    $url = 'https://www.gravatar.com/avatar/';
+    $url .= md5( strtolower( trim( $email ) ) );
+    $url .= "?s=$s&d=$d&r=$r";
+    if ( $img ) {
+        $url = '<img src="' . $url . '"';
+        foreach ( $atts as $key => $val )
+            $url .= ' ' . $key . '="' . $val . '"';
+        $url .= ' />';
+    }
+    return $url;
 }

@@ -68,9 +68,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>SEO Description</label>
-                                    <textarea ame="seo[description]" class="form-control" cols="30" rows="5">
-                                        <?php if (isset($form_error)){ echo set_value('seo[description]'); } ?>
-                                    </textarea>
+                                    <input type="text" class="form-control" name="seo[description]" placeholder="Açıklama giriniz" value="<?php if (isset($form_error)){ echo set_value('seo[description]'); } ?>">
                                 </div>
                                 <div class="form-group">
                                     <label>SEO Keywords</label>

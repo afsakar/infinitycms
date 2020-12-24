@@ -20,13 +20,52 @@ class Email_settings extends CI_Controller
 
     public function index()
     {
+        if(!permission("email_settings", "show")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Email Listesi', '/users');
 
         $viewData = new stdClass();
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/index");
+        $config["total_rows"] = $this->email_settings_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
 
         //Tablodan verilerin çekilmesi.
-        $items = $this->email_settings_model->getAll(array(),"");
+        $items = $this->email_settings_model->get_records(
+            array(),
+            "",
+            $config["per_page"],
+            $page
+        );
 
         //View'e gönderilen verilerin set edilmesi.
         $viewData->viewFolder = $this->viewFolder;
@@ -39,6 +78,9 @@ class Email_settings extends CI_Controller
 
     public function addForm(){
 
+        if(!permission("email_settings", "add")){
+            redirect(base_url());
+        }
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Email Listesi', '/users');
         $this->breadcrumbs->push('Yeni Email Hesabı Ekle','/');
@@ -56,6 +98,9 @@ class Email_settings extends CI_Controller
 
     public function addItem()
     {
+        if(!permission("email_settings", "add")){
+            redirect(base_url());
+        }
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Email Listesi', '/users');
         $this->breadcrumbs->push('Yeni Email Hesabı Ekle','/');
@@ -127,6 +172,10 @@ class Email_settings extends CI_Controller
 
     public function updateForm($id){
 
+        if(!permission("email_settings", "edit")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Email Listesi', '/users');
         $this->breadcrumbs->push('Email Hesabı Düzenle','/');
@@ -151,6 +200,10 @@ class Email_settings extends CI_Controller
     }
 
     public function updateItem($id){
+
+        if(!permission("email_settings", "edit")){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Email Listesi', '/users');
@@ -239,6 +292,10 @@ class Email_settings extends CI_Controller
 
     public function deleteItem($id)
     {
+        if(!permission("email_settings", "delete")){
+            redirect(base_url());
+        }
+
         $delete = $this->email_settings_model->delete(
             array(
                 "id" => $id
@@ -295,120 +352,6 @@ class Email_settings extends CI_Controller
         foreach ($items as $rank => $id) {
             $this->email_settings_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
         }
-    }
-
-    public function password($id){
-
-        $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Email Listesi', '/users');
-        $this->breadcrumbs->push('Şifre Düzenle','/');
-
-        $viewData = new stdClass();
-
-        //Verilerin getirilmesi
-        $item = $this->email_settings_model->get(
-            array(
-                "id" => $id
-            )
-        );
-
-        //View'e gönderilen verilerin set edilmesi.
-        $viewData->viewFolder = $this->viewFolder;
-        $viewData->subViewFolder = "password";
-        $viewData->item = $item;
-        $viewData->breadcrumbs = $this->breadcrumbs->show();
-
-        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
-
-    }
-
-    public function updatePassword($id){
-
-        $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Email Listesi', '/users');
-        $this->breadcrumbs->push('Email Hesabı Düzenle','/');
-
-        $item = $this->email_settings_model->get(
-            array(
-                "id" => $id
-            )
-        );
-
-        $this->load->library("form_validation");
-
-        // Kurallar yazilir..
-
-        $this->form_validation->set_rules("password", "Şifre", "required|min_length[8]|trim");
-        $this->form_validation->set_rules("re_password", "Şifre Tekrarı", "required|matches[password]|min_length[8]|trim");
-
-        $this->form_validation->set_message(array(
-            "required" => "<strong>{field}</strong> alanı doldurulmalıdır.",
-            "matches" =>    "Şifreler uyuşmuyor.",
-            "min_length" =>    "Şifre en az 8 karakterde olmalı."
-        ));
-
-        //Form validation çalıştır
-        $validate = $this->form_validation->run();
-
-        if ($validate) {
-
-            $data['password'] = md5($this->input->post('password'));
-
-            if($data['password'] = $item->password){
-                $alert = array(
-                    "title" => "İşlem başarısız!",
-                    "text" => "Yeni şifreniz eski şifreniz ile aynı olamaz!",
-                    "type" => "error",
-                    "position" => "top-center"
-                );
-                $this->session->set_flashdata("alert", $alert);
-                redirect(base_url("users/updatePassword/$id"));
-                die();
-            }
-
-            $update = $this->email_settings_model->update(array("id" => $id), $data);
-
-            // TODO Alert sistemi eklenecek...
-            if ($update) {
-                $alert = array(
-                    "title" => "İşlem Başarılı",
-                    "text" => "Şifreniz başarıyla güncellendi!",
-                    "type" => "success",
-                    "position" => "top-center"
-                );
-            } else {
-                $alert = array(
-                    "title" => "İşlem Başarısız",
-                    "text" => "Kayıt Güncelleme sırasında bir problem oluştu",
-                    "type" => "error",
-                    "position" => "top-center"
-                );
-            }
-
-            // İşlemin Sonucunu Session'a yazma işlemi...
-            $this->session->set_flashdata("alert", $alert);
-            redirect(base_url("users"));
-
-        } else {
-
-            $viewData = new stdClass();
-
-            /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
-            $viewData->viewFolder = $this->viewFolder;
-            $viewData->subViewFolder = "password";
-            $viewData->form_error = true;
-            $viewData->breadcrumbs = $this->breadcrumbs->show();
-
-            /** Tablodan Verilerin Getirilmesi.. */
-            $viewData->item = $this->email_settings_model->get(
-                array(
-                    "id" => $id,
-                )
-            );
-
-            $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
-        }
-
     }
 
 }

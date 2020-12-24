@@ -8310,3 +8310,26 @@ p.footer-copyright {
   background-size: cover!important;
 
 }
+.modal {
+  text-align: center;
+  z-index: 50000;
+}
+
+@media screen and (min-width: 768px) {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.about-content.about-content-2 p{
+  padding-right: 0!important;
+}

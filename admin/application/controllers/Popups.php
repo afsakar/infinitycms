@@ -1,16 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Projects_category extends CI_Controller
+class Popups extends CI_Controller
 {
     public $viewFolder = "";
-    public $tableName = "brands";
+    public $tableName = "popups";
 
     public function __construct()
     {
         parent::__construct();
-        $this->viewFolder = 'brands_view';
-        $this->load->model('brands_model');
+        $this->viewFolder = 'popups_view';
+        $this->load->model('popups_model');
         if(!get_active_user())
         {
             redirect(base_url("login"));
@@ -19,15 +19,51 @@ class Projects_category extends CI_Controller
 
     public function index()
     {
+        if(!permission("popups", "show")){
+            redirect(base_url());
+        }
         $this->breadcrumbs->unshift('Anasayfa', '/');
-        $this->breadcrumbs->push('Markalar', '/brands');
+        $this->breadcrumbs->push('Popuplar', '/popups');
 
         $viewData = new stdClass();
 
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/index");
+        $config["total_rows"] = $this->popups_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
+
         //Tablodan verilerin çekilmesi.
-        $items = $this->brands_model->getAll(
+        $items = $this->popups_model->get_records(
             array(),
-            "rank ASC"
+            "",
+            $config["per_page"],
+            $page
         );
 
         //View'e gönderilen verilerin set edilmesi.
@@ -41,14 +77,18 @@ class Projects_category extends CI_Controller
     }
 
     public function addForm(){
+        if(!permission("popups", "add")){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Markalar', '/brands');
-        $this->breadcrumbs->push('Marka Ekle','/');
+        $this->breadcrumbs->push('Popuplar', '/popups');
+        $this->breadcrumbs->push('Popup Ekle','/');
 
         $viewData = new stdClass();
-
+        $this->load->model('menu_model');
         /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
+        $viewData->menus = $this->menu_model->getAll(array("isActive" => 1), "rank ASC");
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "add";
         $viewData->breadcrumbs = $this->breadcrumbs->show();
@@ -59,24 +99,17 @@ class Projects_category extends CI_Controller
 
     public function addItem()
     {
+        if(!permission("popups", "add")){
+            redirect(base_url());
+        }
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Markalar', '/brands');
-        $this->breadcrumbs->push('Marka Ekle','/');
+        $this->breadcrumbs->push('Popuplar', '/popups');
+        $this->breadcrumbs->push('Popup Ekle','/');
 
         $this->load->library("form_validation");
 
-            if ($_FILES["img_url"]["name"] == "") {
-                $alert = array(
-                    "title" => "İşlem başarısız!",
-                    "text" => "Lütfen bir görsel seçiniz!",
-                    "type" => "error",
-                    "position" => "top-center"
-                );
-                $this->session->set_flashdata("alert", $alert);
-                redirect(base_url('brands/addForm'));
-            }
-
         $this->form_validation->set_rules("title", "Başlık", "required|trim");
+        $this->form_validation->set_rules("description", "Açıklama", "required|trim");
 
         $this->form_validation->set_message(array(
             "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
@@ -88,30 +121,13 @@ class Projects_category extends CI_Controller
         if ($validate) {
             //Form'dan verileri al.
             $data['title'] = $this->input->post('title');
+            $data['description'] = $this->input->post('description');
+            $data['page'] = $this->input->post('page');
+            $data['popup_id'] = rand(1,100000);
 
-                $randName = rand(0, 99999) . $this->viewFolder;
-
-                $config["allowed_types"] = "jpg|jpeg|png";
-                $config["upload_path"] = "uploads/$this->viewFolder/";
-                $config['file_name'] = $randName;
-
-                $this->load->library('upload', $config);
-
-                $upload = $this->upload->do_upload("img_url");
-
-                if ($upload) {
-                    $data['img_url'] = $this->upload->data("file_name");
-                } else {
-                    $alert = array(
-                        "title" => "İşlem başarısız!",
-                        "text" => "Görsel yüklenirken bir hata oluştu, lütfen tekrar deneyin!",
-                        "type" => "error",
-                        "position" => "top-center"
-                    );
-                }
 
             //Form verilerini kaydet
-            $insert = $this->brands_model->add($data);
+            $insert = $this->popups_model->add($data);
             if ($insert) {
                 $alert = array(
                     "title" => "İşlem başarılı!",
@@ -129,14 +145,16 @@ class Projects_category extends CI_Controller
             }
 
             $this->session->set_flashdata("alert", $alert);
-            redirect(base_url('brands'));
+            redirect(base_url('popups'));
 
         } else {
             $viewData = new stdClass();
+            $this->load->model('menu_model');
 
             /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
             $viewData->viewFolder = $this->viewFolder;
             $viewData->subViewFolder = "add";
+            $viewData->menus = $this->menu_model->getAll(array("isActive" => 1), "rank ASC");
             $this->session->set_flashdata("formError", $viewData->formError = true);
             $viewData->breadcrumbs = $this->breadcrumbs->show();
 
@@ -147,23 +165,28 @@ class Projects_category extends CI_Controller
 
     public function updateForm($id){
 
+        if(!permission("popups", "edit")){
+            redirect(base_url());
+        }
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Markalar', '/brands');
-        $this->breadcrumbs->push('Marka Düzenle','/');
+        $this->breadcrumbs->push('Popuplar', '/popups');
+        $this->breadcrumbs->push('Popup Düzenle','/');
 
         $viewData = new stdClass();
 
         //Verilerin getirilmesi
-        $item = $this->brands_model->get(
+        $item = $this->popups_model->get(
             array(
                 "id" => $id
             )
         );
+        $this->load->model('menu_model');
 
         //View'e gönderilen verilerin set edilmesi.
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "update";
         $viewData->item = $item;
+        $viewData->menus = $this->menu_model->getAll(array("isActive" => 1), "rank ASC");
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
@@ -172,7 +195,10 @@ class Projects_category extends CI_Controller
 
     public function updateItem($id){
 
-        $item = $this->brands_model->get(
+        if(!permission("popups", "edit")){
+            redirect(base_url());
+        }
+        $item = $this->popups_model->get(
             array(
                 "id" => $id
             )
@@ -182,6 +208,7 @@ class Projects_category extends CI_Controller
 
         // Kurallar yazilir..
         $this->form_validation->set_rules("title", "Başlık", "required|trim");
+        $this->form_validation->set_rules("description", "Açıklama", "required|trim");
 
         $this->form_validation->set_message(array(
             "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
@@ -193,45 +220,10 @@ class Projects_category extends CI_Controller
         if ($validate) {
 
             $data['title'] = $this->input->post('title');
+            $data['description'] = $this->input->post('description');
+            $data['page'] = $this->input->post('page');
 
-                // Upload Süreci...
-                if ($_FILES["img_url"]["name"] !== "") {
-
-                    $file_name = rand(0, 99999) . $this->viewFolder;
-
-                    $config["allowed_types"] = "jpg|jpeg|png";
-                    $config["upload_path"] = "uploads/$this->viewFolder/";
-                    $config["file_name"] = $file_name;
-
-                    $this->load->library("upload", $config);
-
-                    $upload = $this->upload->do_upload("img_url");
-
-                    if ($upload) {
-
-                        $data['img_url'] = $this->upload->data("file_name");
-                        unlink("uploads/{$this->viewFolder}/$item->img_url");
-
-                    } else {
-
-                        $alert = array(
-                            "title" => "İşlem başarısız!",
-                            "text" => "Görsel yüklenirken bir problem oluştu!",
-                            "type" => "error",
-                            "position" => "top-center"
-                        );
-
-                        $this->session->set_flashdata("alert", $alert);
-
-                        redirect(base_url("brands/updateForm/$id"));
-
-                        die();
-
-                    }
-
-                }
-
-            $update = $this->brands_model->update(array("id" => $id), $data);
+            $update = $this->popups_model->update(array("id" => $id), $data);
 
             // TODO Alert sistemi eklenecek...
             if ($update) {
@@ -256,19 +248,21 @@ class Projects_category extends CI_Controller
             // İşlemin Sonucunu Session'a yazma işlemi...
             $this->session->set_flashdata("alert", $alert);
 
-            redirect(base_url("brands"));
+            redirect(base_url("popups"));
 
         } else {
 
             $viewData = new stdClass();
 
+            $this->load->model('menu_model');
             /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
             $viewData->viewFolder = $this->viewFolder;
             $viewData->subViewFolder = "update";
+            $viewData->menus = $this->menu_model->getAll(array("isActive" => 1), "rank ASC");
             $viewData->form_error = true;
 
             /** Tablodan Verilerin Getirilmesi.. */
-            $viewData->item = $this->brands_model->get(
+            $viewData->item = $this->popups_model->get(
                 array(
                     "id" => $id,
                 )
@@ -281,9 +275,19 @@ class Projects_category extends CI_Controller
 
     public function deleteItem($id)
     {
-        $getItem = $this->brands_model->get(array("id" => $id));
+        if(!permission("popups", "delete")){
+            $alert = array(
+                "title" => "Hata!",
+                "text" => "Bu işlemi yapmaya yetkiniz bulunmuyor!",
+                "type" => "error",
+                "position" => "top-center"
+            );
+            $this->session->set_flashdata("alert", $alert);
+            redirect(base_url());
+        }
+        $getItem = $this->popups_model->get(array("id" => $id));
 
-        $delete = $this->brands_model->delete(
+        $delete = $this->popups_model->delete(
             array(
                 "id" => $id
             )
@@ -307,16 +311,26 @@ class Projects_category extends CI_Controller
         }
 
         $this->session->set_flashdata("alert", $alert);
-        redirect(base_url('brands'));
+        redirect(base_url('popups'));
     }
 
     public function deleteImage($id, $parent_id)
     {
-        $fileName = $this->brands_image_model->get(
+        if(!permission("popups", "delete")){
+            $alert = array(
+                "title" => "Hata!",
+                "text" => "Bu işlemi yapmaya yetkiniz bulunmuyor!",
+                "type" => "error",
+                "position" => "top-center"
+            );
+            $this->session->set_flashdata("alert", $alert);
+            redirect(base_url());
+        }
+        $fileName = $this->popups_image_model->get(
             array("id" => $id)
         );
 
-        $delete = $this->brands_image_model->delete(
+        $delete = $this->popups_image_model->delete(
             array(
                 "id" => $id
             )
@@ -339,7 +353,7 @@ class Projects_category extends CI_Controller
             );
         }
         $this->session->set_flashdata("alert", $alert);
-        redirect(base_url("brands/imageForm/$parent_id"));
+        redirect(base_url("popups/imageForm/$parent_id"));
     }
 
     public function isActiveSetter($id){
@@ -352,7 +366,7 @@ class Projects_category extends CI_Controller
                 $isActive = 1;
             }
 
-            $update = $this->brands_model->update(array("id" => $id), array("isActive" => $isActive));
+            $update = $this->popups_model->update(array("id" => $id), array("isActive" => $isActive));
 
         }
 
@@ -369,11 +383,11 @@ class Projects_category extends CI_Controller
             }
 
             if ($isCover = 0) {
-                $update = $this->brands_image_model->update(array("id" => $id, "brands_id" => $parent_id), array("isCover" => 0));
-                $update = $this->brands_image_model->update(array("id !=" => $id, "brands_id" => $parent_id), array("isCover" => 1));
+                $update = $this->popups_image_model->update(array("id" => $id, "popups_id" => $parent_id), array("isCover" => 0));
+                $update = $this->popups_image_model->update(array("id !=" => $id, "popups_id" => $parent_id), array("isCover" => 1));
             } else {
-                $update = $this->brands_image_model->update(array("id" => $id, "brands_id" => $parent_id), array("isCover" => 1));
-                $update = $this->brands_image_model->update(array("id !=" => $id, "brands_id" => $parent_id), array("isCover" => 0));
+                $update = $this->popups_image_model->update(array("id" => $id, "popups_id" => $parent_id), array("isCover" => 1));
+                $update = $this->popups_image_model->update(array("id !=" => $id, "popups_id" => $parent_id), array("isCover" => 0));
             }
 
         }
@@ -384,7 +398,7 @@ class Projects_category extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "image";
 
-        $viewData->itemImages = $this->brands_image_model->getAll(array("brands_id" => $parent_id), "rank ASC");
+        $viewData->itemImages = $this->popups_image_model->getAll(array("popups_id" => $parent_id), "rank ASC");
 
 
         $renderHtml = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_view", $viewData, true);
@@ -403,7 +417,7 @@ class Projects_category extends CI_Controller
                 $isActive = 1;
             }
 
-            $update = $this->brands_image_model->update(array("id" => $id), array("isActive" => $isActive));
+            $update = $this->popups_image_model->update(array("id" => $id), array("isActive" => $isActive));
 
         }
 
@@ -415,7 +429,7 @@ class Projects_category extends CI_Controller
         $items = $order['ord'];
 
         foreach ($items as $rank => $id) {
-            $this->brands_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
+            $this->popups_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
         }
     }
 
@@ -425,7 +439,7 @@ class Projects_category extends CI_Controller
         $items = $order['ord'];
 
         foreach ($items as $rank => $id) {
-            $this->brands_image_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
+            $this->popups_image_model->update(array("id" => $id, "rank !=" => $rank), array("rank" => $rank));
         }
     }
 
@@ -433,8 +447,8 @@ class Projects_category extends CI_Controller
     {
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
-        $this->breadcrumbs->push('Markalar', '/brands');
-        $this->breadcrumbs->push('Marka Görselleri','/');
+        $this->breadcrumbs->push('Popuplar', '/popups');
+        $this->breadcrumbs->push('Popup Görselleri','/');
 
         $viewData = new stdClass();
 
@@ -442,14 +456,14 @@ class Projects_category extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "image";
 
-        $item = $this->brands_model->get(
+        $item = $this->popups_model->get(
             array(
                 "id" => $id
             )
         );
 
         $viewData->item = $item;
-        $viewData->itemImages = $this->brands_image_model->getAll(array("brands_id" => $id), "rank ASC");
+        $viewData->itemImages = $this->popups_image_model->getAll(array("popups_id" => $id), "rank ASC");
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
 
@@ -471,9 +485,9 @@ class Projects_category extends CI_Controller
 
         if ($upload) {
             $data['image_url'] = $this->upload->data("file_name");
-            $data['brands_id'] = $id;
+            $data['popups_id'] = $id;
 
-            $result = $this->brands_image_model->add($data);
+            $result = $this->popups_image_model->add($data);
 
         } else {
             echo "başarısız";
@@ -489,7 +503,7 @@ class Projects_category extends CI_Controller
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "image";
 
-        $viewData->itemImages = $this->brands_image_model->getAll(array("brands_id" => $id), "rank ASC");
+        $viewData->itemImages = $this->popups_image_model->getAll(array("popups_id" => $id), "rank ASC");
 
 
         $renderHtml = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_view", $viewData, true);

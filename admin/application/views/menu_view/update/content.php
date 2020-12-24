@@ -43,6 +43,18 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label>Footer'da gösterilsin mi?<span class="text-danger">*</span></label>
+                                    <select id="select2-demo-1" name="isFooter" class="form-control" data-plugin="select2">
+                                        <?php if($formError): ?>
+                                            <option <?php if(isset($formError) && set_value('isFooter') == 0){echo "selected"; }else{ echo ""; } ?> value="0">Hayır</option>
+                                            <option <?php if(isset($formError) && set_value('isFooter') == 1){echo "selected"; }else{ echo ""; } ?> value="1">Evet</option>
+                                        <?php else: ?>
+                                            <option <?php if($item->isFooter == 0){echo "selected"; }else{ echo ""; } ?> value="0">Hayır</option>
+                                            <option <?php if($item->isFooter == 1){echo "selected"; }else{ echo ""; } ?> value="1">Evet</option>
+                                        <?php endif; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label>URL<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="url" placeholder="URL Giriniz" value="<?php if (isset($formError)){ echo set_value('url'); }else{echo $item->url; } ?>">
                                     <small>Boş bırakırsanız Başlık'tan alacaktır.</small>

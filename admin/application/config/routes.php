@@ -57,3 +57,4 @@ $route['logout'] = "usersop/logout";
 $route['forget_password'] = "usersop/forget_password";
 $route['reset_password'] = "usersop/reset_password";
 $route['projects_category'] = "projects/projects_category";
+$route['comments'] = "news/commentList";

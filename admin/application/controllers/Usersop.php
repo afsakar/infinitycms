@@ -83,6 +83,7 @@ class Usersop extends CI_Controller{
                     redirect(base_url('login'));
                     die();
                 }else{
+                    $this->users_model->update(array("id" => $user->id), array("isOnline" => 1));
                     $alert = array(
                         "title" => "Hoşgeldiniz!!",
                         "text" => "<b>$user->user_name</b> kullanıcı adıyla giriş yaptınız!",
@@ -121,6 +122,8 @@ class Usersop extends CI_Controller{
 
     public function logout()
     {
+        $user=get_active_user();
+        $this->users_model->update(array("id" => $user->id), array("isOnline" => 0));
         $this->session->unset_userdata("user");
         redirect(base_url('login'));
     }

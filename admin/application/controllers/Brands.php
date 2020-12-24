@@ -19,15 +19,51 @@ class Brands extends CI_Controller
 
     public function index()
     {
+        if(!permission("brands", "show")){
+            redirect(base_url());
+        }
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Markalar', '/brands');
 
         $viewData = new stdClass();
 
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/index");
+        $config["total_rows"] = $this->brands_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
+
         //Tablodan verilerin çekilmesi.
-        $items = $this->brands_model->getAll(
+        $items = $this->brands_model->get_records(
             array(),
-            "rank ASC"
+            "rank ASC",
+            $config["per_page"],
+            $page
         );
 
         //View'e gönderilen verilerin set edilmesi.
@@ -41,6 +77,9 @@ class Brands extends CI_Controller
     }
 
     public function addForm(){
+        if(!permission("brands", "add")){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Markalar', '/brands');
@@ -59,6 +98,9 @@ class Brands extends CI_Controller
 
     public function addItem()
     {
+        if(!permission("brands", "add")){
+            redirect(base_url());
+        }
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Markalar', '/brands');
         $this->breadcrumbs->push('Marka Ekle','/');
@@ -147,6 +189,9 @@ class Brands extends CI_Controller
 
     public function updateForm($id){
 
+        if(!permission("brands", "edit")){
+            redirect(base_url());
+        }
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Markalar', '/brands');
         $this->breadcrumbs->push('Marka Düzenle','/');
@@ -172,6 +217,13 @@ class Brands extends CI_Controller
 
     public function updateItem($id){
 
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Markalar', '/brands');
+        $this->breadcrumbs->push('Marka Düzenle','/');
+
+        if(!permission("brands", "edit")){
+            redirect(base_url());
+        }
         $item = $this->brands_model->get(
             array(
                 "id" => $id
@@ -266,6 +318,7 @@ class Brands extends CI_Controller
             $viewData->viewFolder = $this->viewFolder;
             $viewData->subViewFolder = "update";
             $viewData->form_error = true;
+            $viewData->breadcrumbs = $this->breadcrumbs->show();
 
             /** Tablodan Verilerin Getirilmesi.. */
             $viewData->item = $this->brands_model->get(
@@ -281,6 +334,16 @@ class Brands extends CI_Controller
 
     public function deleteItem($id)
     {
+        if(!permission("brands", "delete")){
+            $alert = array(
+                "title" => "Hata!",
+                "text" => "Bu işlemi yapmaya yetkiniz bulunmuyor!",
+                "type" => "error",
+                "position" => "top-center"
+            );
+            $this->session->set_flashdata("alert", $alert);
+            redirect(base_url());
+        }
         $getItem = $this->brands_model->get(array("id" => $id));
 
         $delete = $this->brands_model->delete(
@@ -312,6 +375,16 @@ class Brands extends CI_Controller
 
     public function deleteImage($id, $parent_id)
     {
+        if(!permission("brands", "delete")){
+            $alert = array(
+                "title" => "Hata!",
+                "text" => "Bu işlemi yapmaya yetkiniz bulunmuyor!",
+                "type" => "error",
+                "position" => "top-center"
+            );
+            $this->session->set_flashdata("alert", $alert);
+            redirect(base_url());
+        }
         $fileName = $this->brands_image_model->get(
             array("id" => $id)
         );

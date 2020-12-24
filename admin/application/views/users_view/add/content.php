@@ -37,6 +37,16 @@
                         <?php endif; ?>
                     </div>
                     <div class="form-group">
+                        <label>Kullanıcı Tipi<span class="text-danger">*</span></label>
+                        <select id="select2-demo-1" name="user_type" class="form-control" data-plugin="select2">
+                            <option <?php if(isset($formError) && set_value('user_type') == "admin"){echo "selected"; }else{ echo ""; } ?> value="admin">Admin</option>
+                            <option <?php if(isset($formError) && set_value('user_type') == "superadmin"){echo "selected"; }else{ echo ""; } ?> value="superadmin">Superadmin</option>
+                        </select>
+                        <?php if(isset($formError)): ?>
+                            <span id="helpBlock" class="help-block text-danger"><?=form_error('user_type')?></span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="form-group">
                         <label>Şifre<span class="text-danger">*</span></label>
                         <input type="password" class="form-control" name="password" placeholder="Şifre Giriniz" value="<?php if (isset($formError)){ echo set_value('password'); } ?>">
                         <?php if(isset($formError)): ?>

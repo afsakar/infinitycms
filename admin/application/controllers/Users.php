@@ -12,6 +12,8 @@ class Users extends CI_Controller
         $this->viewFolder = 'users_view';
         $this->load->model('users_model');
         $this->load->database();
+        $this->userLoad = get_active_user();
+        $this->userData = $this->session->userdata("user");
         if(!get_active_user())
         {
             redirect(base_url("login"));
@@ -20,18 +22,66 @@ class Users extends CI_Controller
 
     public function index()
     {
+        $userRole=$this->userData;
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Kullanıcılar', '/users');
 
         $viewData = new stdClass();
 
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/index");
+        $config["total_rows"] = $this->users_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
+
         //Tablodan verilerin çekilmesi.
-        $items = $this->users_model->getAll(array(),"");
+        //Tablodan verilerin çekilmesi.
+        if($userRole->user_type != "superadmin"){
+            $items = $this->users_model->get_records(
+                array("id" => $userRole->id),
+                "",
+                $config["per_page"],
+                $page
+            );
+        }else{
+            $items = $this->users_model->get_records(
+                array(),
+                "",
+                $config["per_page"],
+                $page
+            );
+        }
 
         //View'e gönderilen verilerin set edilmesi.
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "list";
         $viewData->items = $items;
+        $viewData->userRole = $this->userData;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
 
@@ -39,6 +89,11 @@ class Users extends CI_Controller
     }
 
     public function addForm(){
+
+        $userRole=$this->userData;
+        if($userRole->user_type != "superadmin"){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Kullanıcılar', '/users');
@@ -57,6 +112,11 @@ class Users extends CI_Controller
 
     public function addItem()
     {
+        $userRole=$this->userData;
+        if($userRole->user_type != "superadmin"){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Kullanıcılar', '/users');
         $this->breadcrumbs->push('Kullanıcı Ekle','/');
@@ -99,6 +159,7 @@ class Users extends CI_Controller
             $data['full_name'] = $this->input->post('full_name');
             $data['email'] = $this->input->post('email');
             $data['password'] = md5($this->input->post('password'));
+            $data['user_type'] = $this->input->post('user_type');
 
                 $randName = rand(0, 99999) . $this->viewFolder;
 
@@ -157,6 +218,10 @@ class Users extends CI_Controller
     }
 
     public function updateForm($id){
+        $userRole=$this->userData;
+        if($userRole->id != $id && $userRole->user_type != "superadmin"){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Kullanıcılar', '/users');
@@ -173,8 +238,11 @@ class Users extends CI_Controller
 
         //View'e gönderilen verilerin set edilmesi.
         $viewData->viewFolder = $this->viewFolder;
+        $viewData->userData = $this->session->userdata("user");
         $viewData->subViewFolder = "update";
         $viewData->item = $item;
+        $viewData->userRole = $this->userData;
+        $viewData->permissions = json_decode($item->permissions, true);
         $viewData->breadcrumbs = $this->breadcrumbs->show();
 
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
@@ -182,6 +250,10 @@ class Users extends CI_Controller
     }
 
     public function updateItem($id){
+        $userRole=$this->userData;
+        if($userRole->id != $id && $userRole->user_type != "superadmin"){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Kullanıcılar', '/users');
@@ -218,6 +290,7 @@ class Users extends CI_Controller
             $data['user_name'] = $this->input->post('user_name');
             $data['full_name'] = $this->input->post('full_name');
             $data['email'] = $this->input->post('email');
+            $data['permissions'] = json_encode($this->input->post('permissions'));
 
                 // Upload Süreci...
                 if ($_FILES["img_url"]["name"] !== "") {
@@ -280,6 +353,8 @@ class Users extends CI_Controller
             $viewData->viewFolder = $this->viewFolder;
             $viewData->subViewFolder = "update";
             $viewData->form_error = true;
+            $viewData->userRole = $this->userData;
+            $viewData->permissions = json_decode($item->permissions, true);
             $viewData->breadcrumbs = $this->breadcrumbs->show();
 
             /** Tablodan Verilerin Getirilmesi.. */
@@ -296,6 +371,11 @@ class Users extends CI_Controller
 
     public function deleteItem($id)
     {
+        $userRole=$this->userData;
+        if($userRole->user_type != "superadmin"){
+            redirect(base_url());
+            die();
+        }
         $getItem = $this->users_model->get(array("id" => $id));
 
         $delete = $this->users_model->delete(

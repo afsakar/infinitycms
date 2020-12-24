@@ -1,0 +1,1 @@
+<script src="<?=base_url('sources')?>/assets/js/sliders.js"></script>

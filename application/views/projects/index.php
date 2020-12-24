@@ -45,7 +45,7 @@
                             <?php else: ?>
                                 <!-- Poftfolio Filters -->
                                 <div class="portfolio-filters portfolio-filters-minimal text-center mt-0">
-                                    <button class="is-checked" data-filter="*">all</button>
+                                    <button class="is-checked" data-filter="*">Tümü</button>
                                     <?php foreach ($categories as $category): ?>
                                         <button data-filter=".<?=$category->id?>"><?=$category->category_name?></button>
                                     <?php endforeach; ?>

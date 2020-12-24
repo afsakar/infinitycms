@@ -7,3 +7,4 @@
 <script src="<?=base_url("sources/")?>js/scripts.js"></script>
 <script src="<?=base_url("sources/")?>js/toastr.min.js"></script>
 <?php $this->load->view("includes/alert.php"); ?>
+<?php $this->load->view("includes/popup.php"); ?>

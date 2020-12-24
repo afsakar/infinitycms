@@ -42,11 +42,17 @@
                     </div>
                     <div class="col-lg-7">
                         <div class="pg-portfolio-images cr-slider-navigation-3">
+                            <?php if($images): ?>
                             <?php foreach ($images as $image): ?>
                                 <a href="<?=base_url("admin/uploads/$viewFolder/$image->image_url")?>">
                                     <img src="<?=base_url("admin/uploads/$viewFolder/$image->image_url")?>" alt="<?=$course->title?>">
                                 </a>
                             <?php endforeach; ?>
+                            <?php else: ?>
+                                <a href="<?=base_url("admin/uploads/$viewFolder/$course->img_url")?>">
+                                    <img src="<?=base_url("admin/uploads/$viewFolder/$course->img_url")?>" alt="<?=$course->title?>">
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="col-lg-5">

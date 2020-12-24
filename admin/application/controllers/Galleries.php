@@ -20,14 +20,50 @@ class Galleries extends CI_Controller
 
     public function index()
     {
+        if(!permission("galleries", "show")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Galeriler', '/galleries');
         $viewData = new stdClass();
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/index");
+        $config["total_rows"] = $this->galleries_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
 
         //Tablodan verilerin çekilmesi.
-        $items = $this->galleries_model->getAll(
+        $items = $this->galleries_model->get_records(
             array(),
-            "rank ASC"
+            "rank ASC",
+            $config["per_page"],
+            $page
         );
 
         //View'e gönderilen verilerin set edilmesi.
@@ -41,6 +77,11 @@ class Galleries extends CI_Controller
     }
 
     public function addForm(){
+
+        if(!permission("galleries", "add")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Galeriler', '/galleries');
         $this->breadcrumbs->push('Galeri Ekle', '/');
@@ -57,6 +98,10 @@ class Galleries extends CI_Controller
 
     public function addItem()
     {
+        if(!permission("galleries", "add")){
+            redirect(base_url());
+        }
+
         /* Breadcrumbs bilgileri start */
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Galeriler', '/galleries');
@@ -180,6 +225,10 @@ class Galleries extends CI_Controller
 
     public function updateForm($id){
 
+        if(!permission("galleries", "edit")){
+            redirect(base_url());
+        }
+
         /* Breadcrumbs bilgileri start */
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Galeriler', '/galleries');
@@ -208,6 +257,10 @@ class Galleries extends CI_Controller
 
     public function updateItem($id)
     {
+        if(!permission("galleries", "edit")){
+            redirect(base_url());
+        }
+
         /* Tablodan verileri çek start */
         $item = $this->galleries_model->get(array("id" => $id));
         /* Tablodan verileri çek end */
@@ -362,6 +415,10 @@ class Galleries extends CI_Controller
 
     public function deleteItem($id)
     {
+        if(!permission("galleries", "delete")){
+            redirect(base_url());
+        }
+
         $item = $this->galleries_model->get(array("id" => $id));
         $delete = $this->galleries_model->delete(
             array(
@@ -560,9 +617,9 @@ class Galleries extends CI_Controller
         );
 
         $randName = $item->gallery_type.'-'.rand(0, 99999);
-        $config['file_name'] = $randName;
 
         if($item->gallery_type == "image"){
+            $config['file_name'] = $randName;
             $config["allowed_types"] = "jpg|jpeg|png|svg|gif";
             $config["upload_path"] = "uploads/$this->viewFolder/$item->gallery_type/$item->folder_name";
             $this->load->library('upload', $config);
@@ -577,6 +634,7 @@ class Galleries extends CI_Controller
             $data['url'] = $config["upload_path"].'/'.$this->upload->data("file_name");
             $data['gallery_id'] = $id;
             $data['gallery_type'] = $item->gallery_type;
+            $data['file_name'] = end(explode("/", $data["url"]));
             $result = $this->galleries_image_model->add($data);
         } else {
             echo "başarısız";
@@ -586,6 +644,10 @@ class Galleries extends CI_Controller
 
     public function deleteImage($id, $parent_id)
     {
+        if(!permission("galleries", "delete")){
+            redirect(base_url());
+        }
+
         $fileName = $this->galleries_image_model->get(
             array("id" => $id)
         );
@@ -647,10 +709,43 @@ class Galleries extends CI_Controller
         $this->breadcrumbs->push('Videolar', '/');
         $viewData = new stdClass();
 
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/videos/$id");
+        $config["total_rows"] = $this->galleries_image_model->get_count(array("gallery_id"=>$id));
+        $config["uri_segment"] = 4;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
+
         //Tablodan verilerin çekilmesi.
-        $items = $this->galleries_image_model->getAll(
+        $items = $this->galleries_image_model->get_records(
             array("gallery_type" => "video", "gallery_id" => $id),
-            "rank ASC"
+            "rank ASC",
+            $config["per_page"],
+            $page
         );
 
         //View'e gönderilen verilerin set edilmesi.
@@ -666,6 +761,11 @@ class Galleries extends CI_Controller
     }
 
     public function addVideoForm($id){
+
+        if(!permission("galleries", "add")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Galeriler', '/galleries');
         $this->breadcrumbs->push('Video Ekle','/');
@@ -684,13 +784,30 @@ class Galleries extends CI_Controller
 
     public function addVideo($id)
     {
+        if(!permission("galleries", "add")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Galeriler', '/galleries');
         $this->breadcrumbs->push('Video Ekle','/');
 
         //Form Validation
         $this->load->library("form_validation");
+
+        if ($_FILES["video_cover"]["name"] == "") {
+            $alert = array(
+                "title" => "İşlem başarısız!",
+                "text" => "Lütfen bir görsel seçiniz!",
+                "type" => "error",
+                "position" => "top-center"
+            );
+            $this->session->set_flashdata("alert", $alert);
+            redirect(base_url("galleries/addVideoForm/$id"));
+        }
+
         $this->form_validation->set_rules("url", "URL", "required|trim");
+        $this->form_validation->set_rules("title", "Başlık", "required|trim");
         $this->form_validation->set_message(array(
             "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
         ));
@@ -702,7 +819,29 @@ class Galleries extends CI_Controller
             //Form'dan verileri al.
             $data['url'] = $this->input->post('url');
             $data['gallery_id'] = $id;
+            $data['file_name'] = $this->input->post('title');
             $data['gallery_type'] = "video";
+
+            $randName = rand(0, 99999) . $this->viewFolder;
+
+            $config["allowed_types"] = "jpg|jpeg|png";
+            $config["upload_path"] = "uploads/$this->viewFolder/video/";
+            $config['file_name'] = $randName;
+
+            $this->load->library('upload', $config);
+
+            $upload = $this->upload->do_upload("video_cover");
+
+            if ($upload) {
+                $data['video_cover'] = $this->upload->data("file_name");
+            } else {
+                $alert = array(
+                    "title" => "İşlem başarısız!",
+                    "text" => "Görsel yüklenirken bir hata oluştu, lütfen tekrar deneyin!",
+                    "type" => "error",
+                    "position" => "top-center"
+                );
+            }
 
             //Form verilerini kaydet
             $insert = $this->galleries_image_model->add($data);
@@ -743,6 +882,11 @@ class Galleries extends CI_Controller
     }
 
     public function updateVideoForm($id, $parent_id){
+
+        if(!permission("galleries", "edit")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Galeriler', '/galleries');
         $this->breadcrumbs->push('Video Düzenle','/');
@@ -770,12 +914,23 @@ class Galleries extends CI_Controller
 
     public function updateVideo($id, $parent_id)
     {
+        if(!permission("galleries", "edit")){
+            redirect(base_url());
+        }
+
+        $item = $this->galleries_image_model->get(
+            array(
+                "id" => $id
+            )
+        );
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Galeriler', '/galleries');
         $this->breadcrumbs->push('Video Düzenle','/');
         //Form Validation
         $this->load->library("form_validation");
         $this->form_validation->set_rules("url", "URL", "required|trim");
+        $this->form_validation->set_rules("title", "Başlık", "required|trim");
 
         //Form validation çalıştır
         $validate = $this->form_validation->run();
@@ -783,6 +938,44 @@ class Galleries extends CI_Controller
         if ($validate) {
             //Form'dan verileri al.
             $data['url'] = $this->input->post('url');
+            $data['file_name'] = $this->input->post('title');
+
+            // Upload Süreci...
+            if ($_FILES["video_cover"]["name"] !== "") {
+
+                $file_name = rand(0, 99999) . $this->viewFolder;
+
+                $config["allowed_types"] = "jpg|jpeg|png";
+                $config["upload_path"] = "uploads/$this->viewFolder/video/";
+                $config["file_name"] = $file_name;
+
+                $this->load->library("upload", $config);
+
+                $upload = $this->upload->do_upload("video_cover");
+
+                if ($upload) {
+
+                    $data['video_cover'] = $this->upload->data("file_name");
+                    unlink("uploads/{$this->viewFolder}/video/$item->video_cover");
+
+                } else {
+
+                    $alert = array(
+                        "title" => "İşlem başarısız!",
+                        "text" => "Görsel yüklenirken bir problem oluştu!",
+                        "type" => "error",
+                        "position" => "top-center"
+                    );
+
+                    $this->session->set_flashdata("alert", $alert);
+
+                    redirect(base_url("galleries/videos/$parent_id"));
+
+                    die();
+
+                }
+
+            }
 
             //Form verilerini güncelle
             $update = $this->galleries_image_model->update(array("id" => $id), $data);
@@ -832,7 +1025,10 @@ class Galleries extends CI_Controller
 
     public function deleteVideo($id, $parent_id)
     {
-
+        if(!permission("galleries", "delete")){
+            redirect(base_url());
+        }
+        $getItem = $this->galleries_image_model->get(array("id" => $id));
         $delete = $this->galleries_image_model->delete(
             array(
                 "id" => $id
@@ -840,6 +1036,7 @@ class Galleries extends CI_Controller
         );
 
         if ($delete) {
+            unlink("uploads/{$this->viewFolder}/video/$getItem->video_cover");
             $alert = array(
                 "title"     => "İşlem başarılı!",
                 "text"      => "Kayıt başarıyla silindi!",

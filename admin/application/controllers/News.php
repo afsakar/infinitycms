@@ -11,6 +11,7 @@ class News extends CI_Controller
         parent::__construct();
         $this->viewFolder = 'news_view';
         $this->load->model('news_model');
+        $this->load->model('comments_model');
         $this->load->model('news_image_model');
         if(!get_active_user())
         {
@@ -20,14 +21,50 @@ class News extends CI_Controller
 
     public function index()
     {
+        if(!permission("news", "show")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Haberler', '/news');
         $viewData = new stdClass();
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/index");
+        $config["total_rows"] = $this->news_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
 
         //Tablodan verilerin çekilmesi.
-        $items = $this->news_model->getAll(
+        $items = $this->news_model->get_records(
             array(),
-            "rank ASC"
+            "rank ASC",
+            $config["per_page"],
+            $page
         );
 
         //View'e gönderilen verilerin set edilmesi.
@@ -41,6 +78,10 @@ class News extends CI_Controller
     }
 
     public function addForm(){
+
+        if(!permission("news", "add")){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Haberler', '/news');
@@ -58,6 +99,10 @@ class News extends CI_Controller
 
     public function addItem()
     {
+        if(!permission("news", "add")){
+            redirect(base_url());
+        }
+
         $this->load->library("form_validation");
         $news_type = $this->input->post("news_type");
 
@@ -162,6 +207,10 @@ class News extends CI_Controller
 
     public function updateForm($id){
 
+        if(!permission("news", "edit")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Haberler', '/news');
         $this->breadcrumbs->push('Haber Düzenle','/');
@@ -189,6 +238,10 @@ class News extends CI_Controller
     }
 
     public function updateItem($id){
+
+        if(!permission("news", "edit")){
+            redirect(base_url());
+        }
 
         $item = $this->news_model->get(
             array(
@@ -331,6 +384,10 @@ class News extends CI_Controller
 
     public function deleteItem($id)
     {
+        if(!permission("news", "delete")){
+            redirect(base_url());
+        }
+
         $getItem = $this->news_model->get(array("id" => $id));
 
         $delete = $this->news_model->delete(
@@ -375,6 +432,10 @@ class News extends CI_Controller
 
     public function deleteImage($id, $parent_id)
     {
+        if(!permission("news", "delete")){
+            redirect(base_url());
+        }
+
         $fileName = $this->news_image_model->get(
             array("id" => $id)
         );
@@ -557,6 +618,239 @@ class News extends CI_Controller
         $renderHtml = $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/render_elements/image_list_view", $viewData, true);
 
         echo $renderHtml;
+    }
+
+    //Yorumlar
+
+    public function commentList(){
+
+        if(!permission("comments", "show")){
+            redirect(base_url());
+        }
+
+        $this->breadcrumbs->unshift('Anasayfa', '/');
+        $this->breadcrumbs->push('Yorumlar', '/comments');
+        $viewData = new stdClass();
+        /* Pagination Start */
+        $config["base_url"] = base_url("news/commentList/");
+        $config["total_rows"] = $this->comments_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
+
+        //Tablodan verilerin çekilmesi.
+        $items = $this->comments_model->get_records(
+            array(),
+            "createdAt DESC",
+            $config["per_page"],
+            $page
+        );
+
+        //View'e gönderilen verilerin set edilmesi.
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "comments";
+        $viewData->subViewFolder2 = "list";
+        $viewData->items = $items;
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+    }
+
+    public function commentForm($id){
+
+        if(!permission("comments", "edit")){
+            redirect(base_url());
+        }
+
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Yorumlar', '/comments');
+        $this->breadcrumbs->push('Yorum Düzenle','/');
+
+        $viewData = new stdClass();
+
+        //Verilerin getirilmesi
+        $item = $this->comments_model->get(
+            array(
+                "id" => $id
+            )
+        );
+
+
+        //View'e gönderilen verilerin set edilmesi.
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "comments";
+        $viewData->subViewFolder2 = "update";
+        $viewData->item = $item;
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+
+    }
+
+    public function updateComment($id){
+
+        if(!permission("comments", "edit")){
+            redirect(base_url());
+        }
+
+        $item = $this->comments_model->get(
+            array(
+                "id" => $id
+            )
+        );
+
+        $this->load->library("form_validation");
+
+        // Kurallar yazilir..
+        $this->form_validation->set_rules("content", "Yorum", "required|trim");
+
+        $this->form_validation->set_message(array(
+            "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
+        ));
+
+        // Form Validation Calistirilir..
+        $validate = $this->form_validation->run();
+
+        if ($validate) {
+
+            $data['content'] = $this->input->post('content');
+
+            $update = $this->comments_model->update(array("id" => $id), $data);
+
+            // TODO Alert sistemi eklenecek...
+            if ($update) {
+
+                $alert = array(
+                    "title" => "İşlem Başarılı",
+                    "text" => "Kayıt başarılı bir şekilde güncellendi",
+                    "type" => "success",
+                    "position" => "top-center"
+                );
+
+            } else {
+
+                $alert = array(
+                    "title" => "İşlem Başarısız",
+                    "text" => "Kayıt Güncelleme sırasında bir problem oluştu",
+                    "type" => "error",
+                    "position" => "top-center"
+                );
+            }
+
+            // İşlemin Sonucunu Session'a yazma işlemi...
+            $this->session->set_flashdata("alert", $alert);
+
+            redirect(base_url("comments"));
+
+        } else {
+
+            $viewData = new stdClass();
+
+            /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
+            $viewData->viewFolder = $this->viewFolder;
+            $viewData->subViewFolder = "comments";
+            $viewData->subViewFolder2 = "update";
+            $viewData->form_error = true;
+
+            /** Tablodan Verilerin Getirilmesi.. */
+            $viewData->item = $this->comments_model->get(
+                array(
+                    "id" => $id,
+                )
+            );
+
+            $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/{$viewData->subViewFolder2}/index", $viewData);
+        }
+
+    }
+
+    public function commentActiveSetter($id){
+
+        if ($id) {
+            $isActive = $this->input->post("data");
+            if ($isActive == "false") {
+                $isActive = 0;
+            } else {
+                $isActive = 1;
+            }
+
+            $update = $this->comments_model->update(array("id" => $id), array("isActive" => $isActive));
+
+        }
+
+    }
+
+    public function deleteComment($id)
+    {
+        if(!permission("news", "delete")){
+            redirect(base_url());
+        }
+
+        $getItem = $this->news_model->get(array("id" => $id));
+
+        $delete = $this->news_model->delete(
+            array(
+                "id" => $id
+            )
+        );
+
+        if ($delete) {
+            unlink("uploads/{$this->viewFolder}/$getItem->img_url");
+            /* Item'e ait görsellerin silinmesi start */
+            $getImages = $this->news_image_model->getAll(array("news_id" => $id), array());
+
+            foreach ($getImages as $image) {
+                $delete = $this->news_image_model->delete(
+                    array(
+                        "id" => $image->id
+                    )
+                );
+                unlink("uploads/{$this->viewFolder}/$image->image_url");
+            }
+            /* Item'e ait görsellerin silinmesi end */
+
+            $alert = array(
+                "title" => "İşlem başarılı!",
+                "text" => "Kayıt başarıyla silindi!",
+                "type" => "success",
+                "position" => "top-center"
+            );
+        } else {
+            $alert = array(
+                "title" => "İşlem başarısız!",
+                "text" => "Kayıt silinirken bir hata oluştu, lütfen tekrar deneyin!",
+                "type" => "error",
+                "position" => "top-center"
+            );
+        }
+
+        $this->session->set_flashdata("alert", $alert);
+        redirect(base_url('news'));
     }
 
 }

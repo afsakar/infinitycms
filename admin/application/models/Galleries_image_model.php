@@ -10,6 +10,15 @@ class Galleries_image_model extends CI_Model
         parent::__construct();
     }
 
+    public function get_records($where = array(), $orderBy, $limit, $count)
+    {
+        return $this->db->where($where)->order_by($orderBy)->limit($limit, $count)->get($this->tableName)->result();
+    }
+    public function get_count($where = array())
+    {
+        return $this->db->where($where)->count_all($this->tableName);
+    }
+
     //Bütün kayıtları getir
     public function get($where = array())
     {

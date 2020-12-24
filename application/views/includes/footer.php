@@ -13,8 +13,7 @@
                             <a href="<?=base_url()?>">
                                 <img src="<?=logo("logo")?>" alt="<?=settings("title")?>" width="200">
                             </a>
-                            <p>long established fact that a reader will be distracted by the readable content by the
-                                readable content established fact that</p>
+                            <p>Yeniliklerden haberdar olmak için bültenimize abone olun!</p>
                         </div>
                         <!--// Single Widget -->
 
@@ -23,7 +22,7 @@
                             <form action="<?=base_url("member")?>" method="post" class="newsletter-widget-form">
                                 <input type="email" name="email" placeholder="Email adresiniz" required>
                                 <input type="hidden" name="<?=$this->security->get_csrf_token_name()?>" value="<?=$this->security->get_csrf_hash()?>">
-                                <button type="submit" class="cr-btn cr-btn-sm cr-btn-round">
+                                <button type="submit" class="cr-btn cr-btn-sm">
                                     <span>Abone Ol</span>
                                 </button>
                             </form>
@@ -31,33 +30,22 @@
                         <!--// Single Widget -->
                     </div>
 
+                    <?php if($footerMenu): ?>
                     <div class="col-lg-2 col-md-6 col-12">
                         <!-- Single Widget -->
                         <div class="single-widget widget-quick-links">
-                            <h5 class="footer-widget-title">QUICK LINK</h5>
+                            <h5 class="footer-widget-title">Yararlı Linkler</h5>
                             <ul>
+                                <?php foreach ($footerMenu as $menu): ?>
                                 <li>
-                                    <a href="index.html">Home</a>
+                                    <a href="<?php if($menu->content != ""){ echo base_url("pages/$menu->url"); }else{ echo base_url("$menu->url"); } ?>"><?=$menu->title?></a>
                                 </li>
-                                <li>
-                                    <a href="about-us.html">About Us</a>
-                                </li>
-                                <li>
-                                    <a href="blog-fullwidth.html">Blog Pages</a>
-                                </li>
-                                <li>
-                                    <a href="contact-us.html">Quick Contact</a>
-                                </li>
-                                <li>
-                                    <a href="about-us-2.html">Karbar History</a>
-                                </li>
-                                <li>
-                                    <a href="services.html">Our Services</a>
-                                </li>
+                                <?php endforeach; ?>
                             </ul>
                         </div>
                         <!--// Single Widget -->
                     </div>
+                    <?php endif; ?>
 
                     <div class="col-lg-3 col-md-6 col-12">
                         <!-- Single Widget -->
@@ -120,29 +108,23 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <!-- Single Widget -->
                         <div class="single-widget widget-quick-contact">
-                            <h5 class="footer-widget-title">Quick Contact</h5>
+                            <h5 class="footer-widget-title">İletişim Bilgileri</h5>
                             <ul>
                                 <li>
-                                    <span>Phone</span>
+                                    <span>Telefon</span>
                                     <p>
-                                        <a href="tel:+01234567890123">+01234567890123</a>
-                                    </p>
-                                    <p>
-                                        <a href="tel:+01234567890124">+01234567890124</a>
+                                        <a href="tel:<?=settings("phone")?>"><?=settings("phone")?></a>
                                     </p>
                                 </li>
                                 <li>
                                     <span>Email</span>
                                     <p>
-                                        <a href="#">info@example.com</a>
-                                    </p>
-                                    <p>
-                                        <a href="#">info@example.com</a>
+                                        <a href="#"><?=settings("email")?></a>
                                     </p>
                                 </li>
                                 <li>
-                                    <span>Address</span>
-                                    <p>34/5 evergreen road, karbar city New work, United States</p>
+                                    <span>Adres</span>
+                                    <p><?=settings("address")?></p>
                                 </li>
                             </ul>
                         </div>
@@ -159,30 +141,7 @@
     <div class="footer-bottom-area bg-dark">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8">
-                    <ul class="footer-social">
-                        <li>
-                            <a href="https://www.facebook.com/">Facebook</a>
-                        </li>
-                        <li>
-                            <a href="https://twitter.com/">Twitter</a>
-                        </li>
-                        <li>
-                            <a href="https://plus.google.com/">Google+</a>
-                        </li>
-                        <li>
-                            <a href="https://www.linkedin.com/">Linkedin</a>
-                        </li>
-                        <li>
-                            <a href="https://www.behance.net/">Behance</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-4">
-                    <p class="footer-copyright">Copyright &copy;
-                    <?=settings("title")?>
-                    </p>
-                </div>
+                <?=copyright()?>
             </div>
         </div>
     </div>

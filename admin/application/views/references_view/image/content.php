@@ -6,6 +6,7 @@
         </h4>
         <?=$breadcrumbs?>
     </div>
+    <?php if(permission("references", "add")): ?>
     <div class="col-md-10 col-md-offset-1">
         <div class="widget">
             <div class="widget-body">
@@ -18,6 +19,7 @@
             </div><!-- .widget-body -->
         </div><!-- .widget -->
     </div>
+    <?php endif; ?>
 </div>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">

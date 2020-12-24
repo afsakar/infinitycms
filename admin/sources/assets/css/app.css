@@ -3091,5 +3091,7 @@ td.mail-right {
 .sortableItem{
   cursor: move;
 }
-
+.simple-page-form{
+  margin: 10px!important;
+}
 /*# sourceMappingURL=app.css.map */

@@ -20,15 +20,52 @@ class Courses extends CI_Controller
 
     public function index()
     {
+        if(!permission("courses", "show")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Etkinlikler', '/courses');
 
         $viewData = new stdClass();
 
+        /* Pagination Start */
+        $config["base_url"] = base_url("$this->tableName/index");
+        $config["total_rows"] = $this->courses_model->get_count();
+        $config["uri_segment"] = 3;
+        $config["per_page"] = 10;
+        $config["num_links"] = 2;
+
+        $config['full_tag_open'] = "<nav class='search-results-navigation'> <ul class='pagination'>";
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Geri';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = 'İleri<i class="fa fa-long-arrow-right"></i>';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $viewData->links = $this->pagination->create_links();
+        /* Pagination End */
+
         //Tablodan verilerin çekilmesi.
-        $items = $this->courses_model->getAll(
+        $items = $this->courses_model->get_records(
             array(),
-            "eventDate ASC"
+            "eventDate ASC",
+            $config["per_page"],
+            $page
         );
 
         //View'e gönderilen verilerin set edilmesi.
@@ -42,6 +79,10 @@ class Courses extends CI_Controller
     }
 
     public function addForm(){
+
+        if(!permission("courses", "add")){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Etkinlikler', '/courses');
@@ -60,6 +101,10 @@ class Courses extends CI_Controller
 
     public function addItem()
     {
+        if(!permission("courses", "add")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Etkinlikler', '/courses');
         $this->breadcrumbs->push('Etkinlik Ekle','/');
@@ -162,6 +207,10 @@ class Courses extends CI_Controller
 
     public function updateForm($id){
 
+        if(!permission("courses", "edit")){
+            redirect(base_url());
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Etkinlikler', '/courses');
         $this->breadcrumbs->push('Etkinlik Düzenle','/');
@@ -187,6 +236,10 @@ class Courses extends CI_Controller
     }
 
     public function updateItem($id){
+
+        if(!permission("courses", "edit")){
+            redirect(base_url());
+        }
 
         $item = $this->courses_model->get(
             array(
@@ -312,6 +365,10 @@ class Courses extends CI_Controller
 
     public function deleteItem($id)
     {
+        if(!permission("courses", "delete")){
+            redirect(base_url());
+        }
+
         $getItem = $this->courses_model->get(array("id" => $id));
 
         $delete = $this->courses_model->delete(
@@ -356,6 +413,10 @@ class Courses extends CI_Controller
 
     public function deleteImage($id, $parent_id)
     {
+        if(!permission("courses", "delete")){
+            redirect(base_url());
+        }
+
         $fileName = $this->courses_image_model->get(
             array("id" => $id)
         );
@@ -475,6 +536,9 @@ class Courses extends CI_Controller
 
     public function imageForm($id)
     {
+        if(!permission("courses", "add")){
+            redirect(base_url());
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/', false);
         $this->breadcrumbs->push('Etkinlikler', '/courses');

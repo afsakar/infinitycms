@@ -12,15 +12,51 @@ class Home extends CI_Controller
         $this->viewFolder = "homepage";
         $this->load->model('data_model');
         $this->menus = $this->data_model->getAll("menu", array("isMain !=" => 0, "isActive" => 1), "rank ASC");
+        $pageActive = $this->data_model->get("menu", array("url" => $this->uri->segment(1)));
+
+        if(!empty($this->uri->segment(1)) && $pageActive->isActive == 0){
+            redirect(base_url());
+        }
     }
 
     public function index()
     {
         $viewData = new stdClass();
         $viewData->title = "";
+        $viewData->controllerView = "index";
+        $viewData->sliders = $this->data_model->getAll("sliders", array("isActive" => 1),"rank ASC");
+        $viewData->testimonials = $this->data_model->getAll("testimonials", array("isActive" => 1),"rank ASC");
+        $viewData->brands = $this->data_model->getAll("brands", array("isActive" => 1),"rank ASC");
         $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
 
         $this->load->view("homepage", $viewData);
+    }
+
+    public function dontShowAgain(){
+        $popup_id = $this->input->post("popupid");
+        set_cookie($popup_id, "true", 60*60*24*365);
+    }
+
+    //Hakkımızda
+    public function about()
+    {
+        $this->breadcrumbs->unshift('Anasayfa', '/');
+        $this->breadcrumbs->push('Hakkımızda', '/about');
+        $page = $this->data_model->get("menu", array("isActive" => 1, "url" => "about"));
+
+        $viewData = new stdClass();
+        $viewData->title = "Hakkımızda";
+        $viewData->viewFolder = "";
+        $viewData->controllerView = "about";
+        $viewData->menus = $this->menus;
+        $viewData->page = $page;
+        $viewData->testimonials = $this->data_model->getAll("testimonials", array("isActive" => 1),"rank ASC");
+        $viewData->brands = $this->data_model->getAll("brands", array("isActive" => 1),"rank ASC");
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+        $this->load->view("$viewData->controllerView/index", $viewData);
     }
 
     //Projeler
@@ -38,6 +74,7 @@ class Home extends CI_Controller
         $viewData->viewFolder = "projects_view";
         $viewData->controllerView = "projects";
         $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->categories = $categories;
         $viewData->pages = $page;
         $viewData->projects = $projects;
@@ -53,6 +90,10 @@ class Home extends CI_Controller
         $categories = $this->data_model->get("projects_category", array("isActive" => 1, "id" => $projects->category_id));
         $images = $this->data_model->getAll("project_images", array("isActive" => 1, "project_id" => $projects->id, "isCover" => 0), "rank ASC");
 
+        if($projects->isActive == 0){
+            redirect(base_url("projects"));
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Projeler', '/projects');
         $this->breadcrumbs->push("$projects->title", '/');
@@ -62,6 +103,7 @@ class Home extends CI_Controller
         $viewData->viewFolder = "projects_view";
         $viewData->controllerView = "projects";
         $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->categories = $categories;
         $viewData->project = $projects;
         $viewData->images = $images;
@@ -86,6 +128,7 @@ class Home extends CI_Controller
         $viewData->viewFolder = "courses_view";
         $viewData->controllerView = "courses";
         $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $page;
         $viewData->courses = $courses;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
@@ -99,6 +142,10 @@ class Home extends CI_Controller
         $courses = $this->data_model->get("courses", array("isActive" => 1, "url" => $url));
         $images = $this->data_model->getAll("courses_images", array("isActive" => 1, "courses_id" => $courses->id), "rank ASC");
 
+        if($courses->isActive == 0){
+            redirect(base_url("courses"));
+        }
+
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Etkinlikler', '/courses');
         $this->breadcrumbs->push("$courses->title", '/');
@@ -107,6 +154,7 @@ class Home extends CI_Controller
         $viewData->title = "$courses->title";
         $viewData->viewFolder = "courses_view";
         $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->course = $courses;
         $viewData->controllerView = "courses";
         $viewData->images = $images;
@@ -117,7 +165,7 @@ class Home extends CI_Controller
         $this->load->view("$viewData->controllerView/detail", $viewData);
     }
 
-    //Etkinlikler
+    //Tekil Sayfalar
     public function pageList()
     {
         $this->breadcrumbs->unshift('Anasayfa', '/');
@@ -130,6 +178,7 @@ class Home extends CI_Controller
         $viewData->title = "Sayfalar";
         $viewData->controllerView = "pages";
         $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $pages;
         $viewData->page = $page;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
@@ -141,6 +190,9 @@ class Home extends CI_Controller
     {
 
         $page = $this->data_model->get("menu", array("isActive" => 1, "url" => $url));
+        if($page->isActive == 0){
+            redirect(base_url("pages"));
+        }
 
         $this->breadcrumbs->unshift('Anasayfa', '/');
         $this->breadcrumbs->push('Sayfalar', '/pages');
@@ -150,6 +202,7 @@ class Home extends CI_Controller
         $viewData->title = "$page->title";
         $viewData->viewFolder = "menu_view";
         $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $page;
         $viewData->controllerView = "pages";
         $viewData->breadcrumbs = $this->breadcrumbs->show();
@@ -200,6 +253,7 @@ class Home extends CI_Controller
         $viewData->title = "İletişim";
         $viewData->controllerView = "contact";
         $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $pages;
         $viewData->page = $page;
         $viewData->captcha = $captcha;
@@ -268,6 +322,7 @@ class Home extends CI_Controller
             $viewData->title = "İletişim";
             $viewData->controllerView = "contact";
             $viewData->menus = $this->menus;
+            $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
             $viewData->pages = $pages;
             $viewData->page = $page;
             $viewData->captcha = $captcha;
@@ -328,6 +383,20 @@ class Home extends CI_Controller
        
             $data["email"] = $this->input->post("email");
             $data["ip_address"] = $this->input->ip_address();
+
+            $member = $this->data_model->get("members", array("email" => $data['email'], "ip_address" => $data['ip_address']));
+
+            if($member){
+                $alert = array(
+                    "title" => "Hata!",
+                    "text" => "Sisteme zaten kayıtlısınız!",
+                    "type" => "error",
+                    "position" => "top-center"
+                );
+                $this->session->set_flashdata("alert", $alert);
+                redirect(base_url());
+            }
+
             $add = $this->data_model->add("members", $data);
             if($add){
                 $alert = array(
@@ -349,5 +418,54 @@ class Home extends CI_Controller
                 redirect(base_url());
             }
 
+    }
+
+    //Galeriler
+    public function galleryList()
+    {
+        $this->breadcrumbs->unshift('Anasayfa', '/');
+        $this->breadcrumbs->push('Galeriler', '/galleries');
+
+        $galleries = $this->data_model->getAll("galleries", array("isActive" => 1), "rank ASC");
+        $page = $this->data_model->get("menu", array("isActive" => 1, "url" => "galleries"));
+
+        $viewData = new stdClass();
+        $viewData->title = "Galeriler";
+        $viewData->controllerView = "galleries";
+        $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
+        $viewData->galleries = $galleries;
+        $viewData->page = $page;
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+        $this->load->view("$viewData->controllerView/index", $viewData);
+    }
+
+    public function galleryDetail($url = "")
+    {
+
+        $gallery = $this->data_model->get("galleries", array("isActive" => 1, "url" => $url));
+        $page = $this->data_model->get("menu", array("isActive" => 1, "url" => "galleries"));
+        $files = $this->data_model->getAll("galleries_files", array("gallery_id" => $gallery->id, "isActive" => 1), "rank ASC");
+        if($gallery->isActive == 0){
+            redirect(base_url("galleries"));
+        }
+
+        $this->breadcrumbs->unshift('Anasayfa', '/');
+        $this->breadcrumbs->push('Sayfalar', '/pages');
+        $this->breadcrumbs->push("$gallery->title", '/');
+
+        $viewData = new stdClass();
+        $viewData->title = "$gallery->title";
+        $viewData->viewFolder = "menu_view";
+        $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
+        $viewData->pages = $page;
+        $viewData->gallery = $gallery;
+        $viewData->files = $files;
+        $viewData->controllerView = "galleries";
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+        $this->load->view("$viewData->controllerView/detail", $viewData);
     }
 }

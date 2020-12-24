@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Brands_model extends CI_Model
 {
@@ -8,6 +8,15 @@ class Brands_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function get_records($where = array(), $orderBy, $limit, $count)
+    {
+        return $this->db->where($where)->order_by($orderBy)->limit($limit, $count)->get($this->tableName)->result();
+    }
+    public function get_count()
+    {
+        return $this->db->count_all($this->tableName);
     }
 
     //Bütün kayıtları getir

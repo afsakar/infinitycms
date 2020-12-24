@@ -22,7 +22,7 @@
                         <label>Görsel</label>
                         <input type="file" class="form-control" name="img_url">
                     </div><!-- .form-group -->
-                <button type="submit" class="btn btn-primary btn-md"><i class="fa fa-save"></i> Kaydet</button>
+                    <button type="submit" class="btn btn-primary btn-md"><i class="fa fa-save"></i> Kaydet</button>
                 </form>
             </div><!-- .widget-body -->
         </div><!-- .widget -->
