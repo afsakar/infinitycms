@@ -32,6 +32,7 @@
                         <th class="text-center" scope="col">Oluşturma Tarihi</th>
                         <?php if(permission("news", "edit")): ?>
                         <th class="text-center" scope="col">Durumu</th>
+                        <th class="text-center" scope="col">Yorum Açık?</th>
                         <?php endif; ?>
                         <th class="text-center" scope="col">İşlemler</th>
                         </thead>
@@ -50,6 +51,9 @@
                                 <td class="text-center">
                                     <input class="isActive" data-url="<?php echo base_url("news/isActiveSetter/$item->id")?>" type="checkbox" data-switchery data-color="#10c469" <?=$item->isActive == 1 ? 'checked' : null?>/>
                                 </td>
+                                    <td class="text-center">
+                                        <input class="isComment" data-url="<?php echo base_url("news/isCommentSetter/$item->id")?>" type="checkbox" data-switchery data-color="#10c469" <?=$item->isComment == 1 ? 'checked' : null?>/>
+                                    </td>
                                 <?php endif; ?>
                                 <td class="text-center">
                                     <a href="<?php echo base_url("news/imageForm/$item->id")?>" class="btn btn-warning btn-sm btn-outline"><i class="fa fa-image"></i> Resimler</a>

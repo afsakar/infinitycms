@@ -8,6 +8,16 @@ class Data_model extends CI_Model
         parent::__construct();
     }
 
+    public function get_records($tableName, $where = array(), $orderBy, $limit, $count)
+    {
+        return $this->db->where($where)->order_by($orderBy)->limit($limit, $count)->get($tableName)->result();
+    }
+
+    public function get_count($tableName, $where = array())
+    {
+        return $this->db->where($where)->count_all($tableName);
+    }
+
     //Bütün kayıtları getir
     public function get($tableName, $where = array())
     {

@@ -148,6 +148,6 @@ button.cr-btn.cr-btn-white:hover {
     opacity: 0.9;
 
 }
-.active-menu, .pg-service-description ul li a:hover{
+.active-menu, .pg-service-description ul li a:hover, .pg-blog-content h2 a:hover, .pg-blog-content h3 a:hover, .pg-blog-content h4 a:hover, .pg-blog-content h5 a:hover, .pg-blog-content h6 a:hover{
     color: #5bc0de!important;
 }

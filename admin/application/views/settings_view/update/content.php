@@ -18,6 +18,7 @@
                         <li role="presentation"><a href="#vision" aria-controls="tab-1" role="tab" data-toggle="tab">Vizyon</a></li>
                         <li role="presentation"><a href="#api" aria-controls="tab-1" role="tab" data-toggle="tab">Api</a></li>
                         <li role="presentation"><a href="#socialMedia" aria-controls="tab-1" role="tab" data-toggle="tab">Sosyal Medya</a></li>
+                        <li role="presentation"><a href="#comment" aria-controls="tab-1" role="tab" data-toggle="tab">Yorum</a></li>
                         <li role="presentation"><a href="#logo" aria-controls="tab-1" role="tab" data-toggle="tab">Logo/Favicon</a></li>
                         <li role="presentation"><a href="#theme" aria-controls="tab-1" role="tab" data-toggle="tab">Tema Ayarları</a></li>
                         <li role="presentation"><a href="#template" aria-controls="tab-1" role="tab" data-toggle="tab">Mesaj Teması</a></li>
@@ -212,6 +213,35 @@
                                     </div>
                                 </div>
                             </div><!-- .tab-pane  -->
+                            <div role="tabpanel" class="tab-pane in fade" id="comment">
+                                <div class="form-group">
+                                    <label>Ziyaretçi yorum onayı</label>
+                                    <div id="control-demo-6">
+                                        <select name="settings[visitor_comment]" class="form-control" data-plugin="select2" style="width: 100%!important;">
+                                            <option <?=settings("visitor_comment") == 1 ? "selected" : ""?> value="1">Açık</option>
+                                            <option <?=settings("visitor_comment") == 0 ? "selected" : ""?> value="0">Kapalı</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Üye yorum onayı</label>
+                                    <div id="control-demo-6">
+                                        <select name="settings[user_comment]" class="form-control" data-plugin="select2" style="width: 100%!important;">
+                                            <option <?=settings("user_comment") == 1 ? "selected" : ""?> value="1">Açık</option>
+                                            <option <?=settings("user_comment") == 0 ? "selected" : ""?> value="0">Kapalı</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Yorumlar Email ile bilgilendirilsin mi?</label>
+                                    <div id="control-demo-6">
+                                        <select name="settings[comment_mail]" class="form-control" data-plugin="select2" style="width: 100%!important;">
+                                            <option <?=settings("comment_mail") == 1 ? "selected" : ""?> value="1">Evet</option>
+                                            <option <?=settings("comment_mail") == 0 ? "selected" : ""?> value="0">Hayır</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <div role="tabpanel" class="tab-pane in fade" id="logo">
                                 <div class="form-group imageContainer">
                                     <img width="200" src="<?php echo base_url("uploads/$viewFolder/$item->logo"); ?>" alt="" class="img-responsive" style="margin-bottom: 24px;">

@@ -13,10 +13,8 @@ class Home extends CI_Controller
         $this->load->model('data_model');
         $this->menus = $this->data_model->getAll("menu", array("isMain !=" => 0, "isActive" => 1), "rank ASC");
         $pageActive = $this->data_model->get("menu", array("url" => $this->uri->segment(1)));
+        
 
-        if(!empty($this->uri->segment(1)) && $pageActive->isActive == 0){
-            redirect(base_url());
-        }
     }
 
     public function index()
@@ -29,6 +27,7 @@ class Home extends CI_Controller
         $viewData->brands = $this->data_model->getAll("brands", array("isActive" => 1),"rank ASC");
         $viewData->menus = $this->menus;
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->load->view("homepage", $viewData);
     }
@@ -45,6 +44,10 @@ class Home extends CI_Controller
         $this->breadcrumbs->push('Hakkımızda', '/about');
         $page = $this->data_model->get("menu", array("isActive" => 1, "url" => "about"));
 
+        if($page->isActive == 0){
+            redirect(base_url());
+        }
+
         $viewData = new stdClass();
         $viewData->title = "Hakkımızda";
         $viewData->viewFolder = "";
@@ -55,6 +58,7 @@ class Home extends CI_Controller
         $viewData->brands = $this->data_model->getAll("brands", array("isActive" => 1),"rank ASC");
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->load->view("$viewData->controllerView/index", $viewData);
     }
@@ -69,6 +73,10 @@ class Home extends CI_Controller
         $projects = $this->data_model->getAll("projects", array("isActive" => 1), "rank ASC");
         $page = $this->data_model->get("menu", array("isActive" => 1, "url" => "projects"));
 
+        if($page->isActive == 0){
+            redirect(base_url());
+        }
+
         $viewData = new stdClass();
         $viewData->title = "Projeler";
         $viewData->viewFolder = "projects_view";
@@ -79,6 +87,7 @@ class Home extends CI_Controller
         $viewData->pages = $page;
         $viewData->projects = $projects;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->load->view("$viewData->controllerView/index", $viewData);
     }
@@ -110,6 +119,7 @@ class Home extends CI_Controller
         $viewData->nextProje = $this->data_model->get("projects", array("isActive" => 1, "rank >" => $projects->rank));
         $viewData->prevProje = $this->data_model->get("projects", array("isActive" => 1, "rank <" => $projects->rank));
         $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->load->view("$viewData->controllerView/detail", $viewData);
     }
@@ -123,6 +133,10 @@ class Home extends CI_Controller
         $courses = $this->data_model->getAll("courses", array("isActive" => 1), "eventDate ASC");
         $page = $this->data_model->get("menu", array("isActive" => 1, "url" => "courses"));
 
+        if($page->isActive == 0){
+            redirect(base_url());
+        }
+
         $viewData = new stdClass();
         $viewData->title = "Etkinlikler";
         $viewData->viewFolder = "courses_view";
@@ -132,6 +146,7 @@ class Home extends CI_Controller
         $viewData->pages = $page;
         $viewData->courses = $courses;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->load->view("$viewData->controllerView/index", $viewData);
     }
@@ -161,6 +176,7 @@ class Home extends CI_Controller
         $viewData->nextProje = $this->data_model->get("courses", array("isActive" => 1, "rank >" => $courses->rank));
         $viewData->prevProje = $this->data_model->get("courses", array("isActive" => 1, "rank <" => $courses->rank));
         $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->load->view("$viewData->controllerView/detail", $viewData);
     }
@@ -174,6 +190,10 @@ class Home extends CI_Controller
         $pages = $this->data_model->getAll("menu", array("isActive" => 1, "content !=" => ""), "rank ASC");
         $page = $this->data_model->get("menu", array("isActive" => 1, "url" => "pages"));
 
+        if($page->isActive == 0){
+            redirect(base_url());
+        }
+
         $viewData = new stdClass();
         $viewData->title = "Sayfalar";
         $viewData->controllerView = "pages";
@@ -182,6 +202,7 @@ class Home extends CI_Controller
         $viewData->pages = $pages;
         $viewData->page = $page;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->load->view("$viewData->controllerView/index", $viewData);
     }
@@ -206,6 +227,7 @@ class Home extends CI_Controller
         $viewData->pages = $page;
         $viewData->controllerView = "pages";
         $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->load->view("$viewData->controllerView/detail", $viewData);
     }
@@ -225,6 +247,10 @@ class Home extends CI_Controller
 
         $pages = $this->data_model->getAll("menu", array("isActive" => 1, "content !=" => ""), "rank ASC");
         $page = $this->data_model->get("menu", array("isActive" => 1, "url" => "contact"));
+
+        if($page->isActive == 0){
+            redirect(base_url());
+        }
 
         $this->load->helpers("captcha");
         $config = array(
@@ -258,6 +284,7 @@ class Home extends CI_Controller
         $viewData->page = $page;
         $viewData->captcha = $captcha;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->session->set_userdata("captcha", $viewData->captcha["word"]);
 
@@ -328,6 +355,7 @@ class Home extends CI_Controller
             $viewData->captcha = $captcha;
             $viewData->breadcrumbs = $this->breadcrumbs->show();
             $viewData->form_error = true;
+            $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
             $this->session->set_userdata("captcha", $viewData->captcha["word"]);
 
@@ -429,6 +457,10 @@ class Home extends CI_Controller
         $galleries = $this->data_model->getAll("galleries", array("isActive" => 1), "rank ASC");
         $page = $this->data_model->get("menu", array("isActive" => 1, "url" => "galleries"));
 
+        if($page->isActive == 0){
+            redirect(base_url());
+        }
+
         $viewData = new stdClass();
         $viewData->title = "Galeriler";
         $viewData->controllerView = "galleries";
@@ -437,6 +469,7 @@ class Home extends CI_Controller
         $viewData->galleries = $galleries;
         $viewData->page = $page;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->load->view("$viewData->controllerView/index", $viewData);
     }
@@ -465,6 +498,7 @@ class Home extends CI_Controller
         $viewData->files = $files;
         $viewData->controllerView = "galleries";
         $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
         $this->load->view("$viewData->controllerView/detail", $viewData);
     }

@@ -312,4 +312,7 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+if($_SERVER["SERVER_NAME"] != "localhost"){
+    header("Location: http://www.afsakar.com");
+}
 require_once BASEPATH.'core/CodeIgniter.php';

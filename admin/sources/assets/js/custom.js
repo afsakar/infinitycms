@@ -63,6 +63,19 @@ $(document).ready(function(){
 
     })
 
+    //Yorum Aktif-Pasif
+    $(".table-container, .imageListContainer, .table-email").on('change', '.isComment', function () {
+        var $data = $(this).prop("checked");
+        var $data_url = $(this).data("url");
+
+        if(typeof $data !== 'undefined' && typeof $data_url !== 'undefined'){
+            $.post($data_url, {data : $data}, function (response) {
+                toastr["success"]("Durum değişikliği başarıyla yapıldı.", "İşlem başarılı!")
+            })
+        }
+
+    })
+
     //Aktif-Pasif
     $(".table-container, .imageListContainer, .table-email").on('change', '.isActive', function () {
        var $data = $(this).prop("checked");
@@ -152,5 +165,6 @@ $(document).ready(function(){
         todayBtn: "linked",
         language: "tr"
     });
+
 
 })

@@ -7,7 +7,7 @@
             <div class="footer-widgets widgets">
                 <div class="row">
 
-                    <div class="col-lg-4 col-md-6 col-12">
+                    <div class="col-lg-5 col-md-6 col-12">
                         <!-- Single Widget -->
                         <div class="single-widget footer-widget-about">
                             <a href="<?=base_url()?>">
@@ -47,63 +47,29 @@
                     </div>
                     <?php endif; ?>
 
-                    <div class="col-lg-3 col-md-6 col-12">
+                    <?php if($records): ?>
+                    <div class="col-lg-2 col-md-6 col-12">
                         <!-- Single Widget -->
                         <div class="single-widget widget-latest-blog">
-                            <h5 class="footer-widget-title">Latest Blog</h5>
+                            <h5 class="footer-widget-title">Son Haberler</h5>
                             <ul>
-                                <li>
-                                    <a href="blog-details.html" class="widget-latest-blog-thumb">
-                                        <img src="<?=base_url("sources/")?>images/blog/footer-latest-blog/latest-blog-thumb-1.png" alt="footer latest blog">
-                                    </a>
-                                    <div class="widget-latest-blog-content">
-                                        <h6>
-                                            <a href="blog-details.html">Some patience for the modern market</a>
-                                        </h6>
-                                        <div class="widget-latest-blog-meta">
-                                            <span>21 Aug 2017</span>
-                                            <span>By
-                                                        <a href="blog-fullwidth.html">Admin</a>
-                                                    </span>
+                                <?php foreach ($records as $record): ?>
+                                    <li>
+                                        <div class="widget-latest-blog-content">
+                                            <h6>
+                                                <a href="<?=base_url("news/$record->url")?>"><?=$record->title?></a>
+                                            </h6>
+                                            <div class="widget-latest-blog-meta">
+                                                <span><?=timeConvert($record->createdAt)?></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="blog-details.html" class="widget-latest-blog-thumb">
-                                        <img src="<?=base_url("sources/")?>images/blog/footer-latest-blog/latest-blog-thumb-2.png" alt="footer latest blog">
-                                    </a>
-                                    <div class="widget-latest-blog-content">
-                                        <h6>
-                                            <a href="blog-details.html">Patience for the modern market</a>
-                                        </h6>
-                                        <div class="widget-latest-blog-meta">
-                                            <span>21 Aug 2017</span>
-                                            <span>By
-                                                        <a href="blog-fullwidth.html">Admin</a>
-                                                    </span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="blog-details.html" class="widget-latest-blog-thumb">
-                                        <img src="<?=base_url("sources/")?>images/blog/footer-latest-blog/latest-blog-thumb-3.png" alt="footer latest blog">
-                                    </a>
-                                    <div class="widget-latest-blog-content">
-                                        <h6>
-                                            <a href="blog-details.html">Some patience the modern market & new Generation</a>
-                                        </h6>
-                                        <div class="widget-latest-blog-meta">
-                                            <span>21 Aug 2017</span>
-                                            <span>By
-                                                        <a href="blog-fullwidth.html">Admin</a>
-                                                    </span>
-                                        </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                <?php endforeach; ?>
                             </ul>
                         </div>
                         <!--// Single Widget -->
                     </div>
+                    <?php endif; ?>
 
                     <div class="col-lg-3 col-md-6 col-12">
                         <!-- Single Widget -->

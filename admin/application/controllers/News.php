@@ -13,6 +13,7 @@ class News extends CI_Controller
         $this->load->model('news_model');
         $this->load->model('comments_model');
         $this->load->model('news_image_model');
+        $this->load->model("users_model");
         if(!get_active_user())
         {
             redirect(base_url("login"));
@@ -543,6 +544,22 @@ class News extends CI_Controller
         }
     }
 
+    public function isCommentSetter($id){
+
+        if ($id) {
+            $isComment = $this->input->post("data");
+            if ($isComment == "false") {
+                $isComment = 0;
+            } else {
+                $isComment = 1;
+            }
+
+            $update = $this->news_model->update(array("id" => $id), array("isComment" => $isComment));
+
+        }
+
+    }
+
     public function imageRankSetter(){
         $data = $this->input->post("data");
         parse_str($data, $order);
@@ -807,33 +824,19 @@ class News extends CI_Controller
 
     public function deleteComment($id)
     {
-        if(!permission("news", "delete")){
+        if(!permission("comments", "delete")){
             redirect(base_url());
         }
 
-        $getItem = $this->news_model->get(array("id" => $id));
+        $getItem = $this->comments_model->get(array("id" => $id));
 
-        $delete = $this->news_model->delete(
+        $delete = $this->comments_model->delete(
             array(
                 "id" => $id
             )
         );
 
         if ($delete) {
-            unlink("uploads/{$this->viewFolder}/$getItem->img_url");
-            /* Item'e ait görsellerin silinmesi start */
-            $getImages = $this->news_image_model->getAll(array("news_id" => $id), array());
-
-            foreach ($getImages as $image) {
-                $delete = $this->news_image_model->delete(
-                    array(
-                        "id" => $image->id
-                    )
-                );
-                unlink("uploads/{$this->viewFolder}/$image->image_url");
-            }
-            /* Item'e ait görsellerin silinmesi end */
-
             $alert = array(
                 "title" => "İşlem başarılı!",
                 "text" => "Kayıt başarıyla silindi!",
@@ -850,7 +853,7 @@ class News extends CI_Controller
         }
 
         $this->session->set_flashdata("alert", $alert);
-        redirect(base_url('news'));
+        redirect(base_url('comments'));
     }
 
 }

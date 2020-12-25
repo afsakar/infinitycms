@@ -76,3 +76,8 @@ $route['about'] = "home/about";
 $route['contact'] = "home/contact";
 $route['contacts'] = "home/contactMail";
 $route['member'] = "home/member";
+
+//Haberler
+$route['news'] = "news/index";
+$route['news/page/(:any)'] = "news/page/$1";
+$route["news/(:any)"] = "news/newsDetail/$1";

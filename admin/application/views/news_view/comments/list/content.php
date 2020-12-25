@@ -32,7 +32,24 @@
                         <?php $news = $this->news_model->get(array("id" => $item->news_id));?>
                             <tr id="ord-<?=$item->id?>">
                                 <th class="text-center" scope="row"><?=$item->id?></th>
-                                <td class="text-center"><?=$item->name?><br><small>(<?=$item->email?>)</small></td>
+                                <td width="250">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <div class="avatar avatar-md avatar-circle">
+                                                <?php $authorInfo = $this->users_model->get(array("email" => $item->email)); ?>
+                                                <?php if(!$authorInfo): ?>
+                                                    <img src="<?=get_gravatar($item->email)?>" alt="">
+                                                <?php else: ?>
+                                                    <img src="<?=base_url("uploads/users_view/$authorInfo->img_url")?>" alt="">
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                        <div class="media-body">
+                                            <h5 class="media-heading"><b><?=$item->name?></b></h5>
+                                            <small class="media-meta"><?=$item->email?></small>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="text-center"><?=$news->title?></td>
                                 <td class="text-center"><?=timeConvert($item->createdAt)?></td>
                                 <?php if(permission("comments", "edit")): ?>

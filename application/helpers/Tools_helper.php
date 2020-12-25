@@ -128,3 +128,37 @@ function get_gravatar( $email, $s = 80, $d = 'mp', $r = 'g', $img = false, $atts
     }
     return $url;
 }
+
+function stripHTMLtags($str)
+{
+    $t = preg_replace('/<[^<|>]+?>/', '', htmlspecialchars_decode($str));
+    $t = htmlentities($t, ENT_QUOTES, "UTF-8");
+    return $t;
+}
+
+function comment_mail($subjectMail = "", $messageMail = ""){
+    $t = &get_instance();
+    $t->load->model('data_model');
+    $emailSettings = $t->data_model->get("email_settings", array("isActive" => 1));
+
+    $config = array(
+        "protocol" => $emailSettings->protocol,
+        "smtp_host" => $emailSettings->host,
+        "smtp_port" => $emailSettings->port,
+        "smtp_user" => $emailSettings->user,
+        "smtp_pass" => $emailSettings->password,
+        "starttls" => true,
+        "charset" => "utf-8",
+        "mailtype" => "html",
+        "wordwrap" => true,
+        "newline" => "\r\n"
+    );
+    $t->load->library("email", $config);
+
+    $t->email->from($emailSettings->from, $emailSettings->user_name);
+    $t->email->to($emailSettings->user);
+    $t->email->subject("Yeni yorum yapıldı: ".$subjectMail);
+    $t->email->message($messageMail);
+
+    return $t->email->send();
+}
