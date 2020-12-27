@@ -22,9 +22,16 @@ class Home extends CI_Controller
         $viewData = new stdClass();
         $viewData->title = "";
         $viewData->controllerView = "index";
+
+        /* Sections Start */
         $viewData->sliders = $this->data_model->getAll("sliders", array("isActive" => 1),"rank ASC");
         $viewData->testimonials = $this->data_model->getAll("testimonials", array("isActive" => 1),"rank ASC");
         $viewData->brands = $this->data_model->getAll("brands", array("isActive" => 1),"rank ASC");
+        $viewData->projects = $this->data_model->getAll("projects", array("isActive" => 1), "rank ASC");
+        $viewData->projects_categories = $this->data_model->getAll("projects_category", array("isActive" => 1), "");
+        $viewData->references = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("references")->result();
+        /* Sections End */
+
         $viewData->menus = $this->menus;
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
@@ -173,8 +180,8 @@ class Home extends CI_Controller
         $viewData->course = $courses;
         $viewData->controllerView = "courses";
         $viewData->images = $images;
-        $viewData->nextProje = $this->data_model->get("courses", array("isActive" => 1, "rank >" => $courses->rank));
-        $viewData->prevProje = $this->data_model->get("courses", array("isActive" => 1, "rank <" => $courses->rank));
+        $viewData->nextProje = $this->data_model->get("courses", array("isActive" => 1, "eventDate >" => $courses->eventDate));
+        $viewData->prevProje = $this->data_model->get("courses", array("isActive" => 1, "eventDate <" => $courses->eventDate));
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
@@ -497,6 +504,63 @@ class Home extends CI_Controller
         $viewData->gallery = $gallery;
         $viewData->files = $files;
         $viewData->controllerView = "galleries";
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
+
+        $this->load->view("$viewData->controllerView/detail", $viewData);
+    }
+
+    //Referanslar
+    public function referencesList()
+    {
+        $this->breadcrumbs->unshift('Anasayfa', '/');
+        $this->breadcrumbs->push('Referanslar', '/references');
+
+        $references = $this->data_model->getAll("references", array("isActive" => 1), "rank ASC");
+        $page = $this->data_model->get("menu", array("isActive" => 1, "url" => "references"));
+
+        if($page->isActive == 0){
+            redirect(base_url());
+        }
+
+        $viewData = new stdClass();
+        $viewData->title = "Referanslar";
+        $viewData->viewFolder = "references_view";
+        $viewData->controllerView = "references";
+        $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
+        $viewData->pages = $page;
+        $viewData->references = $references;
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+        $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
+
+        $this->load->view("$viewData->controllerView/index", $viewData);
+    }
+
+    public function referenceDetail($url = "")
+    {
+
+        $reference = $this->data_model->get("references", array("isActive" => 1, "url" => $url));
+        $images = $this->data_model->getAll("references_images", array("isActive" => 1, "references_id" => $reference->id), "rank ASC");
+
+        if($reference->isActive == 0){
+            redirect(base_url("references"));
+        }
+
+        $this->breadcrumbs->unshift('Anasayfa', '/');
+        $this->breadcrumbs->push('Referanslar', '/references');
+        $this->breadcrumbs->push("$reference->title", '/');
+
+        $viewData = new stdClass();
+        $viewData->title = "$reference->title";
+        $viewData->viewFolder = "references_view";
+        $viewData->controllerView = "references";
+        $viewData->menus = $this->menus;
+        $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
+        $viewData->reference = $reference;
+        $viewData->images = $images;
+        $viewData->nextProje = $this->data_model->get("references", array("isActive" => 1, "rank >" => $reference->rank));
+        $viewData->prevProje = $this->data_model->get("references", array("isActive" => 1, "rank <" => $reference->rank));
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 

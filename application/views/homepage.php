@@ -22,10 +22,6 @@
 
         <?php $this->load->view('includes/sections/services'); ?>
 
-        <?php $this->load->view('includes/sections/skills'); ?>
-
-        <?php $this->load->view('includes/sections/counter'); ?>
-
         <?php $this->load->view('includes/sections/portfolio'); ?>
 
         <?php $this->load->view('includes/sections/brands'); ?>

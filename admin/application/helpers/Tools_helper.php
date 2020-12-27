@@ -110,3 +110,9 @@ function get_gravatar( $email, $s = 80, $d = 'mp', $r = 'g', $img = false, $atts
     }
     return $url;
 }
+
+function countData($tableName, $where = array())
+{
+    $t = &get_instance();
+    return $t->db->where($where)->count_all($tableName);
+}

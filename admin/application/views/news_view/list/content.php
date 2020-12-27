@@ -30,6 +30,7 @@
                         <th class="text-center" scope="col">Başlık</th>
                         <th class="text-center" scope="col">Türü</th>
                         <th class="text-center" scope="col">Oluşturma Tarihi</th>
+                        <th class="text-center" scope="col">Görüntülenme</th>
                         <?php if(permission("news", "edit")): ?>
                         <th class="text-center" scope="col">Durumu</th>
                         <th class="text-center" scope="col">Yorum Açık?</th>
@@ -47,6 +48,7 @@
                                 <td class="text-center"><?=$item->title?></td>
                                 <td class="text-center"><?=$item->news_type == "image" ? "Resim" : "Video"?></td>
                                 <td class="text-center"><?=timeConvert($item->createdAt)?></td>
+                                <td class="text-center"><?=$item->viewCount?></td>
                                 <?php if(permission("news", "edit")): ?>
                                 <td class="text-center">
                                     <input class="isActive" data-url="<?php echo base_url("news/isActiveSetter/$item->id")?>" type="checkbox" data-switchery data-color="#10c469" <?=$item->isActive == 1 ? 'checked' : null?>/>

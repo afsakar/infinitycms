@@ -67,9 +67,52 @@
                                             <li>
                                                 <?=$comment_count?> Yorum
                                             </li>
+                                            <li>
+                                                <?=$news->viewCount?> Görüntülenme
+                                            </li>
                                         </ul>
                                         <div class="blog-details-content clearfix">
                                             <?=htmlspecialchars_decode($news->description)?>
+                                        <?php if($news->news_type == "video"): ?>
+                                            <?php if($images): ?>
+                                        <!-- Portfolio Area -->
+                                        <section class="portfolio-area bg-white section-padding-xs">
+                                            <div class="portfolio-wrap">
+                                                <h3 class="text-black">Görseller</h3>
+                                                <!-- Portfolios -->
+                                                <div class="row no-gutters portfolios portfolios-style-1 portfolios-zoom-button-holder" data-show="6" data-load="3">
+                                                    <div class="container">
+                                                        <?php foreach ($images as $file): ?>
+                                                        <!-- Single Portfolio -->
+                                                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 portfolio-single pfolio-filter-creative">
+                                                            <div class="portfolio">
+                                                                <div class="portfoilo-thumb">
+                                                                    <img src="<?=base_url("admin/uploads/$viewFolder/$file->image_url")?>" alt="portfolio thumb">
+                                                                </div>
+                                                                <div class="portfolio-content">
+                                                                    <div class="portfolio-content-inner text-center">
+                                                                        <a href="<?=base_url("admin/uploads/$viewFolder/$file->image_url")?>" class="portfolio-zoom-trigger">
+                                                                            <i class="flaticon-interface"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--// Single Portfolio -->
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                                <!--// Portfolios -->
+                                                <div class="portfolio-load-more-button text-center">
+                                                    <button class="load-more-toggle cr-btn cr-btn">
+                                                        <span>Daha fazla</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <!--// Portfolio Area -->
+                                            <?php endif; ?>
+                                        <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -171,6 +214,21 @@
                                                     <?php if(isset($form_error)): ?>
                                                         <span id="helpBlock" class="help-block text-danger"><?=form_error('content')?></span>
                                                     <?php endif; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 m-t-10">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <?=$captcha["image"]?>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div class="single-input">
+                                                            <input type="text" name="captcha" placeholder="Güvenlik kodunu giriniz">
+                                                            <?php if(isset($form_error)): ?>
+                                                                <small id="helpBlock" class="text-danger"><?=form_error('captcha')?></small>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <input type="hidden" name="<?=$this->security->get_csrf_token_name()?>" value="<?=$this->security->get_csrf_hash()?>">

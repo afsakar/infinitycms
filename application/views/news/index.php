@@ -53,7 +53,10 @@
                                             <ul class="blog-meta">
                                                 <li><?=timeConvert($item->createdAt)?></li>
                                                 <li>
-                                                    <a href="#"><?=$author->user_name?></a>
+                                                    <?=$author->full_name?>
+                                                </li>
+                                                <li>
+                                                    <i class="icofont icofont-eye"></i> <?=$item->viewCount?> Görüntülenme
                                                 </li>
                                             </ul>
                                             <p><?=character_limiter(stripHTMLtags($item->description), 500)?></p>
@@ -82,7 +85,10 @@
                                             <ul class="blog-meta">
                                                 <li><?=timeConvert($item->createdAt)?></li>
                                                 <li>
-                                                    <a href="#"><?=$author->full_name?></a>
+                                                    <?=$author->full_name?>
+                                                </li>
+                                                <li>
+                                                    <i class="icofont icofont-eye"></i> <?=$item->viewCount?> Görüntülenme
                                                 </li>
                                             </ul>
                                             <p><?=character_limiter(stripHTMLtags($item->description), 500)?></p>

@@ -81,3 +81,7 @@ $route['member'] = "home/member";
 $route['news'] = "news/index";
 $route['news/page/(:any)'] = "news/page/$1";
 $route["news/(:any)"] = "news/newsDetail/$1";
+
+//Referanslar
+$route['references'] = "home/referencesList";
+$route["references/(:any)"] = "home/referenceDetail/$1";
