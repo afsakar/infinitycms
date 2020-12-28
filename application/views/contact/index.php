@@ -3,6 +3,18 @@
     <head>
         <?php $this->load->view('includes/head'); ?>
         <title><?=$title ? $title." | " : ""?><?=settings("title")?></title>
+        <meta name="description" content="<?=$seo["description"] ? $seo["description"] : settings("meta_description")?>">
+        <meta name="title" content="<?=$seo["title"] ? $seo["title"] : settings("meta_title")?>">
+        <meta name="keywords" content="<?=$seo["keywords"] ? $seo["keywords"] : settings("meta_keywords")?>">
+
+        <!-- Open Graph Meta -->
+        <meta property="og:title" content="<?=$seo["title"] ? $seo["title"] : settings("meta_title")?>">
+        <meta property="og:site_name" content="<?=settings("title")?>">
+        <meta property="og:description" content="<?=$seo["description"] ? $seo["description"] : settings("meta_description")?>">
+        <meta property="og:keywords" content="<?=$seo["keywords"] ? $seo["keywords"] : settings("meta_keywords")?>">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="<?=base_url($page->url)?>">
+        <meta property="og:image" content="">
     </head>
 <body>
 
@@ -36,7 +48,7 @@
                 <div class="row">
                     <div class="col-lg-6 offset-lg-3">
                         <div class="small-title text-center">
-                            <h2>Bizimle ileteişime geçin</h2>
+                            <h2>Bizimle iletişime geçin</h2>
                         </div>
                     </div>
                     <?php if(settings('googlemap_isopen') == 1):?>
@@ -78,7 +90,7 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="single-input">
                                             <input type="text" name="phone" placeholder="Telefon" value="<?php if (isset($form_error)){ echo set_value('phone'); } ?>">
-                                            <small>Lütfen başına 0 rakamı koymadan numaranızı yazınız.</small>
+                                            <small>Lütfen başında 0 rakamı olmadan doldurunuz.</small>
                                             <?php if(isset($form_error)): ?>
                                                 <small id="helpBlock" class="text-danger"><?=form_error('phone')?></small>
                                             <?php endif; ?>

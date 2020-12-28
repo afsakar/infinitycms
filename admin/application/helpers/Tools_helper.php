@@ -75,6 +75,38 @@ function reply_mail($toEmail = "", $subjectMail = "", $messageMail = "", $oldMes
     return $t->email->send();
 }
 
+function members_mail($toEmail = "", $subjectMail = "", $messageMail = ""){
+    $t = &get_instance();
+    $t->load->model('email_settings_model');
+    $emailSettings = $t->email_settings_model->get(array("isActive" => 1));
+
+    $config = array(
+        "protocol" => $emailSettings->protocol,
+        "smtp_host" => $emailSettings->host,
+        "smtp_port" => $emailSettings->port,
+        "smtp_user" => $emailSettings->user,
+        "smtp_pass" => $emailSettings->password,
+        "starttls" => true,
+        "charset" => "utf-8",
+        "mailtype" => "html",
+        "wordwrap" => true,
+        "newline" => "\r\n"
+    );
+    $t->load->library("email", $config);
+
+    $mesaj1 = str_replace("myMessage", "$messageMail", htmlspecialchars_decode(settings("reply_template")));
+    $mesaj2 = str_replace("myTitle", settings("title"), htmlspecialchars_decode($mesaj1));
+    $mesaj3 = str_replace("oldMessage", "", htmlspecialchars_decode($mesaj2));
+    $mesaj = str_replace("myLogo", logo("logo"), htmlspecialchars_decode($mesaj3));
+
+    $t->email->from($emailSettings->from, $emailSettings->user_name);
+    $t->email->bcc($toEmail);
+    $t->email->subject($subjectMail);
+    $t->email->message($mesaj);
+
+    return $t->email->send();
+}
+
 function settings($name){
     $settings = array();
     require __DIR__. '/settings.php';

@@ -61,6 +61,7 @@ class Home extends CI_Controller
         $viewData->controllerView = "about";
         $viewData->menus = $this->menus;
         $viewData->page = $page;
+        $viewData->seo = json_decode($page->seo, true);
         $viewData->testimonials = $this->data_model->getAll("testimonials", array("isActive" => 1),"rank ASC");
         $viewData->brands = $this->data_model->getAll("brands", array("isActive" => 1),"rank ASC");
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
@@ -92,6 +93,7 @@ class Home extends CI_Controller
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->categories = $categories;
         $viewData->pages = $page;
+        $viewData->seo = json_decode($page->seo, true);
         $viewData->projects = $projects;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
@@ -123,6 +125,7 @@ class Home extends CI_Controller
         $viewData->categories = $categories;
         $viewData->project = $projects;
         $viewData->images = $images;
+        $viewData->seo = json_decode($projects->seo, true);
         $viewData->nextProje = $this->data_model->get("projects", array("isActive" => 1, "rank >" => $projects->rank));
         $viewData->prevProje = $this->data_model->get("projects", array("isActive" => 1, "rank <" => $projects->rank));
         $viewData->breadcrumbs = $this->breadcrumbs->show();
@@ -151,6 +154,7 @@ class Home extends CI_Controller
         $viewData->menus = $this->menus;
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $page;
+        $viewData->seo = json_decode($page->seo, true);
         $viewData->courses = $courses;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
@@ -180,6 +184,7 @@ class Home extends CI_Controller
         $viewData->course = $courses;
         $viewData->controllerView = "courses";
         $viewData->images = $images;
+        $viewData->seo = json_decode($courses->seo, true);
         $viewData->nextProje = $this->data_model->get("courses", array("isActive" => 1, "eventDate >" => $courses->eventDate));
         $viewData->prevProje = $this->data_model->get("courses", array("isActive" => 1, "eventDate <" => $courses->eventDate));
         $viewData->breadcrumbs = $this->breadcrumbs->show();
@@ -208,6 +213,7 @@ class Home extends CI_Controller
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $pages;
         $viewData->page = $page;
+        $viewData->seo = json_decode($page->seo, true);
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
@@ -232,6 +238,7 @@ class Home extends CI_Controller
         $viewData->menus = $this->menus;
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $page;
+        $viewData->seo = json_decode($page->seo, true);
         $viewData->controllerView = "pages";
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
@@ -289,6 +296,7 @@ class Home extends CI_Controller
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $pages;
         $viewData->page = $page;
+        $viewData->seo = json_decode($page->seo, true);
         $viewData->captcha = $captcha;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
@@ -359,6 +367,7 @@ class Home extends CI_Controller
             $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
             $viewData->pages = $pages;
             $viewData->page = $page;
+            $viewData->seo = json_decode($page->seo, true);
             $viewData->captcha = $captcha;
             $viewData->breadcrumbs = $this->breadcrumbs->show();
             $viewData->form_error = true;
@@ -475,6 +484,7 @@ class Home extends CI_Controller
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->galleries = $galleries;
         $viewData->page = $page;
+        $viewData->seo = json_decode($page->seo, true);
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
@@ -503,6 +513,7 @@ class Home extends CI_Controller
         $viewData->pages = $page;
         $viewData->gallery = $gallery;
         $viewData->files = $files;
+        $viewData->seo = json_decode($gallery->seo, true);
         $viewData->controllerView = "galleries";
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
@@ -530,6 +541,7 @@ class Home extends CI_Controller
         $viewData->menus = $this->menus;
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $page;
+        $viewData->seo = json_decode($page->seo, true);
         $viewData->references = $references;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
@@ -537,8 +549,7 @@ class Home extends CI_Controller
         $this->load->view("$viewData->controllerView/index", $viewData);
     }
 
-    public function referenceDetail($url = "")
-    {
+    public function referenceDetail($url = "")    {
 
         $reference = $this->data_model->get("references", array("isActive" => 1, "url" => $url));
         $images = $this->data_model->getAll("references_images", array("isActive" => 1, "references_id" => $reference->id), "rank ASC");
@@ -559,6 +570,7 @@ class Home extends CI_Controller
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->reference = $reference;
         $viewData->images = $images;
+        $viewData->seo = json_decode($reference->seo, true);
         $viewData->nextProje = $this->data_model->get("references", array("isActive" => 1, "rank >" => $reference->rank));
         $viewData->prevProje = $this->data_model->get("references", array("isActive" => 1, "rank <" => $reference->rank));
         $viewData->breadcrumbs = $this->breadcrumbs->show();

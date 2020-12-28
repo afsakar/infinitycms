@@ -3,6 +3,18 @@
     <head>
         <?php $this->load->view('includes/head'); ?>
         <title><?=$title ? $title." | " : ""?><?=settings("title")?></title>
+        <meta name="description" content="<?=$seo["description"] ? $seo["description"] : settings("meta_description")?>">
+        <meta name="title" content="<?=$seo["title"] ? $seo["title"] : settings("meta_title")?>">
+        <meta name="keywords" content="<?=$seo["keywords"] ? $seo["keywords"] : settings("meta_keywords")?>">
+
+        <!-- Open Graph Meta -->
+        <meta property="og:title" content="<?=$seo["title"] ? $seo["title"] : $pages->title ."|". settings("meta_title")?>">
+        <meta property="og:site_name" content="<?=settings("title")?>">
+        <meta property="og:description" content="<?=$seo["description"] ? $seo["description"] : settings("meta_description")?>">
+        <meta property="og:keywords" content="<?=$seo["keywords"] ? $seo["keywords"] : settings("meta_keywords")?>">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="<?=base_url("pages/".$pages->url)?>">
+        <meta property="og:image" content="">
     </head>
 <body>
 

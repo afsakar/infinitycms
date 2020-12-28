@@ -50,7 +50,7 @@ $menus = [
     ],
     [
         "url" => "contact",
-        "title" => "İlteişim Mesajları",
+        "title" => "İletişim Mesajları",
         "icon" => "zmdi zmdi-email",
         "permissions" => [
             "show" => "Görüntüleme",
@@ -206,6 +206,7 @@ $menus = [
         "icon" => "zmdi zmdi-account-box-mail",
         "permissions" => [
             "show" => "Görüntüleme",
+            "send" => "Gönderme",
             "delete" => "Silme"
         ]
     ]

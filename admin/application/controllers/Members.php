@@ -11,15 +11,14 @@ class members extends CI_Controller
         parent::__construct();
         $this->viewFolder = 'members_view';
         $this->load->model('members_model');
-        if(!get_active_user())
-        {
+        if (!get_active_user()) {
             redirect(base_url("login"));
         }
     }
 
     public function index()
     {
-        if(!permission("members", "show")){
+        if (!permission("members", "show")) {
             redirect(base_url());
         }
         $this->breadcrumbs->unshift('Anasayfa', '/');
@@ -54,7 +53,7 @@ class members extends CI_Controller
         $config['next_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3): 0;
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         $viewData->links = $this->pagination->create_links();
         /* Pagination End */
 
@@ -78,7 +77,7 @@ class members extends CI_Controller
 
     public function deleteItem($id)
     {
-        if(!permission("members", "delete")){
+        if (!permission("members", "delete")) {
             $alert = array(
                 "title" => "Hata!",
                 "text" => "Bu işlemi yapmaya yetkiniz bulunmuyor!",
@@ -117,7 +116,8 @@ class members extends CI_Controller
         redirect(base_url('members'));
     }
 
-    public function isActiveSetter($id){
+    public function isActiveSetter($id)
+    {
 
         if ($id) {
             $isActive = $this->input->post("data");
@@ -131,6 +131,94 @@ class members extends CI_Controller
 
         }
 
+    }
+
+    public function messageForm()
+    {
+
+        if (!permission("members", "send")) {
+            redirect(base_url("members"));
+        }
+
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Aboneler', '/members');
+        $this->breadcrumbs->push('Yeni Mesaj Oluştur', '/');
+
+        $viewData = new stdClass();
+
+        /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
+        $viewData->viewFolder = $this->viewFolder;
+        $viewData->subViewFolder = "send";
+        $viewData->breadcrumbs = $this->breadcrumbs->show();
+
+        $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
+    }
+
+    public function sendMessage(){
+
+        if (!permission("members", "send")) {
+            redirect(base_url("members"));
+        }
+
+        $this->breadcrumbs->unshift('Anasayfa', '/', false);
+        $this->breadcrumbs->push('Aboneler', '/members');
+        $this->breadcrumbs->push('Yeni Mesaj Oluştur', '/');
+
+        $this->load->library("form_validation");
+
+        $this->form_validation->set_rules("subject", "Konu", "required|trim");
+        $this->form_validation->set_rules("message", "Mesaj", "required|trim");
+
+        $this->form_validation->set_message(array(
+            "required" => "<strong>{field}</strong> alanı doldurulmalıdır."
+        ));
+
+        //Form validation çalıştır
+        $validate = $this->form_validation->run();
+
+        if ($validate) {
+            $data["subject"] = $this->input->post("subject");
+            $data['message'] = htmlspecialchars($this->input->post('message'));
+
+            $members = $this->members_model->getAll(array("isActive" => 1), "");
+
+            foreach ($members as $member) {
+                $new_arr[] = $member->email;
+            }
+            $res_arr = implode(',', $new_arr);
+
+            $send = members_mail($res_arr, $data["subject"], $data['message']);
+
+            if ($send) {
+                $alert = array(
+                    "title" => "İşlem başarılı!",
+                    "text" => "Mesaj başarıyla gönderildi!",
+                    "type" => "success",
+                    "position" => "top-center"
+                );
+            } else {
+                $alert = array(
+                    "title" => "İşlem başarısız!",
+                    "text" => "Mesaj gönderilirken bir hata oluştu, lütfen tekrar deneyin!",
+                    "type" => "error",
+                    "position" => "top-center"
+                );
+            }
+
+            $this->session->set_flashdata("alert", $alert);
+            redirect(base_url('members'));
+
+        } else {
+            $viewData = new stdClass();
+
+            /** View'e gönderilecek Değişkenlerin Set Edilmesi.. */
+            $viewData->viewFolder = $this->viewFolder;
+            $viewData->subViewFolder = "send";
+            $viewData->breadcrumbs = $this->breadcrumbs->show();
+            $this->session->set_flashdata("formError", $viewData->formError = true);
+
+            $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
+        }
     }
 
 }

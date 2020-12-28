@@ -91,12 +91,12 @@
                         </div><!-- .widget -->
                     </div>
                 </a>
-                <a href="<?=base_url("projects")?>">
+                <a href="<?=base_url("news")?>">
                     <div class="col-md-3 col-sm-6">
                         <div class="widget stats-widget">
                             <div class="widget-body clearfix">
                                 <div class="pull-left">
-                                    <h3 class="widget-title text-dark"><span class="counter" data-plugin="counterUp"><?=countData("projects", array("isActive" => 1))?></span> Adet</h3>
+                                    <h3 class="widget-title text-dark"><span class="counter" data-plugin="counterUp"><?=countData("news", array("isActive" => 1))?></span> Adet</h3>
                                     <small class="text-color">Haber Yayında</small>
                                 </div>
                                 <span class="pull-right big-icon watermark"><i class="fa fa-newspaper"></i></span>
@@ -136,15 +136,15 @@
                         </div><!-- .widget -->
                     </div>
                 </a>
-                <a href="<?=base_url("testimonials")?>">
+                <a href="<?=base_url("members")?>">
                     <div class="col-md-3 col-sm-6">
                         <div class="widget stats-widget">
                             <div class="widget-body clearfix">
                                 <div class="pull-left">
-                                    <h3 class="widget-title text-pink"><span class="counter" data-plugin="counterUp"><?=countData("testimonials", array("isActive" => 1))?></span> Adet</h3>
-                                    <small class="text-color">Yorum Yayında</small>
+                                    <h3 class="widget-title text-pink"><span class="counter" data-plugin="counterUp"><?=countData("members", array())?></span> Adet</h3>
+                                    <small class="text-color">Abone Kayıtlı</small>
                                 </div>
-                                <span class="pull-right big-icon watermark"><i class="zmdi zmdi-comment-text"></i></span>
+                                <span class="pull-right big-icon watermark"><i class="zmdi zmdi-account-box-mail"></i></span>
                             </div>
                             <footer class="widget-footer bg-pink">
                             </footer>

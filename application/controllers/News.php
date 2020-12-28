@@ -69,6 +69,7 @@ class News extends CI_Controller
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $page;
         $viewData->news = $sayfa;
+        $viewData->seo = json_decode($page->seo, true);
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
 
@@ -127,6 +128,7 @@ class News extends CI_Controller
         $viewData->menus = $this->menus;
         $viewData->footerMenu = $this->data_model->getAll("menu", array("isActive" => 1, "isFooter" => 1), "rank ASC");
         $viewData->pages = $page;
+        $viewData->seo = json_decode($page->seo, true);
         $viewData->news = $sayfa;
         $viewData->breadcrumbs = $this->breadcrumbs->show();
         $viewData->records = $this->db->where(array("isActive" => 1))->order_by("rank ASC")->limit(3)->get("news")->result();
@@ -190,6 +192,7 @@ class News extends CI_Controller
         $viewData->user = $user = get_active_user();
         $viewData->images = $images;
         $viewData->captcha = $captcha;
+        $viewData->seo = json_decode($news->seo, true);
         $viewData->nextProje = $this->data_model->get("news", array("isActive" => 1, "rank >" => $news->rank));
         $viewData->prevProje = $this->data_model->get("news", array("isActive" => 1, "rank <" => $news->rank));
         $viewData->breadcrumbs = $this->breadcrumbs->show();
@@ -361,6 +364,7 @@ class News extends CI_Controller
             $viewData->images = $images;
             $viewData->captcha = $captcha;
             $viewData->form_error = true;
+            $viewData->seo = json_decode($news->seo, true);
             $viewData->nextProje = $this->data_model->get("news", array("isActive" => 1, "rank >" => $news->rank));
             $viewData->prevProje = $this->data_model->get("news", array("isActive" => 1, "rank <" => $news->rank));
             $viewData->breadcrumbs = $this->breadcrumbs->show();
