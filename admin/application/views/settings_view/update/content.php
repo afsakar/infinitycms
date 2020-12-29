@@ -276,7 +276,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>İletişim Bölümü Yazısı</label>
-                                    <textarea class="m-0" data-plugin="summernote" name="settings[contact_text]" data-options="{height: 250}"><?=isset($form_error) ? set_value('settings[contact_text]') : settings('contact_text')?></textarea>
+                                    <textarea class="form-control" name="settings[contact_text]" rows=" 5"><?=isset($form_error) ? set_value('settings[contact_text]') : settings('contact_text')?></textarea>
                                     <?php if(isset($form_error)): ?>
                                         <span id="helpBlock" class="help-block text-danger"><?=form_error('settings[contact_text]')?></span>
                                     <?php endif; ?>

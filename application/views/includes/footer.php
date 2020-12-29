@@ -13,7 +13,9 @@
                             <a href="<?=base_url()?>">
                                 <img src="<?=logo("logo")?>" alt="<?=settings("title")?>" width="200">
                             </a>
-                            <p>Yeniliklerden haberdar olmak için bültenimize abone olun!</p>
+                            <p>
+                                Yeniliklerden haberdar olmak için bültenimize kaydolun!
+                            </p>
                         </div>
                         <!--// Single Widget -->
 

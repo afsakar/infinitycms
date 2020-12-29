@@ -144,6 +144,30 @@
                             <div class="small-title">
                                 <h2>İletişim Bilgileri</h2>
                                 <p>İletişim formunu doldurarak veya aşağıdaki bilgilerden bize ulaşabilirsiniz.</p>
+                                <div class="social-icons social-icons-large">
+                                    <ul>
+                                        <li class="facebook">
+                                            <a href="<?=settings("facebook")?>" style="font-size: 20px;" target="_blank">
+                                                <i class="fab fa-facebook-square"></i>
+                                            </a>
+                                        </li>
+                                        <li class="instagram">
+                                            <a href="<?=settings("instagram")?>" style="font-size: 20px;" target="_blank">
+                                                <i class="fab fa-instagram"></i>
+                                            </a>
+                                        </li>
+                                        <li class="twitter">
+                                            <a href="<?=settings("twitter")?>" style="font-size: 20px;" target="_blank">
+                                                <i class="fab fa-twitter-square"></i>
+                                            </a>
+                                        </li>
+                                        <li class="google-plus">
+                                            <a href="<?=settings("linkedin")?>" style="font-size: 20px;" target="_blank">
+                                                <i class="fab fa-linkedin"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <ul>
                                 <li class="single-quick-contact">

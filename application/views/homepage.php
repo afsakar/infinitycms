@@ -36,9 +36,9 @@
 
         <?php $this->load->view('includes/sections/portfolio'); ?>
 
-        <?php $this->load->view('includes/sections/brands'); ?>
-
         <?php $this->load->view('includes/sections/testimonial'); ?>
+
+        <?php $this->load->view('includes/sections/brands'); ?>
 
     </main>
     <!-- //Page Content -->

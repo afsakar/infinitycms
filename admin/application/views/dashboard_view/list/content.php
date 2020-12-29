@@ -16,7 +16,7 @@
             <div class="col-md-5">
                 <div class="widget todo-widget todoListContainer">
                     <header class="widget-header">
-                        <h4 class="widget-title">Görev Listesi</h4>(Tamamlanan kayıtlar 5'gün sonra silinir.)
+                        <h4 class="widget-title">Görev Listesi</h4><small>(Tamamlanan kayıtlar 5'gün sonra otomatik olarak silinir.)</small>
                     </header>
                     <hr class="widget-separator"/>
                     <?php $this->load->view("$viewFolder/$subViewFolder/todo_list"); ?>

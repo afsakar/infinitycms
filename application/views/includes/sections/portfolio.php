@@ -6,8 +6,7 @@
             <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-12 offset-0">
                 <div class="section-title text-center">
                     <h2>Projelerimiz</h2>
-<!--                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered-->
-<!--                        alteration in some form, by injected humour</p>-->
+                    <p>Diğer projelerimiz için <a href="<?=base_url("projects")?>">buraya</a> tıklayın.</p>
                 </div>
             </div>
         </div>

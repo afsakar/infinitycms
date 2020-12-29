@@ -1,6 +1,6 @@
 <?php if($brands): ?>
 <!-- Brand Logo Area -->
-<div id="brand-logo-area" class="brand-logo-area bg-white">
+<div id="brand-logo-area" class="brand-logo-area bg-dark-light">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">

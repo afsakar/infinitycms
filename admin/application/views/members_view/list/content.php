@@ -2,8 +2,10 @@
     <div class="col-md-10 col-md-offset-1">
         <h4 class="m-b-lg">
             Abone Listesi
-            <?php if(permission("members", "send")): ?>
-                <a href="<?=base_url('members/messageForm')?>" class="btn  btn-primary btn-xs pull-right btn-outline"><i class="fa fa-plus"></i> Mesaj Gönder</a>
+            <?php if(!empty($items)): ?>
+                <?php if(permission("members", "send")): ?>
+                    <a href="<?=base_url('members/messageForm')?>" class="btn  btn-primary btn-xs pull-right btn-outline"><i class="fa fa-plus"></i> Mesaj Gönder</a>
+                <?php endif; ?>
             <?php endif; ?>
         </h4>
         <?=$breadcrumbs?>

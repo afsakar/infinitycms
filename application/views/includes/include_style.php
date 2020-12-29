@@ -2,6 +2,7 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
 <!-- Google font (font-family: 'Roboto Condensed', sans-serif;) -->
 <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 
 <!-- Stylesheets -->
 <link rel="stylesheet" href="<?=base_url("sources/")?>css/bootstrap.min.css">

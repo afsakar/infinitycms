@@ -25,8 +25,8 @@ class Dashboard extends CI_Controller {
         $viewData->viewFolder = $this->viewFolder;
         $viewData->subViewFolder = "list";
         $viewData->user = get_active_user();
-        $viewData->todo_checked = $this->db->where(array("isActive" => 1))->get("todo")->result();
-        $viewData->todo_unchecked = $this->db->where(array("isActive" => 0))->get("todo")->result();
+        $viewData->todo_checked = $this->db->where(array("isActive" => 1, "user_id" => $viewData->user->id))->get("todo")->result();
+        $viewData->todo_unchecked = $this->db->where(array("isActive" => 0, "user_id" => $viewData->user->id))->get("todo")->result();
         $this->load->view("{$viewData->viewFolder}/{$viewData->subViewFolder}/index", $viewData);
 	}
 
@@ -53,7 +53,9 @@ class Dashboard extends CI_Controller {
 
     public function addTodo(){
 
+	    $user = get_active_user();
 	    $data["title"] = $this->input->post("title");
+	    $data["user_id"] = $user->id;
 
 	    $insert = $this->db->insert("todo", $data);
 	    if($insert){

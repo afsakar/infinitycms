@@ -6,6 +6,7 @@
             <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 col-12 offset-0">
                 <div class="section-title text-center">
                     <h2>Referanslarımız</h2>
+                    <p>Referanslarımızın tamamı için <a href="<?=base_url("references")?>">buraya</a> tıklayın.</p>
                 </div>
             </div>
         </div>
