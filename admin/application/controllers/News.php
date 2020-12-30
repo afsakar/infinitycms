@@ -412,6 +412,18 @@ class News extends CI_Controller
             }
             /* Item'e ait görsellerin silinmesi end */
 
+            /* Item'e ait yorumların silinmesi start */
+            $comments = $this->comments_model->getAll(array("news_id" => $id), array());
+
+            foreach ($comments as $comment) {
+                $delete = $this->comments_model->delete(
+                    array(
+                        "id" => $comment->id
+                    )
+                );
+            }
+            /* Item'e ait yorumların silinmesi end */
+
             $alert = array(
                 "title" => "İşlem başarılı!",
                 "text" => "Kayıt başarıyla silindi!",
