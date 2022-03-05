@@ -1,4 +1,4 @@
-# codeigniter
+# InfinityCMS
 
 <b>Codeigniter</b> çatısı ile yazılmış, tamamı yönetilebilir bir Kurumsal Website Scripti.
 
